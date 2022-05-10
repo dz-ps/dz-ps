@@ -9,7 +9,7 @@
 
  ### [*Clique abaixo*] para mais informações. 
 
-- <details>
+ <details>
 
      - ### Ferramentas e Tecnologias
 
