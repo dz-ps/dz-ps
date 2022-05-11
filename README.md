@@ -9,7 +9,7 @@
  ###
  
 - 🔭 Atualmente estou trabalhando na CCB (Central de Compras do Brasil) 
-- 👯 Estou procurando colaborar em ferramnetas de Pentest
+- 👯 Estou procurando colaborar em ferramentas de Pentest
 - 💬 Pergunte-me sobre o que quiser, o que eu não sei eu aprendo.
 - ⚡ Curiosidade: Sou apaixonado por Pentest e atualmete esse é o meu foco de carreira.
 
