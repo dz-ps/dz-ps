@@ -8,10 +8,10 @@
 
  ###
  
-- 🔭 Atualmente estou trabalhando na CCB (Central de Compras do Brasil) 
+- 🔭 Analista de Infraestrutura e Sup. N2 
 - 👯 Estou procurando colaborar em ferramentas de Pentest
 - 💬 Pergunte-me sobre o que quiser, o que eu não sei eu aprendo.
-- ⚡ Curiosidade: Sou apaixonado por Pentest e atualmete esse é o meu foco de carreira.
+- ⚡ Curiosidade: Sou apaixonado por Pentest e Segurança da Info.
 
  ### [*Clique abaixo*] para mais informações. 
 
