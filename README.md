@@ -8,7 +8,7 @@
 
  ###
  
-- 🔭 Analista de Infraestrutura e Sup. N2 
+- 🔭 Analista de Infraestrutura e Sup. N1 
 - 👯 Estou procurando colaborar em ferramentas de Pentest
 - 💬 Pergunte-me sobre o que quiser, o que eu não sei eu aprendo.
 - ⚡ Curiosidade: Sou apaixonado por Pentest e Segurança da Info.
