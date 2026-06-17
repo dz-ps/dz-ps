@@ -1,138 +1,238 @@
-# Olá, eu sou Dimitri Zumak! 👋
-
 <div align="center">
-  
-![Header](https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=200&section=header&text=Dimitri%20Zumak&fontSize=50&fontAlignY=35&desc=Cybersecurity%20Specialist%20%7C%20Pentester&descAlignY=51&descAlign=50)
+
+![Header](https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=200&section=header&text=Dimitri%20Zumak&fontSize=50&fontColor=ffffff&fontAlignY=35&desc=Cybersecurity%20Specialist%20%7C%20Pentester&descSize=18&descAlignY=53&descAlign=50)
+
+![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3000&pause=1000&color=58A6FF&center=true&vCenter=true&width=600&height=60&lines=Pentester+%26+Ethical+Hacker;Ca%C3%A7ador+de+Vulnerabilidades;Seguran%C3%A7a+Ofensiva+%26+Defensiva;%22O+que+n%C3%A3o+sei%2C+eu+aprendo!%22)
 
 </div>
 
+---
+
 ## 🛡️ Sobre Mim
 
-Sou um **Pentester** apaixonado por **Segurança da Informação** e **Cybersecurity**. Minha missão é ajudar organizações a identificar e corrigir vulnerabilidades antes que sejam exploradas por atacantes maliciosos.
+Sou um **Pentester** movido pela paixão por **Segurança da Informação** e **Cybersecurity**. Meu objetivo é pensar como um atacante para defender melhor: identifico e ajudo a corrigir vulnerabilidades antes que sejam exploradas por agentes maliciosos.
 
-- 🔭 **Atualmente**: Trabalhando como Pentester
-- 🎯 **Foco**: Testes de penetração e análise de vulnerabilidades
-- 👯 **Colaboração**: Sempre aberto para projetos de ferramentas de Pentest
-- 💬 **Disponível**: Para conversar sobre segurança, pentest e tecnologia
-- ⚡ **Curiosidade**: Aprendo constantemente e adoro desafios técnicos
-- 🎓 **Mentalidade**: "O que não sei, aprendo!"
+- 🔭 **Atuação:** Testes de penetração e segurança ofensiva
+- 🎯 **Foco:** Análise de vulnerabilidades, exploração e relatórios acionáveis
+- 🌱 **Aprendizado constante:** sempre estudando novas técnicas, TTPs e ferramentas
+- 👯 **Colaboração:** aberto a projetos de ferramentas de pentest e automação de segurança
+- 💬 **Vamos conversar sobre:** segurança ofensiva, hardening, CTFs e tecnologia
+- ⚡ **Lema:** *"O que não sei, eu aprendo!"*
 
 ---
 
 ## 📊 Estatísticas do GitHub
 
 <div align="center">
-  
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=dz-ps&show_icons=true&theme=tokyonight&include_all_commits=true&count_private=true&hide_border=true&bg_color=0D1117&title_color=58A6FF&text_color=8B949E&icon_color=58A6FF)
 
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=dz-ps&layout=compact&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=58A6FF&text_color=8B949E)
+<img height="180em" src="https://github-readme-stats.vercel.app/api?username=dz-ps&show_icons=true&theme=tokyonight&include_all_commits=true&count_private=true&hide_border=true&bg_color=0D1117&title_color=58A6FF&text_color=8B949E&icon_color=58A6FF"/>
+<img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=dz-ps&layout=compact&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=58A6FF&text_color=8B949E&langs_count=8"/>
 
-![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=dz-ps&theme=tokyonight&hide_border=true&background=0D1117&stroke=58A6FF&ring=58A6FF&fire=58A6FF&currStreakNum=8B949E&sideNums=8B949E&currStreakLabel=8B949E&sideLabels=8B949E&dates=8B949E)
+</div>
+
+<div align="center">
+
+<!-- URL atualizada: o domínio antigo (herokuapp) foi desativado e parava de carregar -->
+![GitHub Streak](https://streak-stats.demolab.com?user=dz-ps&theme=tokyonight&hide_border=true&background=0D1117&stroke=58A6FF&ring=58A6FF&fire=58A6FF&currStreakNum=8B949E&sideNums=8B949E&currStreakLabel=8B949E&sideLabels=8B949E&dates=8B949E)
 
 </div>
 
 ---
 
-## 🛠️ Tecnologias e Ferramentas
+## 🔐 Arsenal de Segurança
 
-### 💻 **Sistemas Operacionais**
+> Ferramentas que uso no dia a dia de pentest e segurança ofensiva.
+<!-- Ajuste livremente: remova o que não usa e adicione o que faltar. -->
+
+**🔎 Recon & Enumeração**
+
 <div align="center">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/windows8/windows8-original.svg" width="50" height="50" title="Windows"/>
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" width="50" height="50" title="Linux"/>
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apple/apple-original.svg" width="50" height="50" title="macOS"/>
+
+![Nmap](https://img.shields.io/badge/Nmap-2D9CDB?style=for-the-badge&logoColor=white)
+![Wireshark](https://img.shields.io/badge/Wireshark-1679A7?style=for-the-badge&logo=wireshark&logoColor=white)
+![Gobuster](https://img.shields.io/badge/Gobuster-1B5E20?style=for-the-badge&logoColor=white)
+![ffuf](https://img.shields.io/badge/ffuf-006064?style=for-the-badge&logoColor=white)
+
 </div>
 
-### 🔧 **Ferramentas de Desenvolvimento**
+**💥 Exploração**
+
 <div align="center">
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" width="50" height="50" title="Visual Studio Code"/>
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" width="50" height="50" title="Git"/>
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" width="50" height="50" title="GitHub"/>
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" width="50" height="50" title="Figma"/>
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/slack/slack-original.svg" width="50" height="50" title="Slack"/>
+
+![Metasploit](https://img.shields.io/badge/Metasploit-2596CD?style=for-the-badge&logo=metasploit&logoColor=white)
+![sqlmap](https://img.shields.io/badge/sqlmap-EE4C2C?style=for-the-badge&logoColor=white)
+![Hydra](https://img.shields.io/badge/Hydra-8E44AD?style=for-the-badge&logoColor=white)
+
 </div>
 
-### 💻 **Linguagens de Programação**
+**🌐 Web Application**
+
+<div align="center">
+
+![Burp Suite](https://img.shields.io/badge/Burp_Suite-FF6633?style=for-the-badge&logo=burpsuite&logoColor=white)
+![OWASP ZAP](https://img.shields.io/badge/OWASP_ZAP-00549E?style=for-the-badge&logo=owasp&logoColor=white)
+![Nikto](https://img.shields.io/badge/Nikto-263238?style=for-the-badge&logoColor=white)
+
+</div>
+
+**🔑 Senhas & Wireless**
+
+<div align="center">
+
+![John the Ripper](https://img.shields.io/badge/John_the_Ripper-EF5350?style=for-the-badge&logoColor=white)
+![Hashcat](https://img.shields.io/badge/Hashcat-1E1E1E?style=for-the-badge&logoColor=white)
+![Aircrack-ng](https://img.shields.io/badge/Aircrack--ng-0277BD?style=for-the-badge&logoColor=white)
+
+</div>
+
+**🐧 Ambiente**
+
+<div align="center">
+
+![Kali Linux](https://img.shields.io/badge/Kali_Linux-557C94?style=for-the-badge&logo=kalilinux&logoColor=white)
+![Parrot OS](https://img.shields.io/badge/Parrot_OS-15CDCB?style=for-the-badge&logo=parrotsecurity&logoColor=black)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![VirtualBox](https://img.shields.io/badge/VirtualBox-183A61?style=for-the-badge&logo=virtualbox&logoColor=white)
+
+</div>
+
+---
+
+## 🛠️ Tecnologias & Ferramentas
+
+### 💻 Linguagens
 <div align="center">
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="50" height="50" title="Python"/>
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="50" height="50" title="JavaScript"/>
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="50" height="50" title="TypeScript"/>
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" width="50" height="50" title="Java"/>
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" width="50" height="50" title="PHP"/>
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bash/bash-original.svg" width="50" height="50" title="Bash"/>
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/lua/lua-original.svg" width="50" height="50" title="Lua"/>
 </div>
 
-### 🌐 **Desenvolvimento Web**
+### 🌐 Desenvolvimento Web
 <div align="center">
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" width="50" height="50" title="HTML5"/>
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" width="50" height="50" title="CSS3"/>
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original-wordmark.svg" width="50" height="50" title="Tailwind CSS"/>
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" width="50" height="50" title="Tailwind CSS"/>
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width="50" height="50" title="Node.js"/>
 </div>
 
-### 🗄️ **Bancos de Dados**
+### 🗄️ Bancos de Dados
 <div align="center">
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" width="50" height="50" title="MySQL"/>
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/microsoftsqlserver/microsoftsqlserver-plain.svg" width="50" height="50" title="SQL Server"/>
 </div>
 
-### 🚀 **Frameworks**
+### 🚀 Frameworks & CMS
 <div align="center">
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg" width="50" height="50" title="Angular"/>
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg" width="50" height="50" title="Django"/>
-</div>
-
-### 🛒 **CMS & E-commerce**
-<div align="center">
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-original.svg" width="50" height="50" title="WordPress"/>
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/woocommerce/woocommerce-original.svg" width="50" height="50" title="WooCommerce"/>
 </div>
 
+### 🔧 Ferramentas & Sistemas
+<div align="center">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" width="50" height="50" title="Visual Studio Code"/>
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" width="50" height="50" title="Git"/>
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" width="50" height="50" title="GitHub"/>
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" width="50" height="50" title="Linux"/>
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/windows8/windows8-original.svg" width="50" height="50" title="Windows"/>
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apple/apple-original.svg" width="50" height="50" title="macOS"/>
+</div>
+
 ---
 
-## 🎯 **Especialidades em Segurança**
+## 🎯 Especialidades
 
-- **🔍 Testes de Penetração (Penetration Testing)**
-- **🛡️ Análise de Vulnerabilidades**
-- **🔐 Segurança de Aplicações Web**
-- **🌐 Segurança de Redes**
-- **📱 Segurança Mobile**
-- **☁️ Segurança em Cloud**
+- 🔍 **Testes de Penetração** — Web, Rede, Mobile e Cloud
+- 🛡️ **Análise de Vulnerabilidades** e gestão de riscos
+- 🔐 **Segurança de Aplicações Web** (OWASP Top 10)
+- 🌐 **Segurança de Redes** e análise de tráfego
+- 📱 **Segurança Mobile**
+- ☁️ **Segurança em Cloud**
+- 📝 **Relatórios técnicos e executivos**
 
 ---
 
-## 📈 **Atividade Recente**
+## 🎓 Certificações & Aprendizado
+
+<!-- Personalize: marque ✅ as que você já possui e mantenha 📚 nas que está estudando. -->
+
+| Status | Certificação |
+|:------:|:-------------|
+| 📚 | OSCP — Offensive Security Certified Professional |
+| 📚 | eJPT — eLearnSecurity Junior Penetration Tester |
+| 📚 | PNPT — Practical Network Penetration Tester |
+| 📚 | CompTIA Security+ |
+
+> ✅ Conquistadas &nbsp;•&nbsp; 📚 Em progresso — *atualize conforme a sua trilha!*
+
+---
+
+## 🚩 Plataformas de Prática
 
 <div align="center">
-  
-![GitHub Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=dz-ps&theme=tokyonight&hide_border=true&bg_color=0D1117&color=8B949E&line=58A6FF&point=8B949E)
+
+<!-- Substitua SEU_ID e SEU_USUARIO pelos seus.
+     Dica: para mostrar seu rank/pontos automaticamente, troque o badge estático pelo dinâmico:
+     HTB:  ![HackTheBox](https://www.hackthebox.com/badge/image/SEU_ID_HTB)   (ative o perfil público nas settings do HTB)
+     THM:  ![TryHackMe](https://tryhackme-badges.s3.amazonaws.com/SEU_USUARIO_THM.png) -->
+
+[![Hack The Box](https://img.shields.io/badge/Hack_The_Box-9FEF00?style=for-the-badge&logo=hackthebox&logoColor=black)](https://app.hackthebox.com/profile/SEU_ID_HTB)
+[![TryHackMe](https://img.shields.io/badge/TryHackMe-212C42?style=for-the-badge&logo=tryhackme&logoColor=red)](https://tryhackme.com/p/SEU_USUARIO_THM)
 
 </div>
 
 ---
 
-## 🤝 **Vamos Conectar!**
+## 🏆 Troféus
 
 <div align="center">
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/dimitri-zumak/)
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/dz-ps)
+![Trophies](https://github-profile-trophy.vercel.app/?username=dz-ps&theme=tokyonight&no-frame=true&no-bg=true&column=7&margin-w=8&margin-h=8)
+
+</div>
+
+---
+
+## 📈 Atividade Recente
+
+<div align="center">
+
+![Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=dz-ps&theme=react-dark&hide_border=true&bg_color=0D1117&color=58A6FF&line=58A6FF&point=8B949E&area=true&area_color=58A6FF)
+
+</div>
+
+---
+
+## 🤝 Vamos Conectar!
+
+<div align="center">
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/dimitri-zumak/)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/dz-ps)
+<!-- Opcional: adicione seu e-mail de contato -->
+[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:SEU_EMAIL@exemplo.com)
 
 </div>
 
 ---
 
 <div align="center">
-  
-![Profile Views](https://komarev.com/ghpvc/?username=dz-ps&color=blueviolet&style=flat-square&label=Profile+Views)
 
-**"A segurança não é um produto, mas um processo."** - Bruce Schneier
+![Profile Views](https://komarev.com/ghpvc/?username=dz-ps&color=58A6FF&style=for-the-badge&label=Visualiza%C3%A7%C3%B5es+do+Perfil)
+
+> 💡 *"A segurança não é um produto, mas um processo."* — **Bruce Schneier**
 
 </div>
 
 ---
 
 <div align="center">
-  
-![Footer](https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=100&section=footer)
+
+![Footer](https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=120&section=footer)
 
 </div>
