@@ -1,0 +1,7 @@
+<resources>
+    <style name="Theme.FakeRoute" parent="Theme.Material3.DayNight">
+        <item name="colorPrimary">#1E88E5</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSecondary">#43A047</item>
+    </style>
+</resources>

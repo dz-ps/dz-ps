@@ -1,0 +1,34 @@
+name: Build FakeRoute GPS APK
+
+on:
+  push:
+    paths:
+      - "FakeRouteGPS/**"
+      - ".github/workflows/android-apk.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: FakeRouteGPS
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build debug APK
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleDebug
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FakeRouteGPS-apk
+          path: FakeRouteGPS/app/build/outputs/apk/debug/*.apk
