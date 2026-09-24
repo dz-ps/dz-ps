@@ -42,6 +42,8 @@ class MockLocationService : Service() {
         const val EXTRA_LOOP = "loop"
         const val EXTRA_PING_PONG = "ping_pong"
         const val EXTRA_NATURAL = "natural"
+        const val EXTRA_STOP_INDICES = "stop_indices"
+        const val EXTRA_STOP_WAITS = "stop_waits"
 
         private const val CHANNEL_ID = "mock_route"
         private const val NOTIFICATION_ID = 42
@@ -70,6 +72,13 @@ class MockLocationService : Service() {
     private var loop = false
     private var pingPong = false
     private var natural = true
+
+    // Paradas: distância na rota (m), tempo (s) e número do ponto, ordenadas por distância
+    private var stopDist = DoubleArray(0)
+    private var stopWait = IntArray(0)
+    private var stopNumber = IntArray(0)
+    private var waitRemaining = 0.0
+    private var waitingAt = 0
 
     // Progresso
     private var traveled = 0.0
@@ -179,12 +188,26 @@ class MockLocationService : Service() {
             cumulative[i] = cumulative[i - 1] + Geo.distance(lats[i - 1], lons[i - 1], lats[i], lons[i])
         }
 
+        // Paradas (apenas pontos com tempo > 0)
+        val idx = intent.getIntArrayExtra(EXTRA_STOP_INDICES) ?: IntArray(0)
+        val waits = intent.getIntArrayExtra(EXTRA_STOP_WAITS) ?: IntArray(0)
+        val stops = idx.indices
+            .filter { it < waits.size && waits[it] > 0 && idx[it] in newLats.indices }
+            .map { Triple(cumulative[idx[it]], waits[it], it + 1) }
+            .sortedBy { it.first }
+        stopDist = stops.map { it.first }.toDoubleArray()
+        stopWait = stops.map { it.second }.toIntArray()
+        stopNumber = stops.map { it.third }.toIntArray()
+
         traveled = 0.0
         forward = true
         lap = 0
         paused = false
         finished = cumulative.last() <= 0.0 && lats.size == 1
         ticks = 0
+        waitRemaining = 0.0
+        waitingAt = 0
+        if (!finished) startWaitIfStopAt(0.0)
 
         if (!setupProviders()) {
             fail(
@@ -210,43 +233,93 @@ class MockLocationService : Service() {
             finished = true
             return
         }
+        if (waitRemaining > 0) {
+            currentSpeedMs = 0.0
+            waitRemaining -= dt
+            if (waitRemaining <= 0) {
+                waitRemaining = 0.0
+                waitingAt = 0
+                updateNotification()
+            }
+            return
+        }
         var v = speedMs
         if (natural && v > 0) v *= 0.85 + Random.nextDouble() * 0.3
         currentSpeedMs = v
         var d = v * dt
-        while (d > 1e-9 && !finished) {
+        while (d > 1e-9 && !finished && waitRemaining <= 0) {
             if (forward) {
-                val remaining = total - traveled
+                val stop = nextStopForward()
+                val limit = if (stop >= 0) stopDist[stop] else total
+                val remaining = limit - traveled
                 if (d < remaining) {
                     traveled += d
                     d = 0.0
                 } else {
-                    traveled = total
+                    traveled = limit
                     d -= remaining
-                    when {
-                        pingPong -> forward = false
-                        loop -> {
-                            traveled = 0.0
-                            lap++
+                    if (stop >= 0) {
+                        startWait(stop)
+                    } else {
+                        when {
+                            pingPong -> forward = false
+                            loop -> {
+                                traveled = 0.0
+                                lap++
+                                startWaitIfStopAt(0.0)
+                            }
+                            else -> finished = true
                         }
-                        else -> finished = true
                     }
                 }
             } else {
-                if (d < traveled) {
+                val stop = nextStopBackward()
+                val limit = if (stop >= 0) stopDist[stop] else 0.0
+                val remaining = traveled - limit
+                if (d < remaining) {
                     traveled -= d
                     d = 0.0
                 } else {
-                    d -= traveled
-                    traveled = 0.0
-                    lap++
-                    if (loop) forward = true else finished = true
+                    traveled = limit
+                    d -= remaining
+                    if (stop >= 0) {
+                        startWait(stop)
+                    } else {
+                        lap++
+                        if (loop) forward = true else finished = true
+                    }
                 }
             }
         }
-        if (finished) {
+        if (finished || waitRemaining > 0) {
             currentSpeedMs = 0.0
             updateNotification()
+        }
+    }
+
+    /** Próxima parada à frente (estritamente depois da posição atual), ou -1. */
+    private fun nextStopForward(): Int {
+        for (i in stopDist.indices) if (stopDist[i] > traveled + 1e-6) return i
+        return -1
+    }
+
+    /** Próxima parada para trás (estritamente antes da posição atual), ou -1. */
+    private fun nextStopBackward(): Int {
+        for (i in stopDist.indices.reversed()) if (stopDist[i] < traveled - 1e-6) return i
+        return -1
+    }
+
+    private fun startWait(stop: Int) {
+        waitRemaining = stopWait[stop].toDouble()
+        waitingAt = stopNumber[stop]
+    }
+
+    private fun startWaitIfStopAt(distance: Double) {
+        for (i in stopDist.indices) {
+            if (kotlin.math.abs(stopDist[i] - distance) < 1e-6) {
+                startWait(i)
+                return
+            }
         }
     }
 
@@ -372,6 +445,8 @@ class MockLocationService : Service() {
             totalM = cumulative.lastOrNull() ?: 0.0,
             speedKmh = currentSpeedMs * 3.6,
             lap = lap,
+            waitingS = if (waitRemaining > 0) kotlin.math.ceil(waitRemaining).toInt() else 0,
+            stopNumber = if (waitRemaining > 0) waitingAt else 0,
         )
     }
 
@@ -428,6 +503,7 @@ class MockLocationService : Service() {
             total <= 0 -> "Posição fixa"
             finished -> "Rota concluída — mantendo posição final"
             paused -> "Pausado"
+            waitRemaining > 0 -> "Parado no ponto $waitingAt por ${kotlin.math.ceil(waitRemaining).toInt()} s"
             else -> String.format(
                 Locale.getDefault(), "%.2f / %.2f km • %.1f km/h",
                 traveled / 1000, total / 1000, speedMs * 3.6,

@@ -50,7 +50,7 @@
             android:layout_margin="8dp"
             android:background="#B3000000"
             android:padding="6dp"
-            android:text="Toque: adicionar ponto • Segure: teleportar"
+            android:text="Toque: adicionar ponto • Toque no ponto: parada • Segure: teleportar"
             android:textColor="#FFFFFF"
             android:textSize="12sp" />
 

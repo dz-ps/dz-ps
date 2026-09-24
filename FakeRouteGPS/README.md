@@ -10,6 +10,7 @@ escolhe a velocidade e o celular "anda" sozinho pela rota.
 - 🛣️ **Seguir ruas**: o caminho entre os pontos segue as ruas reais (OSRM, a pé / bike / carro)
 - 🚶 Modos Caminhada (5 km/h), Corrida (10), Bicicleta (18), Carro (40) ou velocidade personalizada
 - ⚡ Mudar a velocidade durante a simulação
+- ⏳ **Paradas**: tempo de espera em cada ponto (ex.: 30 s, 2:30, 5 min)
 - 🔁 **Repetir (circuito)** e **Ida e volta**
 - 🎲 **Variação natural**: pequenas variações de velocidade, rumo e precisão, como um GPS real
 - ⏸️ Pausar / continuar / parar (também pela notificação)
@@ -42,9 +43,12 @@ escolhe a velocidade e o celular "anda" sozinho pela rota.
 
 1. Busque um endereço ou navegue no mapa.
 2. Toque para adicionar os pontos da rota (o primeiro fica verde).
-3. Escolha o modo/velocidade e as opções.
-4. Toque em **Iniciar**. O ponto azul mostra sua posição falsa.
-5. Toque em **Parar** para devolver o GPS real.
+3. Toque em um ponto já criado para definir quanto tempo **ficar parado** nele
+   (`30`, `45s`, `2:30`, `5m`, `1h`). Pontos com parada ficam laranja; "Aplicar a todos"
+   usa o mesmo tempo em todos os pontos. Na ida e volta ou no circuito, as paradas se repetem.
+4. Escolha o modo/velocidade e as opções.
+5. Toque em **Iniciar**. O ponto azul mostra sua posição falsa.
+6. Toque em **Parar** para devolver o GPS real.
 
 > Dica: para evitar que o GPS real "brigue" com a posição falsa, deixe o modo de localização em
 > "Somente dispositivo/GPS" ou desative a "Precisão de local do Google" durante o uso.

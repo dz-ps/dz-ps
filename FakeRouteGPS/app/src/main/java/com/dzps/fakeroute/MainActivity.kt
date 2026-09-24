@@ -148,7 +148,7 @@ class MainActivity : AppCompatActivity() {
         }
         if (routingBusy) return
         if (legs.isEmpty() || !b.cbSnap.isChecked) {
-            legs.add(mutableListOf(p))
+            RouteState.addLeg(mutableListOf(p))
             redrawRoute()
             return
         }
@@ -167,7 +167,7 @@ class MainActivity : AppCompatActivity() {
                 leg.removeAt(0)
             }
             if (leg.isEmpty()) leg.add(p)
-            legs.add(leg)
+            RouteState.addLeg(leg)
             setBusy(false)
             redrawRoute()
         }
@@ -190,17 +190,22 @@ class MainActivity : AppCompatActivity() {
         waypointMarkers.forEach { map.overlays.remove(it) }
         waypointMarkers.clear()
         legs.forEachIndexed { i, leg ->
+            val wait = RouteState.waits.getOrElse(i) { 0 }
             val m = Marker(map).apply {
                 position = leg.last()
                 setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
                 icon = ContextCompat.getDrawable(
                     this@MainActivity,
-                    if (i == 0) R.drawable.ic_start else R.drawable.ic_waypoint,
+                    when {
+                        i == 0 -> R.drawable.ic_start
+                        wait > 0 -> R.drawable.ic_stop
+                        else -> R.drawable.ic_waypoint
+                    },
                 )
                 title = if (i == 0) "Início" else "Ponto ${i + 1}"
                 setInfoWindow(null)
-                setOnMarkerClickListener { marker, _ ->
-                    toast(marker.title)
+                setOnMarkerClickListener { _, _ ->
+                    editStopDialog(i)
                     true
                 }
             }
@@ -212,6 +217,64 @@ class MainActivity : AppCompatActivity() {
         map.invalidate()
         updateInfo()
     }
+
+    /** Diálogo para definir o tempo de parada de um ponto. */
+    private fun editStopDialog(index: Int) {
+        if (RouteState.status.value.active) return toast("Pare a simulação para editar as paradas")
+        if (index !in RouteState.waits.indices) return
+        val current = RouteState.waits[index]
+        val input = EditText(this).apply {
+            hint = "Ex.: 30 (segundos) ou 2:30 (min:seg)"
+            inputType = android.text.InputType.TYPE_CLASS_TEXT
+            setText(if (current > 0) formatWaitInput(current) else "")
+            setSelection(text.length)
+        }
+        val container = android.widget.FrameLayout(this).apply {
+            val pad = (20 * resources.displayMetrics.density).toInt()
+            setPadding(pad, pad / 2, pad, 0)
+            addView(input)
+        }
+        val name = if (index == 0) "Início" else "Ponto ${index + 1}"
+        AlertDialog.Builder(this)
+            .setTitle("Parada — $name")
+            .setMessage("Quanto tempo ficar parado neste ponto? Deixe vazio ou 0 para não parar.")
+            .setView(container)
+            .setPositiveButton("Salvar") { _, _ ->
+                val secs = parseWait(input.text.toString())
+                    ?: return@setPositiveButton toast("Tempo inválido")
+                RouteState.waits[index] = secs
+                redrawRoute()
+            }
+            .setNeutralButton("Aplicar a todos") { _, _ ->
+                val secs = parseWait(input.text.toString())
+                    ?: return@setNeutralButton toast("Tempo inválido")
+                for (i in RouteState.waits.indices) RouteState.waits[i] = secs
+                redrawRoute()
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
+    }
+
+    /** Aceita "45", "45s", "2:30", "5m", "1h". Retorna segundos ou null se inválido. */
+    private fun parseWait(text: String): Int? {
+        val t = text.trim().lowercase().replace(" ", "")
+        if (t.isEmpty()) return 0
+        val secs: Long = when {
+            ':' in t -> {
+                val parts = t.split(':').map { it.toLongOrNull() ?: return null }
+                parts.fold(0L) { acc, v -> acc * 60 + v }
+            }
+            t.endsWith("h") -> (t.dropLast(1).replace(',', '.').toDoubleOrNull() ?: return null).times(3600).toLong()
+            t.endsWith("min") -> (t.dropLast(3).replace(',', '.').toDoubleOrNull() ?: return null).times(60).toLong()
+            t.endsWith("m") -> (t.dropLast(1).replace(',', '.').toDoubleOrNull() ?: return null).times(60).toLong()
+            t.endsWith("s") -> t.dropLast(1).toLongOrNull() ?: return null
+            else -> t.toLongOrNull() ?: return null
+        }
+        return if (secs in 0..86_400) secs.toInt() else null
+    }
+
+    private fun formatWaitInput(secs: Int): String =
+        if (secs < 60) secs.toString() else String.format(Locale.US, "%d:%02d", secs / 60, secs % 60)
 
     // ------------------------------------------------------------------ controles
 
@@ -240,7 +303,7 @@ class MainActivity : AppCompatActivity() {
         b.btnUndo.setOnClickListener {
             if (RouteState.status.value.active) return@setOnClickListener toast("Pare a simulação primeiro")
             if (legs.isNotEmpty()) {
-                legs.removeAt(legs.size - 1)
+                RouteState.removeLastLeg()
                 redrawRoute()
             }
         }
@@ -250,7 +313,7 @@ class MainActivity : AppCompatActivity() {
             AlertDialog.Builder(this)
                 .setMessage("Apagar todos os pontos da rota?")
                 .setPositiveButton("Apagar") { _, _ ->
-                    legs.clear()
+                    RouteState.clear()
                     redrawRoute()
                 }
                 .setNegativeButton("Cancelar", null)
@@ -306,6 +369,10 @@ class MainActivity : AppCompatActivity() {
             putExtra(MockLocationService.EXTRA_LOOP, b.cbLoop.isChecked)
             putExtra(MockLocationService.EXTRA_PING_PONG, b.cbPingPong.isChecked)
             putExtra(MockLocationService.EXTRA_NATURAL, b.cbNatural.isChecked)
+            if (points.size > 1) {
+                putExtra(MockLocationService.EXTRA_STOP_INDICES, RouteState.waypointPathIndices())
+                putExtra(MockLocationService.EXTRA_STOP_WAITS, RouteState.waits.toIntArray())
+            }
         }
     }
 
@@ -376,9 +443,10 @@ class MainActivity : AppCompatActivity() {
                 Locale.US, "📍 Posição fixa: %.6f, %.6f", s.lat, s.lon,
             )
             s.active -> {
-                val state = when (s.mode) {
-                    RouteState.Mode.PAUSED -> "⏸ Pausado"
-                    RouteState.Mode.FINISHED -> "✅ Concluído"
+                val state = when {
+                    s.mode == RouteState.Mode.PAUSED -> "⏸ Pausado"
+                    s.mode == RouteState.Mode.FINISHED -> "✅ Concluído"
+                    s.waitingS > 0 -> "⏳ Parado no ponto ${s.stopNumber} (${formatDuration(s.waitingS.toDouble())})"
                     else -> "▶ Andando"
                 }
                 val lap = if (s.lap > 0) " • volta ${s.lap + 1}" else ""
@@ -400,9 +468,12 @@ class MainActivity : AppCompatActivity() {
                         )
                     }
                     val speed = speedKmh()
-                    val eta = if (speed != null) " • ~${formatDuration(dist / (speed / 3.6))}" else ""
+                    val waitS = RouteState.totalWaitS()
+                    val eta = if (speed != null) " • ~${formatDuration(dist / (speed / 3.6) + waitS)}" else ""
+                    val stops = RouteState.waits.count { it > 0 }
+                    val stopsText = if (stops > 0) " • $stops parada(s)" else ""
                     String.format(
-                        Locale.getDefault(), "%d pontos • %.2f km%s", legs.size, dist / 1000, eta,
+                        Locale.getDefault(), "%d pontos • %.2f km%s%s", legs.size, dist / 1000, stopsText, eta,
                     )
                 }
             }
@@ -438,7 +509,7 @@ class MainActivity : AppCompatActivity() {
             .setView(input)
             .setPositiveButton("Salvar") { _, _ ->
                 val name = input.text.toString().trim().ifEmpty { "Rota ${RouteStore.names(this).size + 1}" }
-                RouteStore.save(this, name, legs)
+                RouteStore.save(this, name, legs, RouteState.waits)
                 toast("Rota \"$name\" salva")
             }
             .setNegativeButton("Cancelar", null)
@@ -460,8 +531,7 @@ class MainActivity : AppCompatActivity() {
                         if (loaded == null) {
                             toast("Não foi possível ler a rota")
                         } else {
-                            legs.clear()
-                            legs.addAll(loaded)
+                            RouteState.setAll(loaded.legs, loaded.waits)
                             redrawRoute()
                             zoomToRoute()
                         }
@@ -484,9 +554,9 @@ class MainActivity : AppCompatActivity() {
             return toast("GPX inválido: ${e.message}")
         }
         if (points.isEmpty()) return toast("Nenhum ponto encontrado no GPX")
-        legs.clear()
-        legs.add(mutableListOf(points.first()))
-        if (points.size > 1) legs.add(points.drop(1).toMutableList())
+        RouteState.clear()
+        RouteState.addLeg(mutableListOf(points.first()))
+        if (points.size > 1) RouteState.addLeg(points.drop(1).toMutableList())
         redrawRoute()
         zoomToRoute()
         toast("${points.size} pontos importados")
@@ -590,6 +660,8 @@ class MainActivity : AppCompatActivity() {
             "Como usar",
             "• Toque no mapa para adicionar pontos. Com \"Seguir ruas\" ligado, o caminho " +
                 "segue as ruas (precisa de internet).\n" +
+                "• Toque em um ponto já criado para definir um tempo de parada nele " +
+                "(ex.: 30, 2:30, 5m). Pontos com parada ficam laranja.\n" +
                 "• Segure o dedo no mapa para teleportar para um ponto fixo.\n" +
                 "• Escolha o modo (caminhada, corrida…) ou digite a velocidade em km/h. " +
                 "Dá para mudar a velocidade durante a simulação.\n" +
