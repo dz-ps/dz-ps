@@ -800,7 +800,8 @@ const MOTIVOS = [
 
 const MOTIVO_PLACEHOLDER = 'N/A';
 
-const TEMPLATE_MAX_ROWS = 13;  // Template has rows 10-22 = 13 data rows
+const TEMPLATE_FIRST_ROW = 10;   // First data row in the template
+const TEMPLATE_BASE_ROWS = 13;   // Template ships with rows 10-22 = 13 data rows (expanded on demand)
 
 const state = {
   employee: { name: '', matricula: '', cargo: '', periodStart: '', periodEnd: '' },
@@ -1402,13 +1403,103 @@ function setCellNumber(cell, num) {
   cell.appendChild(v);
 }
 
+// =============================================================
+// Template expansion (more days than the 13 base rows)
+// =============================================================
+function shiftCellRef(ref, fromRow, delta) {
+  // Shifts A1-style refs (with optional $) whose row >= fromRow
+  return ref.replace(/(\$?[A-Z]{1,3}\$?)(\d+)/g, (m, col, row) => {
+    const n = parseInt(row, 10);
+    return n >= fromRow ? col + (n + delta) : m;
+  });
+}
+
+function setRowNumber(row, newNum) {
+  row.setAttribute('r', String(newNum));
+  const cs = row.getElementsByTagName('c');
+  for (let i = 0; i < cs.length; i++) {
+    const r = cs[i].getAttribute('r');
+    if (r) cs[i].setAttribute('r', r.replace(/\d+$/, String(newNum)));
+  }
+}
+
+// Inserts `extra` data rows before the last template data row (keeps the
+// last row's bottom-border style), shifting everything below it.
+function expandTemplateRows(xmlDoc, rowByNum, extra) {
+  const lastDataRow = TEMPLATE_FIRST_ROW + TEMPLATE_BASE_ROWS - 1;  // 22
+  const modelRow = rowByNum[lastDataRow - 1];                        // 21 (middle-row style)
+  const lastRow = rowByNum[lastDataRow];
+  if (!modelRow || !lastRow) throw new Error('Template inválido: linhas de dados não encontradas.');
+
+  // Shift rows >= 22 (bottom-up), except the sheet's max sentinel row
+  const nums = Object.keys(rowByNum).map(Number).filter(n => n >= lastDataRow && n < 1048576).sort((a, b) => b - a);
+  nums.forEach(n => {
+    setRowNumber(rowByNum[n], n + extra);
+    rowByNum[n + extra] = rowByNum[n];
+    delete rowByNum[n];
+  });
+
+  // Clone the model row into the gap
+  for (let k = 0; k < extra; k++) {
+    const num = lastDataRow + k;
+    const clone = modelRow.cloneNode(true);
+    setRowNumber(clone, num);
+    lastRow.parentNode.insertBefore(clone, lastRow);
+    rowByNum[num] = clone;
+  }
+
+  // Merged cells: shift those below, add B:C / D:I merges for the new rows
+  const mc = xmlDoc.getElementsByTagName('mergeCells')[0];
+  if (mc) {
+    const merges = mc.getElementsByTagName('mergeCell');
+    for (let i = 0; i < merges.length; i++) {
+      merges[i].setAttribute('ref', shiftCellRef(merges[i].getAttribute('ref'), lastDataRow, extra));
+    }
+    for (let k = 0; k < extra; k++) {
+      const num = lastDataRow + k;
+      ['B' + num + ':C' + num, 'D' + num + ':I' + num].forEach(ref => {
+        const m = xmlDoc.createElementNS(SHEET_NS, 'mergeCell');
+        m.setAttribute('ref', ref);
+        mc.appendChild(m);
+      });
+    }
+    mc.setAttribute('count', String(mc.getElementsByTagName('mergeCell').length));
+  }
+
+  // Selection (cosmetic) — keep it pointing at a valid cell
+  const sels = xmlDoc.getElementsByTagName('selection');
+  for (let i = 0; i < sels.length; i++) {
+    ['activeCell', 'sqref'].forEach(attr => {
+      const v = sels[i].getAttribute(attr);
+      if (v) sels[i].setAttribute(attr, shiftCellRef(v, lastDataRow, extra));
+    });
+  }
+}
+
+function expandWorkbookPrintArea(wbXml, extra) {
+  const lastDataRow = TEMPLATE_FIRST_ROW + TEMPLATE_BASE_ROWS - 1;
+  let out = wbXml.replace(/(<definedName[^>]*name="_xlnm\.Print_Area"[^>]*>)([^<]*)(<\/definedName>)/,
+    (m, open, ref, close) => open + shiftCellRef(ref, lastDataRow, extra) + close);
+  // Repeat the table header (rows 8-9) on every printed page
+  if (!/_xlnm\.Print_Titles/.test(out)) {
+    out = out.replace('</definedNames>',
+      '<definedName function="false" hidden="false" localSheetId="0" name="_xlnm.Print_Titles" vbProcedure="false">Planilha1!$8:$9</definedName></definedNames>');
+  }
+  return out;
+}
+
+function shiftDrawingAnchors(drawingXml, extra) {
+  // xdr:row is 0-based; shift anchors at or below the last data row
+  const lastDataRow0 = TEMPLATE_FIRST_ROW + TEMPLATE_BASE_ROWS - 2;  // 21 (= row 22)
+  return drawingXml.replace(/<xdr:row>(\d+)<\/xdr:row>/g, (m, r) => {
+    const n = parseInt(r, 10);
+    return n >= lastDataRow0 ? '<xdr:row>' + (n + extra) + '</xdr:row>' : m;
+  });
+}
+
 async function generateXLSX() {
   if (state.absences.length === 0) {
     showToast('Nenhum dia para gerar — adicione ao menos um.', 'error');
-    return;
-  }
-  if (state.absences.length > TEMPLATE_MAX_ROWS) {
-    showToast(`Limite do template: ${TEMPLATE_MAX_ROWS} dias. Remova alguns para gerar.`, 'error');
     return;
   }
 
@@ -1448,15 +1539,29 @@ async function generateXLSX() {
       rowByNum[parseInt(rows[i].getAttribute('r'), 10)] = rows[i];
     }
 
+    // Expand the template when there are more days than the base data rows
+    const extraRows = Math.max(0, state.absences.length - TEMPLATE_BASE_ROWS);
+    if (extraRows > 0) {
+      expandTemplateRows(xmlDoc, rowByNum, extraRows);
+      const wbXml = await zip.file('xl/workbook.xml').async('string');
+      zip.file('xl/workbook.xml', expandWorkbookPrintArea(wbXml, extraRows));
+      const drawingFile = zip.file('xl/drawings/drawing1.xml');
+      if (drawingFile) {
+        const drawingXml = await drawingFile.async('string');
+        zip.file('xl/drawings/drawing1.xml', shiftDrawingAnchors(drawingXml, extraRows));
+      }
+    }
+    const totalRows = TEMPLATE_BASE_ROWS + extraRows;
+
     // Fill D5 (setor)
     if (rowByNum[5] && state.setor) {
       const d5 = findCellInRow(rowByNum[5], 'D5');
       if (d5) setCellInlineStr(d5, state.setor);
     }
 
-    // Fill rows 10..22 (data rows)
-    for (let i = 0; i < TEMPLATE_MAX_ROWS; i++) {
-      const rowNum = 10 + i;
+    // Fill data rows (10..22, plus any inserted rows)
+    for (let i = 0; i < totalRows; i++) {
+      const rowNum = TEMPLATE_FIRST_ROW + i;
       const row = rowByNum[rowNum];
       if (!row) continue;
 
