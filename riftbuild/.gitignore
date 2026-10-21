@@ -32,3 +32,4 @@ playwright-report/
 # Supabase local
 supabase/.temp/
 supabase/.branches/
+.web-fixture-data/

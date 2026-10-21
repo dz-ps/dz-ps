@@ -5,6 +5,7 @@ import { mkdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
+import { localDataDir } from './prepare-local-data.mjs';
 import { startServer } from './serve-web.mjs';
 import { CHECKS } from './web-smoke.checks.mjs';
 
@@ -16,9 +17,11 @@ const only = process.argv
   .find((a) => a.startsWith('--only='))
   ?.slice('--only='.length)
   .split(',');
-const checks = only ? CHECKS.filter((c) => only.includes(c.name)) : CHECKS;
 
-const { server, url } = await startServer();
+const { server, url } = await startServer({ port: 8765 });
+const realData = !localDataDir().fixture;
+const checks = CHECKS.filter((c) => (!only || only.includes(c.name)) && (realData || !c.realData));
+console.log(`data: ${realData ? 'real pipeline output' : 'fixture (DADOS DE TESTE)'}`);
 const browser = await chromium.launch({
   executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE || undefined,
 });
@@ -36,7 +39,7 @@ for (const check of checks) {
   page.on('pageerror', (err) => errors.push(String(err)));
   try {
     await page.goto(`${url}${check.path}`, { waitUntil: 'networkidle' });
-    await check.run(page, { url });
+    await check.run(page, { url, realData });
     if (errors.length) throw new Error(`page errors: ${errors.join(' | ')}`);
     await page.screenshot({ path: join(outDir, `${check.name}.png`), fullPage: false });
     console.log(`ok   ${check.name}`);

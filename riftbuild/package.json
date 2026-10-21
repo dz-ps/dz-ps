@@ -17,7 +17,7 @@
     "contracts": "pnpm --filter @riftbuild/shared test -- contracts",
     "evals": "pnpm --filter @riftbuild/evals run evals",
     "ci": "pnpm lint && pnpm typecheck && pnpm test && pnpm sync:deno --check && pnpm check:sources",
-    "web:export": "pnpm --filter @riftbuild/mobile export:web",
+    "web:export": "node scripts/web-export.mjs",
     "web:smoke": "node scripts/web-smoke.mjs"
   },
   "devDependencies": {

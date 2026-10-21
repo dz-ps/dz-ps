@@ -59,6 +59,8 @@
     "@types/react": "~19.3.0",
     "jest": "~30.5.2",
     "jest-expo": "~58.0.11",
-    "typescript": "~6.0.3"
+    "sql.js": "^1.15.1",
+    "typescript": "~6.0.3",
+    "@types/node": "^22.0.0"
   }
 }

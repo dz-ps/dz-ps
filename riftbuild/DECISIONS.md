@@ -114,3 +114,9 @@ Registro de cada decisão técnica relevante e o motivo. Mais recentes no fim.
 ## D22. Regras de CC derivadas do texto
 
 - Frases de condição sobre o próprio campeão ("se ela estiver imobilizada durante a conjuração", "não pode avançar enquanto estiver no chão") não contam como controle aplicado. Os casos reais que motivaram cada regra estão em `pipeline/tests/test_text_rules.py`.
+
+## D23. Catálogo guardado como pacote inteiro no SQLite
+
+- O app guarda a release (catálogo + meta + manifest) como um único registro JSON no SQLite e monta os índices em memória ao abrir. O catálogo do 7.3b tem 1,2 MB (311 KB comprimido); carregar e indexar é rápido o bastante e evita mapear dezenas de tabelas.
+- Troca de release = uma linha substituída numa transação (nunca meia release). Dados do usuário (builds, drafts, registro de derrotas) ficam em tabelas próprias que a sincronização não toca.
+- O SQL é o mesmo no Android (expo-sqlite) e nos testes (sql.js, build JS puro). Na web (só screenshots/dev) o armazenamento é em memória.

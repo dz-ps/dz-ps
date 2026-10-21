@@ -5,6 +5,7 @@ import { createReadStream, existsSync, statSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { extname, join, normalize, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { localDataDir } from './prepare-local-data.mjs';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const MIME = {
@@ -29,7 +30,7 @@ function safeJoin(base, urlPath) {
 export function startServer({
   port = 0,
   webDir = join(root, 'apps/mobile/dist'),
-  dataDir = join(root, 'pipeline/out'),
+  dataDir = localDataDir().dir,
 } = {}) {
   const server = createServer((req, res) => {
     const url = new URL(req.url ?? '/', 'http://localhost');
@@ -61,7 +62,7 @@ export function startServer({
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  const port = Number(process.env.PORT ?? 8081);
+  const port = Number(process.env.PORT ?? 8765);
   const { url } = await startServer({ port });
   console.log(`Serving web build at ${url}`);
 }
