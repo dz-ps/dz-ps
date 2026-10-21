@@ -1,0 +1,12 @@
+{
+  "description": "Search normalization: lowercase, strip accents, drop apostrophes/dots, collapse the rest to single spaces.",
+  "cases": [
+    ["Kai'Sa", "kaisa"],
+    ["Dr. Mundo", "dr mundo"],
+    ["  JARVAN   iv ", "jarvan iv"],
+    ["Bardo", "bardo"],
+    ["Ápice-Vital", "apice vital"],
+    ["Nunu & Willump", "nunu willump"],
+    ["Warike!!", "warike"]
+  ]
+}

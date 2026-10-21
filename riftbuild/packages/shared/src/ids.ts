@@ -1,0 +1,20 @@
+/**
+ * Stable entity IDs are snake_case slugs of the English name (e.g. "Kai'Sa" -> "kaisa",
+ * "Dr. Mundo" -> "dr_mundo"). The pipeline implements the same rule in Python; both run
+ * contracts/cases/slugify.json.
+ */
+export function slugify(name: string): string {
+  return name
+    .normalize('NFKD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/['’.]/g, '')
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '');
+}
+
+const SLUG = /^[a-z0-9]+(?:_[a-z0-9]+)*$/;
+
+export function isSlug(id: string): boolean {
+  return SLUG.test(id);
+}

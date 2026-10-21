@@ -1,0 +1,7 @@
+packages:
+  - apps/*
+  - packages/*
+  - evals
+
+# Expo + Metro work most reliably with a hoisted node_modules layout (see DECISIONS.md).
+nodeLinker: hoisted

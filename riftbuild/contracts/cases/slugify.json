@@ -1,0 +1,23 @@
+{
+  "description": "Stable entity IDs: snake_case slug of name_en. Shared by pipeline (Python) and packages/shared (TS).",
+  "cases": [
+    ["Kai'Sa", "kaisa"],
+    ["Dr. Mundo", "dr_mundo"],
+    ["Jarvan IV", "jarvan_iv"],
+    ["Miss Fortune", "miss_fortune"],
+    ["Nunu & Willump", "nunu_willump"],
+    ["Cho'Gath", "chogath"],
+    ["Nashor's Tooth", "nashors_tooth"],
+    ["Mercury's Treads", "mercurys_treads"],
+    ["Wukong", "wukong"],
+    ["  Twisted   Fate ", "twisted_fate"],
+    ["Bel'Veth", "belveth"],
+    ["Renata Glasc", "renata_glasc"],
+    ["K'Sante", "ksante"],
+    ["Gluttonous Greaves", "gluttonous_greaves"],
+    ["Ionian Boots of Lucidity", "ionian_boots_of_lucidity"],
+    ["Élan-Vital", "elan_vital"],
+    ["Fleet Footwork", "fleet_footwork"],
+    ["A.I. Overlord", "ai_overlord"]
+  ]
+}

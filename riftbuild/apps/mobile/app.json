@@ -1,0 +1,50 @@
+{
+  "expo": {
+    "name": "RiftBuild",
+    "slug": "riftbuild",
+    "scheme": "riftbuild",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#0B0E14",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "io.github.dzps.riftbuild"
+    },
+    "android": {
+      "package": "io.github.dzps.riftbuild",
+      "adaptiveIcon": {
+        "backgroundColor": "#0B0E14",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single",
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 160,
+          "resizeMode": "contain",
+          "backgroundColor": "#0B0E14"
+        }
+      ],
+      "expo-sqlite",
+      "expo-image",
+      "expo-sharing",
+      "expo-font"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

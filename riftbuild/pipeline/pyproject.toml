@@ -1,0 +1,41 @@
+[project]
+name = "riftbuild-pipeline"
+version = "0.1.0"
+description = "RiftBuild data pipeline: Wild Rift catalog and meta, fetched, validated and published as versioned bundles."
+requires-python = ">=3.13"
+dependencies = [
+    "httpx>=0.28.1",
+    "selectolax>=1.0.1",
+    "pydantic>=2.14.1",
+    "pillow>=11.0.0",
+    "pyyaml>=6.0.2",
+]
+
+[project.scripts]
+riftbuild = "riftbuild_pipeline.cli:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.0",
+    "respx>=0.22.0",
+    "ruff>=0.14.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/riftbuild_pipeline"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
+ignore = ["RUF001", "RUF002", "RUF003"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
