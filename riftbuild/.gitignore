@@ -33,3 +33,7 @@ playwright-report/
 supabase/.temp/
 supabase/.branches/
 .web-fixture-data/
+
+# Eval outputs (derived from the real catalog; never committed)
+evals/last-run-*.json
+evals/recordings/

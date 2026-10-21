@@ -98,6 +98,7 @@ export function buildDraftUserMessage(
       invulnerabilidade: comp.invulnerable,
       bloqueio_de_projeteis: comp.projectileBlock,
       ameacas: comp.threats,
+      alertas: comp.alerts_pt,
     },
     itens_candidatos: candidates.groups.map((g) => ({ motivo: g.reason_pt, ids: g.itemIds })),
     tipo_de_dano_da_build: candidates.buildDamage,

@@ -1,6 +1,7 @@
 import { displayName, type CatalogIndex } from '../catalog/index.ts';
 import type { Role } from '../schemas/common.ts';
 import type { MetaBundle, MetaStat } from '../schemas/meta.ts';
+import { pct } from './compAnalyzer.ts';
 
 export type BanSuggestion = {
   championId: string;
@@ -45,7 +46,7 @@ export function suggestBans(input: BanInput): BanSuggestion[] {
       bump(
         s.champion_id,
         score,
-        `Forte no patch (${tier}): ${s.win_rate.toFixed(1)}% de vitória, ${s.ban_rate.toFixed(1)}% de banimento.`,
+        `Forte no patch (${tier}): ${pct(s.win_rate)}% de vitória, ${pct(s.ban_rate)}% de banimento.`,
         s.source_url,
       );
     }
@@ -55,7 +56,7 @@ export function suggestBans(input: BanInput): BanSuggestion[] {
         bump(
           s.champion_id,
           score,
-          `Muito forte na sua rota: ${s.win_rate.toFixed(1)}% de vitória.`,
+          `Muito forte na sua rota: ${pct(s.win_rate)}% de vitória.`,
           s.source_url,
         );
       }
@@ -103,7 +104,7 @@ export function suggestCounterPicks(
       .map((m) => ({
         championId: m.champion_id,
         role,
-        reason_pt: `Vantagem no confronto (${(m.win_rate ?? 0).toFixed(1)}%).`,
+        reason_pt: `Vantagem no confronto (${pct(m.win_rate ?? 0)}%).`,
         source_url: m.source_url,
         derived: false,
       }));
@@ -123,7 +124,7 @@ export function suggestCounterPicks(
     .map((s) => ({
       championId: s.champion_id,
       role,
-      reason_pt: `Entre os mais fortes da rota no patch: ${s.win_rate.toFixed(1)}% de vitória (${tier}).`,
+      reason_pt: `Entre os mais fortes da rota no patch: ${pct(s.win_rate)}% de vitória (${tier}).`,
       source_url: s.source_url,
       derived: true,
     }));

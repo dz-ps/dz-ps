@@ -1,0 +1,160 @@
+# Draft eval cases (spec §6.6). Expectations are written as catalog tags/properties, not hard-coded item
+# names, so they survive patches. An assertion whose required tag has no item in the catalog is SKIPPED (noted).
+#
+# deterministic: checked against the instant comp read + candidate rules (no AI).
+# ai: checked against the validated AI response (local/remote/replay modes).
+
+- id: mandatory-ww-ap-vs-heal-cc
+  title: 'Obrigatório: Soraka, Amumu, Jinx, Mel, Volibear vs Warwick selva AP'
+  mandatory: true
+  input:
+    { enemies_text: 'soraka mumu jinx mel voli', my_champion: warwick, role: jungle, style: [AP] }
+  deterministic:
+    healers_include: [soraka, volibear]
+    healing_at_least: media
+    hard_cc_at_least: 4
+    magic_share_above: 0.5
+    candidate_rules_include: [anti_heal, tenacity]
+    threats_include: [jinx]
+  ai:
+    item_tags_any: [anti_heal]
+    boots_tags_all: [tenacity, magic_resist]
+    spells_include: [smite]
+    plan_mentions_all: ['jinx']
+    plan_mentions_any_group:
+      [['mel'], ["\\bult|ultimate|\\bR\\b|suprema"], ["\\bW\\b|reflet|barreira|refuta"]]
+    no_invalid_ids: true
+
+- id: full-ad-vs-ahri
+  title: 'Time todo físico vs Ahri meio'
+  input: { enemies_text: 'draven zed darius graves caitlyn', my_champion: ahri, role: mid }
+  deterministic: { physical_share_above: 0.6, candidate_rules_include: [armor] }
+  ai: { item_tags_any: [armor, stasis], no_invalid_ids: true }
+
+- id: full-ap-vs-garen
+  title: 'Time todo mágico vs Garen barão'
+  input: { enemies_text: 'brand ahri diana annie zyra', my_champion: garen, role: baron }
+  deterministic: { magic_share_above: 0.6, candidate_rules_include: [magic_resist] }
+  ai: { item_or_boots_tags_any: [magic_resist], no_invalid_ids: true }
+
+- id: heavy-heal-vs-jinx
+  title: 'Muita cura vs Jinx dragão'
+  input: { enemies_text: 'soraka yuumi mundo aatrox fiora', my_champion: jinx, role: dragon }
+  deterministic: { healing_at_least: alta, candidate_rules_include: [anti_heal] }
+  ai: { item_tags_any: [anti_heal], no_invalid_ids: true }
+
+- id: heavy-cc-vs-ezreal
+  title: 'Muito controle vs Ezreal dragão'
+  input: { enemies_text: 'amumu alistar blitzcrank galio ashe', my_champion: ezreal, role: dragon }
+  deterministic: { hard_cc_at_least: 4, candidate_rules_include: [tenacity] }
+  ai: { item_or_boots_tags_any: [tenacity], no_invalid_ids: true }
+
+- id: poke-vs-darius
+  title: 'Poke vs Darius barão'
+  input: { enemies_text: 'ziggs ezreal corki zoe caitlyn', my_champion: darius, role: baron }
+  deterministic: { poke_at_least: 2 }
+  ai:
+    { plan_mentions_any: ['poke|distância|alcance|engaj|avanç|cerco|flanco'], no_invalid_ids: true }
+
+- id: dive-vs-annie-support
+  title: 'Assassinos vs Annie suporte'
+  input: { enemies_text: 'zed akali evelynn fizz diana', my_champion: annie, role: support }
+  deterministic: { dashes_at_least: 3 }
+  ai: { no_invalid_ids: true }
+
+- id: tank-wall-vs-marksman
+  title: "Paredão de tanques vs Kai'Sa dragão"
+  input: { enemies_text: 'cho gath mundo amumu braum galio', my_champion: kaisa, role: dragon }
+  deterministic: { tanks_at_least: 2, candidate_rules_include: [penetration] }
+  ai: { item_tags_any: [armor_pen, magic_pen], no_invalid_ids: true }
+
+- id: balanced-no-overtrigger
+  title: 'Dano misto equilibrado: não exagerar armadura nem RM'
+  input: { enemies_text: 'garen ahri lee sin jinx thresh', my_champion: lux, role: mid }
+  deterministic: { candidate_rules_exclude: [armor, magic_resist] }
+  ai: { no_invalid_ids: true }
+
+- id: partial-three-enemies
+  title: 'Só 3 inimigos conhecidos'
+  input: { enemies_text: 'jinx thresh lee sin', my_champion: ahri, role: mid }
+  deterministic: { enemy_count: 3 }
+  ai: { no_invalid_ids: true }
+
+- id: no-champion-counter-picks
+  title: 'Sem campeão escolhido: counters para a rota'
+  input: { enemies_text: 'yasuo yone malphite jinx leona', role: mid }
+  deterministic: { counters_count_at_least: 3 }
+  ai: { counter_picks_at_least: 1, counter_picks_role: mid, no_invalid_ids: true }
+
+- id: aliases
+  title: 'Apelidos brasileiros'
+  input: { enemies_text: 'mumu ww voli mf tf' }
+  deterministic: { parsed_ids: [amumu, warwick, volibear, miss_fortune, twisted_fate] }
+
+- id: typos
+  title: 'Erros de digitação comuns'
+  input: { enemies_text: 'warike, momu, kaisa, j4, mundo' }
+  deterministic: { parsed_ids: [warwick, amumu, kaisa, jarvan_iv, dr_mundo] }
+
+- id: jungle-smite
+  title: 'Selva exige Golpear'
+  input: { enemies_text: 'ahri zed garen ashe lulu', my_champion: lee_sin, role: jungle }
+  ai: { spells_include: [smite], no_invalid_ids: true }
+
+- id: lane-no-smite
+  title: 'Fora da selva, sem feitiço de selva'
+  input: { enemies_text: 'ahri zed garen ashe lulu', my_champion: darius, role: baron }
+  ai: { spells_exclude_jungle_only: true, no_invalid_ids: true }
+
+- id: unique-group-trap
+  title: 'Nunca dois itens com a mesma passiva única'
+  input: { enemies_text: 'garen darius sett vi nautilus', my_champion: jax, role: baron }
+  ai: { no_unique_overlap: true, no_invalid_ids: true }
+
+- id: never-two-boots
+  title: 'Nunca duas botas'
+  input: { enemies_text: 'amumu leona malphite galio rell', my_champion: vayne, role: dragon }
+  ai: { boots_max: 1, no_invalid_ids: true }
+
+- id: bans-exclude-picked
+  title: 'Bans não repetem campeões do draft'
+  input: { enemies_text: 'jinx thresh lee sin ahri garen', my_champion: kaisa, role: dragon }
+  deterministic: { bans_exclude_picked: true }
+  ai: { bans_exclude_picked: true, no_invalid_ids: true }
+
+- id: allies-no-frontline
+  title: 'Aliados sem linha de frente'
+  input:
+    {
+      enemies_text: 'zed akali jinx thresh lee sin',
+      allies_text: 'lux ezreal yuumi zoe',
+      role: jungle,
+    }
+  ai: { counter_picks_at_least: 1, no_invalid_ids: true }
+
+- id: ap-style-hybrid
+  title: 'Estilo AP em campeão híbrido'
+  input:
+    {
+      enemies_text: 'garen darius jinx thresh lee sin',
+      my_champion: kaisa,
+      role: dragon,
+      style: [AP],
+    }
+  deterministic: { build_damage: magic }
+  ai: { item_tags_majority: [ability_power], no_invalid_ids: true }
+
+- id: invulnerability-timing
+  title: 'Inimigos com invulnerabilidade: plano fala de tempo'
+  input: { enemies_text: 'kayle tryndamere mel fiora kindred', my_champion: zed, role: mid }
+  deterministic: { invulnerable_at_least: 2 }
+  ai:
+    {
+      plan_mentions_any: ["espere|esper|depois|tempo|ultimate|ult|\\bR\\b|invulner"],
+      no_invalid_ids: true,
+    }
+
+- id: duplicate-champion
+  title: 'Campeão repetido entre os times é inválido'
+  input: { enemies_text: 'jinx thresh', allies_text: 'jinx', role: mid }
+  deterministic: { expect_invalid_input: true }

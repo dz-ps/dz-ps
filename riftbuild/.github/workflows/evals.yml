@@ -1,0 +1,40 @@
+name: Draft evals
+
+on:
+  schedule:
+    - cron: '41 7 * * *'
+  workflow_dispatch:
+
+jobs:
+  evals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      CATALOG_MANIFEST_URL: ${{ secrets.CATALOG_MANIFEST_URL }}
+      RIFTBUILD_FUNCTIONS_URL: ${{ secrets.RIFTBUILD_FUNCTIONS_URL }}
+      RIFTBUILD_ACCESS_TOKEN: ${{ secrets.RIFTBUILD_ACCESS_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Download the published catalog (evals never run on fixtures)
+        if: env.CATALOG_MANIFEST_URL != ''
+        run: node scripts/fetch-published.mjs pipeline/out
+      - name: Deterministic evals
+        if: env.CATALOG_MANIFEST_URL != ''
+        run: pnpm evals -- --mode=deterministic
+      - name: Remote evals against the Edge Function (p50 and >= 90% pass)
+        if: env.CATALOG_MANIFEST_URL != '' && env.RIFTBUILD_FUNCTIONS_URL != ''
+        run: pnpm evals -- --mode=remote
+      - name: Skipped
+        if: env.CATALOG_MANIFEST_URL == ''
+        run: echo "::notice::Evals skipped: set CATALOG_MANIFEST_URL (and RIFTBUILD_FUNCTIONS_URL / RIFTBUILD_ACCESS_TOKEN for AI evals)."
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eval-results
+          path: evals/last-run-*.json

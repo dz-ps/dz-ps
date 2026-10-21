@@ -39,6 +39,8 @@ export type CompRead = {
   invulnerable: string[];
   projectileBlock: string[];
   threats: { championId: string; reason_pt: string; score: number }[];
+  /** Short, evidence-based warnings derived from ability tags (e.g. projectile block on W). */
+  alerts_pt: string[];
 };
 
 const HARD = new Set<string>(HARD_CC_TYPES);
@@ -91,6 +93,7 @@ export function analyzeComp(
     invulnerable: [],
     projectileBlock: [],
     threats: [],
+    alerts_pt: [],
   };
 
   let profiled = 0;
@@ -147,24 +150,51 @@ export function analyzeComp(
           ? 'media'
           : 'alta';
   read.threats = rankThreats(champions, meta, elo);
+  read.alerts_pt = alerts(champions);
   return read;
+}
+
+function alerts(champions: Champion[]): string[] {
+  const out: string[] = [];
+  for (const c of champions) {
+    const name = displayName(c);
+    for (const t of c.tags) {
+      const key = t.ability_key ? ` (${t.ability_key})` : '';
+      if (t.tag === 'projectile_reflect') {
+        out.push(
+          `${name}${key} bloqueia projéteis: não gaste habilidades de projétil, nem o ultimate, com o ${t.ability_key ?? 'efeito'} dele(a) disponível.`,
+        );
+      } else if (t.tag === 'invulnerability') {
+        out.push(
+          `${name}${key} pode ficar invulnerável: espere o efeito acabar antes de usar habilidades importantes.`,
+        );
+      }
+    }
+  }
+  return out;
 }
 
 function rankThreats(champions: Champion[], meta?: MetaBundle | null, elo?: string | null) {
   const ranked = champions.map((c) => {
-    const carry = Math.max(0, ...c.classes.map((k) => CARRY_WEIGHT[k] ?? 1));
+    const mainlySupport = c.roles[0] === 'support';
+    const carry = Math.min(
+      mainlySupport ? 1 : Infinity,
+      Math.max(0, ...c.classes.map((k) => CARRY_WEIGHT[k] ?? 1)),
+    );
     const stat = bestStat(c.id, c.roles, meta, elo);
-    const metaBonus = stat ? Math.max(0, (stat.win_rate - 50) / 2) : 0;
+    // Who to focus in a fight is mostly about the carry role; patch strength only nudges the order.
+    const metaBonus = stat ? Math.min(1, Math.max(0, (stat.win_rate - 50) / 4)) : 0;
     const scaling = hasTag(c, 'scaling') ? 0.5 : 0;
     const score = round(carry + metaBonus + scaling);
     const parts = [carryLabel(c)];
-    if (stat && stat.win_rate >= 51) parts.push(`${stat.win_rate.toFixed(1)}% de vitória no patch`);
+    if (stat && stat.win_rate >= 51) parts.push(`${pct(stat.win_rate)}% de vitória no patch`);
     return { championId: c.id, score, reason_pt: parts.join(', ') };
   });
   return ranked.sort((a, b) => b.score - a.score).slice(0, 2);
 }
 
 function carryLabel(c: Champion): string {
+  if (c.roles[0] === 'support') return 'suporte: protege e sustenta o time';
   if (c.classes.includes('marksman')) return 'atirador: principal dano contínuo';
   if (c.classes.includes('mage')) return 'mago: dano mágico em área';
   if (c.classes.includes('assassin')) return 'assassino: elimina alvos frágeis';
@@ -186,3 +216,6 @@ export function bestStat(
 }
 
 const round = (n: number) => Math.round(n * 100) / 100;
+
+/** pt-BR decimal comma for user-facing percentages. */
+export const pct = (n: number) => n.toFixed(1).replace('.', ',');

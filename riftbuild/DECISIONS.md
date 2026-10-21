@@ -120,3 +120,18 @@ Registro de cada decisão técnica relevante e o motivo. Mais recentes no fim.
 - O app guarda a release (catálogo + meta + manifest) como um único registro JSON no SQLite e monta os índices em memória ao abrir. O catálogo do 7.3b tem 1,2 MB (311 KB comprimido); carregar e indexar é rápido o bastante e evita mapear dezenas de tabelas.
 - Troca de release = uma linha substituída numa transação (nunca meia release). Dados do usuário (builds, drafts, registro de derrotas) ficam em tabelas próprias que a sincronização não toca.
 - O SQL é o mesmo no Android (expo-sqlite) e nos testes (sql.js, build JS puro). Na web (só screenshots/dev) o armazenamento é em memória.
+
+## D24. Fluxo da IA no draft
+
+- A Edge Function recalcula a leitura determinística no servidor (nunca confia no cliente), monta o prompt de sistema estático do patch (regras + lista de IDs, cacheável) e envia só o necessário na mensagem do usuário.
+- Cada seção do JSON (comp_read, build, counter_picks, bans, game_plan) é validada assim que fecha no streaming e só então enviada por SSE. Uma nova tentativa automática com os erros; o que continuar inválido é removido e a resposta sai marcada como incompleta. Respostas incompletas não vão para o cache.
+- O app valida de novo cada seção com o mesmo código antes de exibir (defesa em profundidade).
+- Os números da leitura da composição sempre vêm da camada determinística; a IA não define números.
+- Fallback de recusa no servidor (`fallbacks: "default"`) fica ligado por padrão para modelos Opus/Sonnet/Fable; desligue com `AI_SERVER_FALLBACKS=off`.
+- SDK da Anthropic fixado em 0.135.0: as versões 0.136/0.137 tinham menos de 24 h e o Deno recusa dependências tão novas por padrão.
+
+## D25. Evals
+
+- `evals/cases.yaml`: 22 casos com expectativas escritas como tags e propriedades do catálogo (não nomes de itens), para sobreviver a patches. Asserção cuja tag não existe em nenhum item do catálogo é marcada como pulada, não como aprovada.
+- Modos: `deterministic` (sem IA), `replay` (gravações), `local` (Claude direto com o mesmo orquestrador) e `remote` (Edge Function publicada). Nunca rodam com fixtures: sem catálogo real, o resultado é BLOCKED (código 2).
+- As respostas da IA são revalidadas antes da correção; a verificação de IDs inválidos olha a resposta bruta.

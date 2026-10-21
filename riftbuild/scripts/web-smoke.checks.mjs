@@ -109,4 +109,16 @@ export const CHECKS = [
       await expectText(page, 'de vitória');
     },
   },
+  {
+    name: 'draft',
+    path: '/draft',
+    realData: true,
+    async run(page) {
+      await page.getByTestId('draft-input').fill('soraka mumu jinx mel voli');
+      await page.getByTestId('draft-analyze').click();
+      await page.getByTestId('draft-confirm').click();
+      await expectTestId(page, 'comp-read');
+      await expectText(page, 'Controle pesado');
+    },
+  },
 ];
