@@ -15,6 +15,8 @@ type Props = {
   selected?: boolean;
   dimmed?: boolean;
   rounded?: boolean;
+  /** Visual text when there is no icon (empty slots); the a11y label stays `name`. */
+  placeholder?: string;
   testID?: string;
 };
 
@@ -31,6 +33,7 @@ export function EntityIcon({
   selected,
   dimmed,
   rounded,
+  placeholder,
   testID,
 }: Props) {
   const { iconUrl } = useCatalog();
@@ -72,6 +75,8 @@ export function EntityIcon({
             onError={() => setFailed(true)}
             accessibilityIgnoresInvertColors
           />
+        ) : placeholder ? (
+          <AppText className="text-2xl text-muted">{placeholder}</AppText>
         ) : (
           <AppText numberOfLines={2} className="px-1 text-center text-[10px] leading-3 text-muted">
             {name}

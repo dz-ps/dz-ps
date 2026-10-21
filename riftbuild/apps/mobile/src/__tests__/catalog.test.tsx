@@ -10,7 +10,7 @@ describe('catalog (phase 2 acceptance)', () => {
   it('finds Amumu when searching "mumu"', async () => {
     await renderApp({ index: CatalogScreen }, '/');
     await waitFor(() => expect(screen.getByTestId('catalog-search')).toBeTruthy());
-    fireEvent.changeText(screen.getByTestId('catalog-search'), 'mumu');
+    await fireEvent.changeText(screen.getByTestId('catalog-search'), 'mumu');
     await waitFor(() => expect(screen.getByTestId('champion-amumu')).toBeTruthy());
     expect(screen.queryByTestId('champion-fx_healer')).toBeNull();
   });

@@ -24,3 +24,4 @@ export * from './ai/prompt.ts';
 export * from './ai/cacheKey.ts';
 export * from './ai/structuredSchema.ts';
 export * from './sse.ts';
+export * from './share/buildCode.ts';

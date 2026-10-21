@@ -67,4 +67,20 @@ export const CHECKS = [
       await expectText(page, 'Bloqueio de projéteis');
     },
   },
+  {
+    name: 'build-editor',
+    path: '/build/new',
+    realData: true,
+    async run(page) {
+      await expectTestId(page, 'slot-0');
+      await page.getByTestId('slot-0').click();
+      await page.getByTestId('item-picker-search').fill('mercury');
+      await page.getByTestId('item-picker-mercurys_treads').click();
+      await page.getByTestId('slot-1').click();
+      await page.getByTestId('item-picker-search').fill('plated');
+      await page.getByTestId('item-picker-plated_steelcaps').click();
+      await expectTestId(page, 'blocked-message');
+      await expectText(page, 'Só é possível usar uma bota.');
+    },
+  },
 ];

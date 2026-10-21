@@ -28,6 +28,8 @@ export default function RootLayout() {
             <Stack.Screen name="profile" options={{ title: t.nav.profile }} />
             <Stack.Screen name="champion/[id]" options={{ title: 'Campeão' }} />
             <Stack.Screen name="item/[id]" options={{ title: 'Item' }} />
+            <Stack.Screen name="build/[id]" options={{ title: 'Build' }} />
+            <Stack.Screen name="b/[code]" options={{ title: 'Build compartilhada' }} />
           </Stack>
         </AppProviders>
       </SafeAreaProvider>
