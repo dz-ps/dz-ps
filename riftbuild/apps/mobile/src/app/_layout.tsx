@@ -30,6 +30,7 @@ export default function RootLayout() {
             <Stack.Screen name="item/[id]" options={{ title: 'Item' }} />
             <Stack.Screen name="build/[id]" options={{ title: 'Build' }} />
             <Stack.Screen name="b/[code]" options={{ title: 'Build compartilhada' }} />
+            <Stack.Screen name="bans" options={{ title: 'Bans sugeridos' }} />
           </Stack>
         </AppProviders>
       </SafeAreaProvider>

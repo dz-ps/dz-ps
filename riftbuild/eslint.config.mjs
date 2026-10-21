@@ -25,6 +25,21 @@ export default tseslint.config(
     files: ['apps/mobile/**/*.{ts,tsx}'],
     rules: {
       'import/no-unresolved': 'off',
+      // Meta numbers are rendered only through <StatValue>, which requires source + collection date (spec §5.3).
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector:
+            'JSXElement > JSXExpressionContainer MemberExpression[property.name=/^(win_rate|pick_rate|ban_rate)$/]:not(JSXAttribute MemberExpression, ConditionalExpression > MemberExpression.test, LogicalExpression MemberExpression, BinaryExpression MemberExpression)',
+          message:
+            'Render meta numbers with <StatValue source collectedAt> (every number shows its source and date).',
+        },
+        {
+          selector: 'TemplateLiteral MemberExpression[property.name=/^(pick_rate|ban_rate)$/]',
+          message:
+            'Render meta numbers with <StatValue source collectedAt> (every number shows its source and date).',
+        },
+      ],
     },
   },
   // Shared / evals / Deno: plain TypeScript.

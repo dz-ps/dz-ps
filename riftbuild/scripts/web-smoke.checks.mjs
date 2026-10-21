@@ -83,4 +83,30 @@ export const CHECKS = [
       await expectText(page, 'Só é possível usar uma bota.');
     },
   },
+  {
+    name: 'meta-tierlist',
+    path: '/meta',
+    realData: true,
+    async run(page) {
+      await expectTestId(page, 'tier-list');
+      await expectText(page, 'Fonte: Rift Patch Notes');
+    },
+  },
+  {
+    name: 'meta-changes',
+    path: '/meta',
+    realData: true,
+    async run(page) {
+      await page.getByRole('tab', { name: 'O que mudou' }).click();
+      await expectTestId(page, 'change-volibear');
+    },
+  },
+  {
+    name: 'bans',
+    path: '/bans',
+    realData: true,
+    async run(page) {
+      await expectText(page, 'de vitória');
+    },
+  },
 ];
