@@ -1,0 +1,107 @@
+import { displayName, type CatalogIndex } from '../catalog/index.ts';
+import { issue, split, type Issue, type UserBuild, type ValidationResult } from './types.ts';
+
+/** Item rules for the current patch (spec §5.2): slot count, one pair of boots, limits, unique passives. */
+export function itemIssues(itemIds: string[], index: CatalogIndex): Issue[] {
+  const { rules } = index;
+  const issues: Issue[] = [];
+  const known = itemIds.filter((id) => {
+    if (index.items.has(id)) return true;
+    issues.push(
+      issue('NOT_IN_CATALOG', 'error', `Item fora do catálogo do patch ${index.patch}: ${id}.`, [
+        id,
+      ]),
+    );
+    return false;
+  });
+
+  if (known.length > rules.item_slots) {
+    issues.push(issue('TOO_MANY_ITEMS', 'error', `No máximo ${rules.item_slots} itens.`, known));
+  }
+
+  const boots = known.filter((id) => index.items.get(id)!.category === rules.boots_category);
+  if (boots.length > rules.boots_max) {
+    issues.push(issue('SECOND_BOOTS', 'error', 'Só é possível usar uma bota.', boots));
+  }
+
+  const byLimitGroup = new Map<string, string[]>();
+  for (const id of known) {
+    const item = index.items.get(id)!;
+    if (item.limit_group && item.limit) {
+      byLimitGroup.set(item.limit_group, [...(byLimitGroup.get(item.limit_group) ?? []), id]);
+    }
+  }
+  for (const [group, ids] of byLimitGroup) {
+    const limit = index.items.get(ids[0]!)!.limit!;
+    if (ids.length > limit) {
+      issues.push(
+        issue('ITEM_LIMIT', 'error', `Limite de ${limit} item(ns) do grupo "${group}".`, ids),
+      );
+    }
+  }
+
+  if (rules.unique_passives_do_not_stack) {
+    const byUnique = new Map<string, string[]>();
+    for (const id of known) {
+      for (const group of index.items.get(id)!.unique_groups) {
+        byUnique.set(group, [...(byUnique.get(group) ?? []), id]);
+      }
+    }
+    for (const [group, ids] of byUnique) {
+      if (ids.length > 1) {
+        const names = ids.map((id) => displayName(index.items.get(id)!)).join(' + ');
+        const passive = index.items
+          .get(ids[0]!)!
+          .passives.concat(index.items.get(ids[0]!)!.actives)
+          .find((e) => e.unique && e.name)?.name;
+        issues.push(
+          issue(
+            'UNIQUE_GROUP_OVERLAP',
+            'warning',
+            `${names}: a passiva única "${passive ?? group}" não acumula.`,
+            ids,
+          ),
+        );
+      }
+    }
+  }
+  return issues;
+}
+
+export function validateItems(build: UserBuild, index: CatalogIndex): ValidationResult {
+  return split(
+    itemIssues(
+      build.items.filter((i): i is string => !!i),
+      index,
+    ),
+  );
+}
+
+export type AddCheck = { ok: true } | { ok: false; code: Issue['code']; message_pt: string };
+
+/** Used by the build creator to block an add before it happens (errors block; warnings do not). */
+export function canAddItem(
+  build: UserBuild,
+  itemId: string,
+  index: CatalogIndex,
+  slot?: number,
+): AddCheck {
+  const items = build.items.slice();
+  const target = slot ?? items.findIndex((i) => i === null);
+  if (target < 0 || target >= items.length) {
+    return {
+      ok: false,
+      code: 'TOO_MANY_ITEMS',
+      message_pt: `Todos os ${items.length} slots estão ocupados.`,
+    };
+  }
+  items[target] = itemId;
+  const errors = itemIssues(
+    items.filter((i): i is string => !!i),
+    index,
+  ).filter((i) => i.severity === 'error');
+  const relevant = errors.find((e) => e.ids.includes(itemId)) ?? errors[0];
+  return relevant
+    ? { ok: false, code: relevant.code, message_pt: relevant.message_pt }
+    : { ok: true };
+}

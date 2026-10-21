@@ -1,0 +1,56 @@
+name: Data pipeline
+
+on:
+  schedule:
+    - cron: '17 6 * * *' # daily; full catalog refresh happens when the official site shows a new patch
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish to Supabase when all checks pass
+        type: boolean
+        default: true
+
+concurrency:
+  group: data-pipeline
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    defaults:
+      run:
+        working-directory: pipeline
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - uses: pnpm/action-setup@v4
+      - run: pnpm install --frozen-lockfile
+        working-directory: .
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --frozen
+      - uses: actions/cache@v4
+        with:
+          path: pipeline/.cache
+          key: pipeline-cache-${{ github.run_id }}
+          restore-keys: pipeline-cache-
+      - name: Run pipeline
+        run: |
+          if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ inputs.publish }}" = "true" ]; then
+            uv run riftbuild run --publish
+          else
+            uv run riftbuild run
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pipeline-report
+          path: |
+            pipeline/out/report.md
+            pipeline/out/report.json
+            pipeline/out/manifest.json

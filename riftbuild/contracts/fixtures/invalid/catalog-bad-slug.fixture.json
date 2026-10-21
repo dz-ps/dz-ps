@@ -1,0 +1,1030 @@
+{
+ "aliases": {
+  "fxh": "fx_healer"
+ },
+ "champions": [
+  {
+   "abilities": [
+    {
+     "cc_types": [],
+     "cooldown": null,
+     "damage_types": [],
+     "description_en": "Heals allies.",
+     "description_pt": null,
+     "details_en": null,
+     "icon": "fx_fx_heal_passive.webp",
+     "key": "P",
+     "name_en": "Fx Heal Passive",
+     "name_pt": null
+    },
+    {
+     "cc_types": [
+      "slow"
+     ],
+     "cooldown": null,
+     "damage_types": [
+      "magic"
+     ],
+     "description_en": "Slows.",
+     "description_pt": null,
+     "details_en": null,
+     "icon": "fx_fx_bolt.webp",
+     "key": "Q",
+     "name_en": "Fx Bolt",
+     "name_pt": null
+    },
+    {
+     "cc_types": [],
+     "cooldown": null,
+     "damage_types": [],
+     "description_en": "Heals an ally.",
+     "description_pt": null,
+     "details_en": null,
+     "icon": "fx_fx_heal.webp",
+     "key": "W",
+     "name_en": "Fx Heal",
+     "name_pt": null
+    },
+    {
+     "cc_types": [
+      "silence"
+     ],
+     "cooldown": null,
+     "damage_types": [
+      "magic"
+     ],
+     "description_en": "Silences.",
+     "description_pt": null,
+     "details_en": null,
+     "icon": "fx_fx_silence.webp",
+     "key": "E",
+     "name_en": "Fx Silence",
+     "name_pt": null
+    },
+    {
+     "cc_types": [],
+     "cooldown": null,
+     "damage_types": [],
+     "description_en": "Heals all allies.",
+     "description_pt": null,
+     "details_en": null,
+     "icon": "fx_fx_wish.webp",
+     "key": "R",
+     "name_en": "Fx Wish",
+     "name_pt": null
+    }
+   ],
+   "aliases": [],
+   "base_stats": {
+    "ad": 55.0,
+    "ad_per_level": 3.0,
+    "armor": 30.0,
+    "armor_per_level": 4.0,
+    "attack_range": null,
+    "attack_speed": 0.7,
+    "attack_speed_per_level": 2.0,
+    "hp": 600.0,
+    "hp_per_level": 100.0,
+    "mana": null,
+    "mana_per_level": null,
+    "move_speed": 340.0,
+    "mr": 32.0,
+    "mr_per_level": 1.5
+   },
+   "classes": [
+    "support"
+   ],
+   "collected_at": "2026-01-01T00:00:00Z",
+   "damage_profile": {
+    "magic": 0.8,
+    "method": "heuristic_v1",
+    "physical": 0.2,
+    "true": 0.0
+   },
+   "difficulty": null,
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_healer.webp",
+   "id": "Fx Healer",
+   "name_en": "Fx Healer",
+   "name_pt": "Fx Healer",
+   "patch": "9.9z",
+   "roles": [
+    "support"
+   ],
+   "source_url": "https://example.invalid/fixture",
+   "tags": [
+    {
+     "ability_key": "W",
+     "phrase": "fixture",
+     "source": "derived",
+     "tag": "heal"
+    },
+    {
+     "ability_key": "Q",
+     "phrase": "fixture",
+     "source": "derived",
+     "tag": "soft_cc"
+    }
+   ],
+   "title_en": null,
+   "title_pt": null
+  },
+  {
+   "abilities": [
+    {
+     "cc_types": [],
+     "cooldown": null,
+     "damage_types": [],
+     "description_en": "Curses.",
+     "description_pt": null,
+     "details_en": null,
+     "icon": "fx_fx_curse.webp",
+     "key": "P",
+     "name_en": "Fx Curse",
+     "name_pt": null
+    },
+    {
+     "cc_types": [
+      "stun"
+     ],
+     "cooldown": null,
+     "damage_types": [
+      "magic"
+     ],
+     "description_en": "Stuns and pulls.",
+     "description_pt": null,
+     "details_en": null,
+     "icon": "fx_fx_pull.webp",
+     "key": "Q",
+     "name_en": "Fx Pull",
+     "name_pt": null
+    },
+    {
+     "cc_types": [],
+     "cooldown": null,
+     "damage_types": [
+      "magic"
+     ],
+     "description_en": "Damages nearby.",
+     "description_pt": null,
+     "details_en": null,
+     "icon": "fx_fx_aura.webp",
+     "key": "W",
+     "name_en": "Fx Aura",
+     "name_pt": null
+    },
+    {
+     "cc_types": [
+      "slow"
+     ],
+     "cooldown": null,
+     "damage_types": [
+      "magic"
+     ],
+     "description_en": "Slows.",
+     "description_pt": null,
+     "details_en": null,
+     "icon": "fx_fx_spin.webp",
+     "key": "E",
+     "name_en": "Fx Spin",
+     "name_pt": null
+    },
+    {
+     "cc_types": [
+      "stun"
+     ],
+     "cooldown": null,
+     "damage_types": [
+      "magic"
+     ],
+     "description_en": "Stuns all nearby.",
+     "description_pt": null,
+     "details_en": null,
+     "icon": "fx_fx_big_stun.webp",
+     "key": "R",
+     "name_en": "Fx Big Stun",
+     "name_pt": null
+    }
+   ],
+   "aliases": [],
+   "base_stats": {
+    "ad": 55.0,
+    "ad_per_level": 3.0,
+    "armor": 30.0,
+    "armor_per_level": 4.0,
+    "attack_range": null,
+    "attack_speed": 0.7,
+    "attack_speed_per_level": 2.0,
+    "hp": 600.0,
+    "hp_per_level": 100.0,
+    "mana": null,
+    "mana_per_level": null,
+    "move_speed": 340.0,
+    "mr": 32.0,
+    "mr_per_level": 1.5
+   },
+   "classes": [
+    "tank"
+   ],
+   "collected_at": "2026-01-01T00:00:00Z",
+   "damage_profile": {
+    "magic": 0.7,
+    "method": "heuristic_v1",
+    "physical": 0.3,
+    "true": 0.0
+   },
+   "difficulty": null,
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_tank.webp",
+   "id": "fx_tank",
+   "name_en": "Fx Tank",
+   "name_pt": "Fx Tank",
+   "patch": "9.9z",
+   "roles": [
+    "jungle"
+   ],
+   "source_url": "https://example.invalid/fixture",
+   "tags": [
+    {
+     "ability_key": "Q",
+     "phrase": "fixture",
+     "source": "derived",
+     "tag": "hard_cc"
+    },
+    {
+     "ability_key": "Q",
+     "phrase": "fixture",
+     "source": "derived",
+     "tag": "engage"
+    },
+    {
+     "ability_key": null,
+     "phrase": "fixture",
+     "source": "derived",
+     "tag": "tank"
+    },
+    {
+     "ability_key": "Q",
+     "phrase": "fixture",
+     "source": "derived",
+     "tag": "dash"
+    }
+   ],
+   "title_en": null,
+   "title_pt": null
+  },
+  {
+   "abilities": [
+    {
+     "cc_types": [],
+     "cooldown": null,
+     "damage_types": [],
+     "description_en": "Gains speed.",
+     "description_pt": null,
+     "details_en": null,
+     "icon": "fx_fx_rush.webp",
+     "key": "P",
+     "name_en": "Fx Rush",
+     "name_pt": null
+    },
+    {
+     "cc_types": [],
+     "cooldown": null,
+     "damage_types": [
+      "physical"
+     ],
+     "description_en": "Swaps weapons.",
+     "description_pt": null,
+     "details_en": null,
+     "icon": "fx_fx_swap.webp",
+     "key": "Q",
+     "name_en": "Fx Swap",
+     "name_pt": null
+    },
+    {
+     "cc_types": [
+      "slow"
+     ],
+     "cooldown": null,
+     "damage_types": [
+      "physical"
+     ],
+     "description_en": "Slows.",
+     "description_pt": null,
+     "details_en": null,
+     "icon": "fx_fx_zap.webp",
+     "key": "W",
+     "name_en": "Fx Zap",
+     "name_pt": null
+    },
+    {
+     "cc_types": [
+      "root"
+     ],
+     "cooldown": null,
+     "damage_types": [
+      "magic"
+     ],
+     "description_en": "Roots.",
+     "description_pt": null,
+     "details_en": null,
+     "icon": "fx_fx_traps.webp",
+     "key": "E",
+     "name_en": "Fx Traps",
+     "name_pt": null
+    },
+    {
+     "cc_types": [],
+     "cooldown": null,
+     "damage_types": [
+      "physical"
+     ],
+     "description_en": "Global rocket.",
+     "description_pt": null,
+     "details_en": null,
+     "icon": "fx_fx_rocket.webp",
+     "key": "R",
+     "name_en": "Fx Rocket",
+     "name_pt": null
+    }
+   ],
+   "aliases": [],
+   "base_stats": {
+    "ad": 55.0,
+    "ad_per_level": 3.0,
+    "armor": 30.0,
+    "armor_per_level": 4.0,
+    "attack_range": null,
+    "attack_speed": 0.7,
+    "attack_speed_per_level": 2.0,
+    "hp": 600.0,
+    "hp_per_level": 100.0,
+    "mana": null,
+    "mana_per_level": null,
+    "move_speed": 340.0,
+    "mr": 32.0,
+    "mr_per_level": 1.5
+   },
+   "classes": [
+    "marksman"
+   ],
+   "collected_at": "2026-01-01T00:00:00Z",
+   "damage_profile": {
+    "magic": 0.15,
+    "method": "heuristic_v1",
+    "physical": 0.85,
+    "true": 0.0
+   },
+   "difficulty": null,
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_marksman.webp",
+   "id": "fx_marksman",
+   "name_en": "Fx Marksman",
+   "name_pt": "Fx Marksman",
+   "patch": "9.9z",
+   "roles": [
+    "dragon"
+   ],
+   "source_url": "https://example.invalid/fixture",
+   "tags": [
+    {
+     "ability_key": "E",
+     "phrase": "fixture",
+     "source": "derived",
+     "tag": "hard_cc"
+    },
+    {
+     "ability_key": "P",
+     "phrase": "fixture",
+     "source": "derived",
+     "tag": "scaling"
+    }
+   ],
+   "title_en": null,
+   "title_pt": null
+  }
+ ],
+ "fixture": true,
+ "game": "wild_rift",
+ "generated_by": "fixture",
+ "items": [
+  {
+   "actives": [],
+   "category": "boots",
+   "collected_at": "2026-01-01T00:00:00Z",
+   "cost": 900,
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_boots_a.webp",
+   "id": "fx_boots_a",
+   "last_change": null,
+   "last_changed_patch": null,
+   "limit": null,
+   "limit_group": null,
+   "name_en": "Fx Boots A",
+   "name_pt": null,
+   "passives": [],
+   "patch": "9.9z",
+   "purchasable": true,
+   "raw_stats": {},
+   "recipe": [],
+   "source_category": "fixture",
+   "source_url": "https://example.invalid/fixture",
+   "stats": {
+    "armor": 25.0,
+    "move_speed": 45.0
+   },
+   "tags": [
+    "armor"
+   ],
+   "tier": 2,
+   "transforms_from": null,
+   "unique_groups": []
+  },
+  {
+   "actives": [],
+   "category": "boots",
+   "collected_at": "2026-01-01T00:00:00Z",
+   "cost": 1000,
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_boots_b.webp",
+   "id": "fx_boots_b",
+   "last_change": null,
+   "last_changed_patch": null,
+   "limit": null,
+   "limit_group": null,
+   "name_en": "Fx Boots B",
+   "name_pt": null,
+   "passives": [],
+   "patch": "9.9z",
+   "purchasable": true,
+   "raw_stats": {},
+   "recipe": [],
+   "source_category": "fixture",
+   "source_url": "https://example.invalid/fixture",
+   "stats": {
+    "move_speed": 45.0,
+    "mr": 25.0,
+    "tenacity": 30.0
+   },
+   "tags": [
+    "magic_resist",
+    "tenacity"
+   ],
+   "tier": 2,
+   "transforms_from": null,
+   "unique_groups": []
+  },
+  {
+   "actives": [],
+   "category": "magic",
+   "collected_at": "2026-01-01T00:00:00Z",
+   "cost": 3000,
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_item_spellblade_1.webp",
+   "id": "fx_item_spellblade_1",
+   "last_change": null,
+   "last_changed_patch": null,
+   "limit": null,
+   "limit_group": null,
+   "name_en": "Fx Spellblade One",
+   "name_pt": null,
+   "passives": [
+    {
+     "cooldown": null,
+     "description": "fixture",
+     "kind": "passive",
+     "name": "Spellblade",
+     "unique": true
+    }
+   ],
+   "patch": "9.9z",
+   "purchasable": true,
+   "raw_stats": {},
+   "recipe": [],
+   "source_category": "fixture",
+   "source_url": "https://example.invalid/fixture",
+   "stats": {
+    "ap": 80.0
+   },
+   "tags": [
+    "ability_power",
+    "spellblade"
+   ],
+   "tier": 3,
+   "transforms_from": null,
+   "unique_groups": [
+    "spellblade"
+   ]
+  },
+  {
+   "actives": [],
+   "category": "physical",
+   "collected_at": "2026-01-01T00:00:00Z",
+   "cost": 3000,
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_item_spellblade_2.webp",
+   "id": "fx_item_spellblade_2",
+   "last_change": null,
+   "last_changed_patch": null,
+   "limit": null,
+   "limit_group": null,
+   "name_en": "Fx Spellblade Two",
+   "name_pt": null,
+   "passives": [
+    {
+     "cooldown": null,
+     "description": "fixture",
+     "kind": "passive",
+     "name": "Spellblade",
+     "unique": true
+    }
+   ],
+   "patch": "9.9z",
+   "purchasable": true,
+   "raw_stats": {},
+   "recipe": [],
+   "source_category": "fixture",
+   "source_url": "https://example.invalid/fixture",
+   "stats": {
+    "ad": 40.0
+   },
+   "tags": [
+    "attack_damage",
+    "spellblade"
+   ],
+   "tier": 3,
+   "transforms_from": null,
+   "unique_groups": [
+    "spellblade"
+   ]
+  },
+  {
+   "actives": [],
+   "category": "magic",
+   "collected_at": "2026-01-01T00:00:00Z",
+   "cost": 2500,
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_anti_heal_ap.webp",
+   "id": "fx_anti_heal_ap",
+   "last_change": null,
+   "last_changed_patch": null,
+   "limit": null,
+   "limit_group": null,
+   "name_en": "Fx Anti Heal AP",
+   "name_pt": null,
+   "passives": [
+    {
+     "cooldown": null,
+     "description": "fixture",
+     "kind": "passive",
+     "name": "Grievous Wounds",
+     "unique": true
+    }
+   ],
+   "patch": "9.9z",
+   "purchasable": true,
+   "raw_stats": {},
+   "recipe": [],
+   "source_category": "fixture",
+   "source_url": "https://example.invalid/fixture",
+   "stats": {
+    "ap": 60.0
+   },
+   "tags": [
+    "ability_power",
+    "anti_heal"
+   ],
+   "tier": 3,
+   "transforms_from": null,
+   "unique_groups": [
+    "grievous_wounds"
+   ]
+  },
+  {
+   "actives": [],
+   "category": "defense",
+   "collected_at": "2026-01-01T00:00:00Z",
+   "cost": 2800,
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_mr_item.webp",
+   "id": "fx_mr_item",
+   "last_change": null,
+   "last_changed_patch": null,
+   "limit": null,
+   "limit_group": null,
+   "name_en": "Fx MR Item",
+   "name_pt": null,
+   "passives": [],
+   "patch": "9.9z",
+   "purchasable": true,
+   "raw_stats": {},
+   "recipe": [],
+   "source_category": "fixture",
+   "source_url": "https://example.invalid/fixture",
+   "stats": {
+    "hp": 300.0,
+    "mr": 60.0
+   },
+   "tags": [
+    "magic_resist",
+    "health"
+   ],
+   "tier": 3,
+   "transforms_from": null,
+   "unique_groups": []
+  },
+  {
+   "actives": [],
+   "category": "component",
+   "collected_at": "2026-01-01T00:00:00Z",
+   "cost": 400,
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_component.webp",
+   "id": "fx_component",
+   "last_change": null,
+   "last_changed_patch": null,
+   "limit": null,
+   "limit_group": null,
+   "name_en": "Fx Component",
+   "name_pt": null,
+   "passives": [],
+   "patch": "9.9z",
+   "purchasable": true,
+   "raw_stats": {},
+   "recipe": [],
+   "source_category": "fixture",
+   "source_url": "https://example.invalid/fixture",
+   "stats": {
+    "ap": 20.0
+   },
+   "tags": [
+    "ability_power"
+   ],
+   "tier": 1,
+   "transforms_from": null,
+   "unique_groups": []
+  },
+  {
+   "actives": [],
+   "category": "defense",
+   "collected_at": "2026-01-01T00:00:00Z",
+   "cost": 2000,
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_limited.webp",
+   "id": "fx_limited",
+   "last_change": null,
+   "last_changed_patch": null,
+   "limit": 1,
+   "limit_group": "fx_group",
+   "name_en": "Fx Limited",
+   "name_pt": null,
+   "passives": [],
+   "patch": "9.9z",
+   "purchasable": true,
+   "raw_stats": {},
+   "recipe": [],
+   "source_category": "fixture",
+   "source_url": "https://example.invalid/fixture",
+   "stats": {
+    "hp": 200.0
+   },
+   "tags": [
+    "health"
+   ],
+   "tier": 3,
+   "transforms_from": null,
+   "unique_groups": []
+  }
+ ],
+ "kind": "catalog",
+ "partial": false,
+ "patch": "9.9z",
+ "patches": [
+  {
+   "changes": [
+    {
+     "after": null,
+     "before": null,
+     "change": "buff",
+     "entity_id": "fx_tank",
+     "entity_kind": "champion",
+     "summary": null
+    }
+   ],
+   "collected_at": "2026-01-01T00:00:00Z",
+   "date": "2026-01-01",
+   "notes_url": null,
+   "source_url": "https://example.invalid/fixture",
+   "version": "9.9z"
+  }
+ ],
+ "rules": {
+  "boots_category": "boots",
+  "boots_max": 1,
+  "flags": {},
+  "item_slots": 6,
+  "jungle_requires_spell": "smite",
+  "max_level": 15,
+  "rune_page": {
+   "keystone_tied_to_primary_path": false,
+   "keystones": 1,
+   "primary_slots": [
+    1,
+    2,
+    3
+   ],
+   "secondary_count": 1,
+   "secondary_must_differ_from_primary": true,
+   "source_text": null
+  },
+  "stat_growth": "linear_estimate",
+  "unique_passives_do_not_stack": true
+ },
+ "runes": [
+  {
+   "collected_at": "2026-01-01T00:00:00Z",
+   "description": "fixture",
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_keystone_a.webp",
+   "id": "fx_keystone_a",
+   "kind": "keystone",
+   "name_en": "fx_keystone_a",
+   "name_pt": null,
+   "patch": "9.9z",
+   "path": null,
+   "slot": null,
+   "source_url": "https://example.invalid/fixture"
+  },
+  {
+   "collected_at": "2026-01-01T00:00:00Z",
+   "description": "fixture",
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_keystone_b.webp",
+   "id": "fx_keystone_b",
+   "kind": "keystone",
+   "name_en": "fx_keystone_b",
+   "name_pt": null,
+   "patch": "9.9z",
+   "path": null,
+   "slot": null,
+   "source_url": "https://example.invalid/fixture"
+  },
+  {
+   "collected_at": "2026-01-01T00:00:00Z",
+   "description": "fixture",
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_domination_1_a.webp",
+   "id": "fx_domination_1_a",
+   "kind": "minor",
+   "name_en": "fx_domination_1_a",
+   "name_pt": null,
+   "patch": "9.9z",
+   "path": "domination",
+   "slot": 1,
+   "source_url": "https://example.invalid/fixture"
+  },
+  {
+   "collected_at": "2026-01-01T00:00:00Z",
+   "description": "fixture",
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_domination_1_b.webp",
+   "id": "fx_domination_1_b",
+   "kind": "minor",
+   "name_en": "fx_domination_1_b",
+   "name_pt": null,
+   "patch": "9.9z",
+   "path": "domination",
+   "slot": 1,
+   "source_url": "https://example.invalid/fixture"
+  },
+  {
+   "collected_at": "2026-01-01T00:00:00Z",
+   "description": "fixture",
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_domination_2_a.webp",
+   "id": "fx_domination_2_a",
+   "kind": "minor",
+   "name_en": "fx_domination_2_a",
+   "name_pt": null,
+   "patch": "9.9z",
+   "path": "domination",
+   "slot": 2,
+   "source_url": "https://example.invalid/fixture"
+  },
+  {
+   "collected_at": "2026-01-01T00:00:00Z",
+   "description": "fixture",
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_domination_2_b.webp",
+   "id": "fx_domination_2_b",
+   "kind": "minor",
+   "name_en": "fx_domination_2_b",
+   "name_pt": null,
+   "patch": "9.9z",
+   "path": "domination",
+   "slot": 2,
+   "source_url": "https://example.invalid/fixture"
+  },
+  {
+   "collected_at": "2026-01-01T00:00:00Z",
+   "description": "fixture",
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_domination_3_a.webp",
+   "id": "fx_domination_3_a",
+   "kind": "minor",
+   "name_en": "fx_domination_3_a",
+   "name_pt": null,
+   "patch": "9.9z",
+   "path": "domination",
+   "slot": 3,
+   "source_url": "https://example.invalid/fixture"
+  },
+  {
+   "collected_at": "2026-01-01T00:00:00Z",
+   "description": "fixture",
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_domination_3_b.webp",
+   "id": "fx_domination_3_b",
+   "kind": "minor",
+   "name_en": "fx_domination_3_b",
+   "name_pt": null,
+   "patch": "9.9z",
+   "path": "domination",
+   "slot": 3,
+   "source_url": "https://example.invalid/fixture"
+  },
+  {
+   "collected_at": "2026-01-01T00:00:00Z",
+   "description": "fixture",
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_resolve_1_a.webp",
+   "id": "fx_resolve_1_a",
+   "kind": "minor",
+   "name_en": "fx_resolve_1_a",
+   "name_pt": null,
+   "patch": "9.9z",
+   "path": "resolve",
+   "slot": 1,
+   "source_url": "https://example.invalid/fixture"
+  },
+  {
+   "collected_at": "2026-01-01T00:00:00Z",
+   "description": "fixture",
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_resolve_1_b.webp",
+   "id": "fx_resolve_1_b",
+   "kind": "minor",
+   "name_en": "fx_resolve_1_b",
+   "name_pt": null,
+   "patch": "9.9z",
+   "path": "resolve",
+   "slot": 1,
+   "source_url": "https://example.invalid/fixture"
+  },
+  {
+   "collected_at": "2026-01-01T00:00:00Z",
+   "description": "fixture",
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_resolve_2_a.webp",
+   "id": "fx_resolve_2_a",
+   "kind": "minor",
+   "name_en": "fx_resolve_2_a",
+   "name_pt": null,
+   "patch": "9.9z",
+   "path": "resolve",
+   "slot": 2,
+   "source_url": "https://example.invalid/fixture"
+  },
+  {
+   "collected_at": "2026-01-01T00:00:00Z",
+   "description": "fixture",
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_resolve_2_b.webp",
+   "id": "fx_resolve_2_b",
+   "kind": "minor",
+   "name_en": "fx_resolve_2_b",
+   "name_pt": null,
+   "patch": "9.9z",
+   "path": "resolve",
+   "slot": 2,
+   "source_url": "https://example.invalid/fixture"
+  },
+  {
+   "collected_at": "2026-01-01T00:00:00Z",
+   "description": "fixture",
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_resolve_3_a.webp",
+   "id": "fx_resolve_3_a",
+   "kind": "minor",
+   "name_en": "fx_resolve_3_a",
+   "name_pt": null,
+   "patch": "9.9z",
+   "path": "resolve",
+   "slot": 3,
+   "source_url": "https://example.invalid/fixture"
+  },
+  {
+   "collected_at": "2026-01-01T00:00:00Z",
+   "description": "fixture",
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "fx_resolve_3_b.webp",
+   "id": "fx_resolve_3_b",
+   "kind": "minor",
+   "name_en": "fx_resolve_3_b",
+   "name_pt": null,
+   "patch": "9.9z",
+   "path": "resolve",
+   "slot": 3,
+   "source_url": "https://example.invalid/fixture"
+  }
+ ],
+ "schema_version": 1,
+ "sources": [],
+ "summoner_spells": [
+  {
+   "collected_at": "2026-01-01T00:00:00Z",
+   "cooldown": 100.0,
+   "description": "fixture",
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "smite.webp",
+   "id": "smite",
+   "jungle_only": true,
+   "name_en": "smite",
+   "name_pt": null,
+   "patch": "9.9z",
+   "selectable": true,
+   "source_url": "https://example.invalid/fixture"
+  },
+  {
+   "collected_at": "2026-01-01T00:00:00Z",
+   "cooldown": 100.0,
+   "description": "fixture",
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "flash.webp",
+   "id": "flash",
+   "jungle_only": false,
+   "name_en": "flash",
+   "name_pt": null,
+   "patch": "9.9z",
+   "selectable": true,
+   "source_url": "https://example.invalid/fixture"
+  },
+  {
+   "collected_at": "2026-01-01T00:00:00Z",
+   "cooldown": 100.0,
+   "description": "fixture",
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "ignite.webp",
+   "id": "ignite",
+   "jungle_only": false,
+   "name_en": "ignite",
+   "name_pt": null,
+   "patch": "9.9z",
+   "selectable": true,
+   "source_url": "https://example.invalid/fixture"
+  },
+  {
+   "collected_at": "2026-01-01T00:00:00Z",
+   "cooldown": 100.0,
+   "description": "fixture",
+   "extra_sources": [],
+   "game": "wild_rift",
+   "icon": "chilling_smite.webp",
+   "id": "chilling_smite",
+   "jungle_only": true,
+   "name_en": "chilling_smite",
+   "name_pt": null,
+   "patch": "9.9z",
+   "selectable": false,
+   "source_url": "https://example.invalid/fixture"
+  }
+ ]
+}

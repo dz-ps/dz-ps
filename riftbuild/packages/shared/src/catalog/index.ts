@@ -1,0 +1,38 @@
+import type {
+  Champion,
+  CatalogBundle,
+  Item,
+  Rune,
+  Rules,
+  SummonerSpell,
+} from '../schemas/catalog.ts';
+
+/** Lookup tables over a catalog bundle, built once per bundle. */
+export type CatalogIndex = {
+  patch: string;
+  bundle: CatalogBundle;
+  champions: Map<string, Champion>;
+  items: Map<string, Item>;
+  runes: Map<string, Rune>;
+  spells: Map<string, SummonerSpell>;
+  rules: Rules;
+  aliases: Record<string, string>;
+};
+
+export function indexCatalog(bundle: CatalogBundle): CatalogIndex {
+  return {
+    patch: bundle.patch,
+    bundle,
+    champions: new Map(bundle.champions.map((c) => [c.id, c])),
+    items: new Map(bundle.items.map((i) => [i.id, i])),
+    runes: new Map(bundle.runes.map((r) => [r.id, r])),
+    spells: new Map(bundle.summoner_spells.map((s) => [s.id, s])),
+    rules: bundle.rules,
+    aliases: bundle.aliases,
+  };
+}
+
+/** pt-BR name when the official localization has one, English otherwise (spec §2: never invent). */
+export function displayName(entity: { name_pt: string | null; name_en: string }): string {
+  return entity.name_pt ?? entity.name_en;
+}

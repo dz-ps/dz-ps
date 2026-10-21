@@ -1,0 +1,59 @@
+import { z } from 'zod';
+import { HttpsUrl, IsoDateTime, PatchVersion, Role, Slug } from './common.ts';
+
+export const MetaStat = z.strictObject({
+  champion_id: Slug,
+  role: Role,
+  rank_tier: z.string(),
+  patch: PatchVersion,
+  win_rate: z.number().min(0).max(100),
+  pick_rate: z.number().min(0).max(100),
+  ban_rate: z.number().min(0).max(100),
+  source_tier: z.number().int().nullable().default(null),
+  source_url: HttpsUrl,
+  collected_at: IsoDateTime,
+});
+export type MetaStat = z.infer<typeof MetaStat>;
+
+export const MetaBuild = z.strictObject({
+  champion_id: Slug,
+  role: Role,
+  core_items: z.array(Slug),
+  boots: Slug.nullable().default(null),
+  runes: z.array(Slug).default([]),
+  spells: z.array(Slug).default([]),
+  win_rate: z.number().min(0).max(100).nullable().default(null),
+  pick_rate: z.number().min(0).max(100).nullable().default(null),
+  patch: PatchVersion,
+  source_url: HttpsUrl,
+  collected_at: IsoDateTime,
+});
+export type MetaBuild = z.infer<typeof MetaBuild>;
+
+export const Matchup = z.strictObject({
+  champion_id: Slug,
+  opponent_id: Slug,
+  role: Role,
+  win_rate: z.number().nullable().default(null),
+  derived: z.boolean(),
+  source_url: HttpsUrl.nullable(),
+  collected_at: IsoDateTime,
+});
+export type Matchup = z.infer<typeof Matchup>;
+
+export const MetaBundle = z.strictObject({
+  schema_version: z.literal(1).default(1),
+  kind: z.literal('meta').default('meta'),
+  game: z.literal('wild_rift').default('wild_rift'),
+  patch: PatchVersion,
+  fixture: z.boolean().default(false),
+  rank_tiers: z.array(z.string()),
+  stats: z.array(MetaStat),
+  builds: z.array(MetaBuild),
+  matchups: z.array(Matchup).default([]),
+  source_url: HttpsUrl,
+  source_name: z.string(),
+  source_note: z.string(),
+  collected_at: IsoDateTime,
+});
+export type MetaBundle = z.infer<typeof MetaBundle>;

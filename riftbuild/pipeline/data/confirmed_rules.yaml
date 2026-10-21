@@ -1,0 +1,49 @@
+# Game rules confirmed by a human (DECISIONS.md D12).
+# The pipeline derives what it can from the sources on every run; if a derived rule differs from a
+# confirmed one, publishing is BLOCKED until someone reviews it and updates this file.
+# Rules with confirmed: false are shipped but flagged in the app as "regra a confirmar".
+
+rune_page:
+  value:
+    keystones: 1
+    primary_slots: [1, 2, 3]
+    secondary_count: 1
+    secondary_must_differ_from_primary: true
+    keystone_tied_to_primary_path: false
+  confirmed: true
+  evidence: >-
+    Spec §4.1 (1 keystone, 1 rune per slot of the primary tree, 1 rune from any slot of another tree)
+    and riftpatchnotes.com/runes: "A loadout takes one keystone, one rune from each of the three slots of
+    a primary path, and one rune from any slot of a different path." (checked 2026-10-21)
+
+boots_max:
+  value: 1
+  confirmed: true
+  evidence: "Spec §5.2: só uma bota."
+
+jungle_requires_spell:
+  value: smite
+  confirmed: true
+  evidence: "Spec §5.2: Golpear obrigatório se a rota for selva."
+
+unique_passives_do_not_stack:
+  value: true
+  confirmed: true
+  evidence: "Spec §5.2: passivas únicas não acumulam (ex.: dois itens com Spellblade)."
+
+item_slots:
+  value: 6
+  confirmed: false
+  note: "TODO: confirmar no jogo o número de slots de item (assumido: botas + 5 itens)."
+
+max_level:
+  value: 15
+  confirmed: false
+  note: "TODO: confirmar o nível máximo de campeão no Wild Rift."
+
+stat_growth:
+  value: linear_estimate
+  confirmed: false
+  note: >-
+    TODO: a fórmula de crescimento de atributos por nível do Wild Rift não está confirmada em nenhuma
+    fonte. O app mostra uma estimativa linear (base + por_nível × (nível − 1)), marcada como estimativa.

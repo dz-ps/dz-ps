@@ -1,0 +1,1601 @@
+{
+  "$defs": {
+    "Ability": {
+      "additionalProperties": false,
+      "properties": {
+        "cc_types": {
+          "items": {
+            "enum": [
+              "stun",
+              "airborne",
+              "suppression",
+              "root",
+              "charm",
+              "fear",
+              "taunt",
+              "sleep",
+              "polymorph",
+              "slow",
+              "silence",
+              "blind",
+              "ground",
+              "cripple"
+            ],
+            "type": "string"
+          },
+          "title": "Cc Types",
+          "type": "array"
+        },
+        "cooldown": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cooldown"
+        },
+        "damage_types": {
+          "items": {
+            "enum": [
+              "physical",
+              "magic",
+              "true"
+            ],
+            "type": "string"
+          },
+          "title": "Damage Types",
+          "type": "array"
+        },
+        "description_en": {
+          "title": "Description En",
+          "type": "string"
+        },
+        "description_pt": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Description Pt"
+        },
+        "details_en": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Details En"
+        },
+        "icon": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Icon"
+        },
+        "key": {
+          "enum": [
+            "P",
+            "Q",
+            "W",
+            "E",
+            "R"
+          ],
+          "title": "Key",
+          "type": "string"
+        },
+        "name_en": {
+          "title": "Name En",
+          "type": "string"
+        },
+        "name_pt": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Name Pt"
+        }
+      },
+      "required": [
+        "key",
+        "name_en",
+        "name_pt",
+        "description_en",
+        "description_pt",
+        "icon"
+      ],
+      "title": "Ability",
+      "type": "object"
+    },
+    "BaseStats": {
+      "additionalProperties": false,
+      "properties": {
+        "ad": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ad"
+        },
+        "ad_per_level": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ad Per Level"
+        },
+        "armor": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Armor"
+        },
+        "armor_per_level": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Armor Per Level"
+        },
+        "attack_range": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attack Range"
+        },
+        "attack_speed": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attack Speed"
+        },
+        "attack_speed_per_level": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attack Speed Per Level"
+        },
+        "hp": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hp"
+        },
+        "hp_per_level": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Hp Per Level"
+        },
+        "mana": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mana"
+        },
+        "mana_per_level": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mana Per Level"
+        },
+        "move_speed": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Move Speed"
+        },
+        "mr": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mr"
+        },
+        "mr_per_level": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mr Per Level"
+        }
+      },
+      "title": "BaseStats",
+      "type": "object"
+    },
+    "Champion": {
+      "additionalProperties": false,
+      "properties": {
+        "abilities": {
+          "items": {
+            "$ref": "#/$defs/Ability"
+          },
+          "title": "Abilities",
+          "type": "array"
+        },
+        "aliases": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Aliases",
+          "type": "array"
+        },
+        "base_stats": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BaseStats"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "classes": {
+          "items": {
+            "enum": [
+              "tank",
+              "fighter",
+              "mage",
+              "assassin",
+              "marksman",
+              "support"
+            ],
+            "type": "string"
+          },
+          "title": "Classes",
+          "type": "array"
+        },
+        "collected_at": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+          "title": "Collected At",
+          "type": "string"
+        },
+        "damage_profile": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DamageProfile"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "difficulty": {
+          "anyOf": [
+            {
+              "maximum": 3,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Difficulty"
+        },
+        "extra_sources": {
+          "items": {
+            "pattern": "^https://",
+            "type": "string"
+          },
+          "title": "Extra Sources",
+          "type": "array"
+        },
+        "game": {
+          "const": "wild_rift",
+          "default": "wild_rift",
+          "title": "Game",
+          "type": "string"
+        },
+        "icon": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Icon"
+        },
+        "id": {
+          "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "name_en": {
+          "title": "Name En",
+          "type": "string"
+        },
+        "name_pt": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Name Pt"
+        },
+        "patch": {
+          "pattern": "^\\d+\\.\\d+[a-z]?$",
+          "title": "Patch",
+          "type": "string"
+        },
+        "roles": {
+          "items": {
+            "enum": [
+              "baron",
+              "jungle",
+              "mid",
+              "dragon",
+              "support"
+            ],
+            "type": "string"
+          },
+          "title": "Roles",
+          "type": "array"
+        },
+        "source_url": {
+          "pattern": "^https://",
+          "title": "Source Url",
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "$ref": "#/$defs/TagEvidence"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "title_en": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title En"
+        },
+        "title_pt": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title Pt"
+        }
+      },
+      "required": [
+        "patch",
+        "source_url",
+        "collected_at",
+        "id",
+        "name_en",
+        "name_pt",
+        "damage_profile",
+        "abilities",
+        "base_stats",
+        "icon"
+      ],
+      "title": "Champion",
+      "type": "object"
+    },
+    "DamageProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "magic": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Magic",
+          "type": "number"
+        },
+        "method": {
+          "enum": [
+            "heuristic_v1",
+            "override"
+          ],
+          "title": "Method",
+          "type": "string"
+        },
+        "physical": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Physical",
+          "type": "number"
+        },
+        "true": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "True",
+          "type": "number"
+        }
+      },
+      "required": [
+        "physical",
+        "magic",
+        "true",
+        "method"
+      ],
+      "title": "DamageProfile",
+      "type": "object"
+    },
+    "Item": {
+      "additionalProperties": false,
+      "properties": {
+        "actives": {
+          "items": {
+            "$ref": "#/$defs/ItemEffect"
+          },
+          "title": "Actives",
+          "type": "array"
+        },
+        "category": {
+          "enum": [
+            "physical",
+            "magic",
+            "defense",
+            "support",
+            "boots",
+            "component"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "collected_at": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+          "title": "Collected At",
+          "type": "string"
+        },
+        "cost": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Cost"
+        },
+        "extra_sources": {
+          "items": {
+            "pattern": "^https://",
+            "type": "string"
+          },
+          "title": "Extra Sources",
+          "type": "array"
+        },
+        "game": {
+          "const": "wild_rift",
+          "default": "wild_rift",
+          "title": "Game",
+          "type": "string"
+        },
+        "icon": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Icon"
+        },
+        "id": {
+          "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "last_change": {
+          "anyOf": [
+            {
+              "enum": [
+                "buff",
+                "nerf",
+                "change"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Change"
+        },
+        "last_changed_patch": {
+          "anyOf": [
+            {
+              "pattern": "^\\d+\\.\\d+[a-z]?$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Changed Patch"
+        },
+        "limit": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Limit"
+        },
+        "limit_group": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Limit Group"
+        },
+        "name_en": {
+          "title": "Name En",
+          "type": "string"
+        },
+        "name_pt": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Name Pt"
+        },
+        "passives": {
+          "items": {
+            "$ref": "#/$defs/ItemEffect"
+          },
+          "title": "Passives",
+          "type": "array"
+        },
+        "patch": {
+          "pattern": "^\\d+\\.\\d+[a-z]?$",
+          "title": "Patch",
+          "type": "string"
+        },
+        "purchasable": {
+          "default": true,
+          "title": "Purchasable",
+          "type": "boolean"
+        },
+        "raw_stats": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          },
+          "title": "Raw Stats",
+          "type": "object"
+        },
+        "recipe": {
+          "items": {
+            "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$",
+            "type": "string"
+          },
+          "title": "Recipe",
+          "type": "array"
+        },
+        "source_category": {
+          "title": "Source Category",
+          "type": "string"
+        },
+        "source_url": {
+          "pattern": "^https://",
+          "title": "Source Url",
+          "type": "string"
+        },
+        "stats": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "propertyNames": {
+            "enum": [
+              "ad",
+              "ap",
+              "hp",
+              "armor",
+              "mr",
+              "attack_speed",
+              "crit",
+              "ability_haste",
+              "move_speed",
+              "move_speed_pct",
+              "armor_pen",
+              "armor_pen_pct",
+              "magic_pen",
+              "magic_pen_pct",
+              "lifesteal",
+              "omnivamp",
+              "heal_shield_power",
+              "tenacity",
+              "mana",
+              "mana_regen",
+              "hp_regen"
+            ]
+          },
+          "title": "Stats",
+          "type": "object"
+        },
+        "tags": {
+          "items": {
+            "enum": [
+              "anti_heal",
+              "tenacity",
+              "spell_shield",
+              "stasis",
+              "armor_pen",
+              "magic_pen",
+              "on_hit",
+              "spellblade",
+              "lifesteal",
+              "omnivamp",
+              "armor",
+              "magic_resist",
+              "health",
+              "ability_power",
+              "attack_damage",
+              "attack_speed",
+              "crit",
+              "ability_haste",
+              "shield",
+              "heal_shield_power",
+              "active"
+            ],
+            "type": "string"
+          },
+          "title": "Tags",
+          "type": "array"
+        },
+        "tier": {
+          "maximum": 4,
+          "minimum": 1,
+          "title": "Tier",
+          "type": "integer"
+        },
+        "transforms_from": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Transforms From"
+        },
+        "unique_groups": {
+          "items": {
+            "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$",
+            "type": "string"
+          },
+          "title": "Unique Groups",
+          "type": "array"
+        }
+      },
+      "required": [
+        "patch",
+        "source_url",
+        "collected_at",
+        "id",
+        "name_en",
+        "name_pt",
+        "category",
+        "source_category",
+        "tier",
+        "cost",
+        "icon"
+      ],
+      "title": "Item",
+      "type": "object"
+    },
+    "ItemEffect": {
+      "additionalProperties": false,
+      "properties": {
+        "cooldown": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cooldown"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "passive",
+            "active"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "unique": {
+          "title": "Unique",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "kind",
+        "unique",
+        "description"
+      ],
+      "title": "ItemEffect",
+      "type": "object"
+    },
+    "Patch": {
+      "additionalProperties": false,
+      "properties": {
+        "changes": {
+          "items": {
+            "$ref": "#/$defs/PatchChange"
+          },
+          "title": "Changes",
+          "type": "array"
+        },
+        "collected_at": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+          "title": "Collected At",
+          "type": "string"
+        },
+        "date": {
+          "anyOf": [
+            {
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Date"
+        },
+        "notes_url": {
+          "anyOf": [
+            {
+              "pattern": "^https://",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Notes Url"
+        },
+        "source_url": {
+          "pattern": "^https://",
+          "title": "Source Url",
+          "type": "string"
+        },
+        "version": {
+          "pattern": "^\\d+\\.\\d+[a-z]?$",
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "version",
+        "date",
+        "notes_url",
+        "source_url",
+        "collected_at"
+      ],
+      "title": "Patch",
+      "type": "object"
+    },
+    "PatchChange": {
+      "additionalProperties": false,
+      "properties": {
+        "after": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "After"
+        },
+        "before": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Before"
+        },
+        "change": {
+          "enum": [
+            "buff",
+            "nerf",
+            "change"
+          ],
+          "title": "Change",
+          "type": "string"
+        },
+        "entity_id": {
+          "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$",
+          "title": "Entity Id",
+          "type": "string"
+        },
+        "entity_kind": {
+          "enum": [
+            "champion",
+            "item",
+            "rune",
+            "spell",
+            "system"
+          ],
+          "title": "Entity Kind",
+          "type": "string"
+        },
+        "summary": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Summary"
+        }
+      },
+      "required": [
+        "entity_kind",
+        "entity_id",
+        "change"
+      ],
+      "title": "PatchChange",
+      "type": "object"
+    },
+    "RuleFlag": {
+      "additionalProperties": false,
+      "description": "A rule value plus whether a human confirmed it (DECISIONS.md D12).",
+      "properties": {
+        "confirmed": {
+          "title": "Confirmed",
+          "type": "boolean"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        }
+      },
+      "required": [
+        "confirmed"
+      ],
+      "title": "RuleFlag",
+      "type": "object"
+    },
+    "Rules": {
+      "additionalProperties": false,
+      "properties": {
+        "boots_category": {
+          "default": "boots",
+          "enum": [
+            "physical",
+            "magic",
+            "defense",
+            "support",
+            "boots",
+            "component"
+          ],
+          "title": "Boots Category",
+          "type": "string"
+        },
+        "boots_max": {
+          "default": 1,
+          "title": "Boots Max",
+          "type": "integer"
+        },
+        "flags": {
+          "additionalProperties": {
+            "$ref": "#/$defs/RuleFlag"
+          },
+          "title": "Flags",
+          "type": "object"
+        },
+        "item_slots": {
+          "maximum": 8,
+          "minimum": 1,
+          "title": "Item Slots",
+          "type": "integer"
+        },
+        "jungle_requires_spell": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": "smite",
+          "title": "Jungle Requires Spell"
+        },
+        "max_level": {
+          "maximum": 30,
+          "minimum": 1,
+          "title": "Max Level",
+          "type": "integer"
+        },
+        "rune_page": {
+          "$ref": "#/$defs/RunePageRule"
+        },
+        "stat_growth": {
+          "enum": [
+            "linear_estimate",
+            "unconfirmed"
+          ],
+          "title": "Stat Growth",
+          "type": "string"
+        },
+        "unique_passives_do_not_stack": {
+          "default": true,
+          "title": "Unique Passives Do Not Stack",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "item_slots",
+        "rune_page",
+        "max_level",
+        "stat_growth"
+      ],
+      "title": "Rules",
+      "type": "object"
+    },
+    "Rune": {
+      "additionalProperties": false,
+      "properties": {
+        "collected_at": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+          "title": "Collected At",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "extra_sources": {
+          "items": {
+            "pattern": "^https://",
+            "type": "string"
+          },
+          "title": "Extra Sources",
+          "type": "array"
+        },
+        "game": {
+          "const": "wild_rift",
+          "default": "wild_rift",
+          "title": "Game",
+          "type": "string"
+        },
+        "icon": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Icon"
+        },
+        "id": {
+          "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "keystone",
+            "minor"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "name_en": {
+          "title": "Name En",
+          "type": "string"
+        },
+        "name_pt": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Name Pt"
+        },
+        "patch": {
+          "pattern": "^\\d+\\.\\d+[a-z]?$",
+          "title": "Patch",
+          "type": "string"
+        },
+        "path": {
+          "anyOf": [
+            {
+              "enum": [
+                "domination",
+                "precision",
+                "resolve",
+                "sorcery"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Path"
+        },
+        "slot": {
+          "anyOf": [
+            {
+              "maximum": 3,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Slot"
+        },
+        "source_url": {
+          "pattern": "^https://",
+          "title": "Source Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "patch",
+        "source_url",
+        "collected_at",
+        "id",
+        "name_en",
+        "name_pt",
+        "kind",
+        "path",
+        "description",
+        "icon"
+      ],
+      "title": "Rune",
+      "type": "object"
+    },
+    "RunePageRule": {
+      "additionalProperties": false,
+      "properties": {
+        "keystone_tied_to_primary_path": {
+          "default": false,
+          "title": "Keystone Tied To Primary Path",
+          "type": "boolean"
+        },
+        "keystones": {
+          "default": 1,
+          "title": "Keystones",
+          "type": "integer"
+        },
+        "primary_slots": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Primary Slots",
+          "type": "array"
+        },
+        "secondary_count": {
+          "default": 1,
+          "title": "Secondary Count",
+          "type": "integer"
+        },
+        "secondary_must_differ_from_primary": {
+          "default": true,
+          "title": "Secondary Must Differ From Primary",
+          "type": "boolean"
+        },
+        "source_text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Text"
+        }
+      },
+      "title": "RunePageRule",
+      "type": "object"
+    },
+    "SourceStatus": {
+      "additionalProperties": false,
+      "properties": {
+        "checked_at": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+          "title": "Checked At",
+          "type": "string"
+        },
+        "id": {
+          "enum": [
+            "wr_official",
+            "lol_wiki",
+            "riftpatchnotes"
+          ],
+          "title": "Id",
+          "type": "string"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
+        "robots": {
+          "title": "Robots",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "used",
+            "disallowed",
+            "unreachable",
+            "skipped"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "status",
+        "robots",
+        "checked_at"
+      ],
+      "title": "SourceStatus",
+      "type": "object"
+    },
+    "SummonerSpell": {
+      "additionalProperties": false,
+      "properties": {
+        "collected_at": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+          "title": "Collected At",
+          "type": "string"
+        },
+        "cooldown": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Cooldown"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "extra_sources": {
+          "items": {
+            "pattern": "^https://",
+            "type": "string"
+          },
+          "title": "Extra Sources",
+          "type": "array"
+        },
+        "game": {
+          "const": "wild_rift",
+          "default": "wild_rift",
+          "title": "Game",
+          "type": "string"
+        },
+        "icon": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Icon"
+        },
+        "id": {
+          "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "jungle_only": {
+          "title": "Jungle Only",
+          "type": "boolean"
+        },
+        "name_en": {
+          "title": "Name En",
+          "type": "string"
+        },
+        "name_pt": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Name Pt"
+        },
+        "patch": {
+          "pattern": "^\\d+\\.\\d+[a-z]?$",
+          "title": "Patch",
+          "type": "string"
+        },
+        "selectable": {
+          "default": true,
+          "title": "Selectable",
+          "type": "boolean"
+        },
+        "source_url": {
+          "pattern": "^https://",
+          "title": "Source Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "patch",
+        "source_url",
+        "collected_at",
+        "id",
+        "name_en",
+        "name_pt",
+        "cooldown",
+        "description",
+        "icon",
+        "jungle_only"
+      ],
+      "title": "SummonerSpell",
+      "type": "object"
+    },
+    "TagEvidence": {
+      "additionalProperties": false,
+      "description": "Why a derived tag exists: which ability and which phrase triggered it (DECISIONS.md D11).",
+      "properties": {
+        "ability_key": {
+          "anyOf": [
+            {
+              "enum": [
+                "P",
+                "Q",
+                "W",
+                "E",
+                "R"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Ability Key"
+        },
+        "phrase": {
+          "title": "Phrase",
+          "type": "string"
+        },
+        "source": {
+          "default": "derived",
+          "enum": [
+            "derived",
+            "override"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "tag": {
+          "enum": [
+            "tank",
+            "engage",
+            "poke",
+            "heal",
+            "shield",
+            "hard_cc",
+            "soft_cc",
+            "dash",
+            "invulnerability",
+            "projectile_reflect",
+            "execute",
+            "scaling"
+          ],
+          "title": "Tag",
+          "type": "string"
+        }
+      },
+      "required": [
+        "tag",
+        "ability_key",
+        "phrase"
+      ],
+      "title": "TagEvidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "aliases": {
+      "additionalProperties": {
+        "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$",
+        "type": "string"
+      },
+      "title": "Aliases",
+      "type": "object"
+    },
+    "champions": {
+      "items": {
+        "$ref": "#/$defs/Champion"
+      },
+      "title": "Champions",
+      "type": "array"
+    },
+    "fixture": {
+      "default": false,
+      "title": "Fixture",
+      "type": "boolean"
+    },
+    "game": {
+      "const": "wild_rift",
+      "default": "wild_rift",
+      "title": "Game",
+      "type": "string"
+    },
+    "generated_by": {
+      "title": "Generated By",
+      "type": "string"
+    },
+    "items": {
+      "items": {
+        "$ref": "#/$defs/Item"
+      },
+      "title": "Items",
+      "type": "array"
+    },
+    "kind": {
+      "const": "catalog",
+      "default": "catalog",
+      "title": "Kind",
+      "type": "string"
+    },
+    "partial": {
+      "default": false,
+      "title": "Partial",
+      "type": "boolean"
+    },
+    "patch": {
+      "pattern": "^\\d+\\.\\d+[a-z]?$",
+      "title": "Patch",
+      "type": "string"
+    },
+    "patches": {
+      "items": {
+        "$ref": "#/$defs/Patch"
+      },
+      "title": "Patches",
+      "type": "array"
+    },
+    "rules": {
+      "$ref": "#/$defs/Rules"
+    },
+    "runes": {
+      "items": {
+        "$ref": "#/$defs/Rune"
+      },
+      "title": "Runes",
+      "type": "array"
+    },
+    "schema_version": {
+      "const": 1,
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/SourceStatus"
+      },
+      "title": "Sources",
+      "type": "array"
+    },
+    "summoner_spells": {
+      "items": {
+        "$ref": "#/$defs/SummonerSpell"
+      },
+      "title": "Summoner Spells",
+      "type": "array"
+    }
+  },
+  "required": [
+    "patch",
+    "generated_by",
+    "sources",
+    "champions",
+    "items",
+    "runes",
+    "summoner_spells",
+    "patches",
+    "rules"
+  ],
+  "title": "CatalogBundle",
+  "type": "object"
+}

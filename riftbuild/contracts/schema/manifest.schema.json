@@ -1,0 +1,125 @@
+{
+  "$defs": {
+    "GamePatchInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "detected_at": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+          "title": "Detected At",
+          "type": "string"
+        },
+        "source_url": {
+          "pattern": "^https://",
+          "title": "Source Url",
+          "type": "string"
+        },
+        "version": {
+          "pattern": "^\\d+\\.\\d+[a-z]?$",
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "version",
+        "source_url",
+        "detected_at"
+      ],
+      "title": "GamePatchInfo",
+      "type": "object"
+    },
+    "ManifestEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "title": "Bytes",
+          "type": "integer"
+        },
+        "hash": {
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "title": "Hash",
+          "type": "string"
+        },
+        "patch": {
+          "pattern": "^\\d+\\.\\d+[a-z]?$",
+          "title": "Patch",
+          "type": "string"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "published_at": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+          "title": "Published At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "patch",
+        "hash",
+        "path",
+        "bytes",
+        "published_at"
+      ],
+      "title": "ManifestEntry",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "catalog": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ManifestEntry"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "game": {
+      "const": "wild_rift",
+      "default": "wild_rift",
+      "title": "Game",
+      "type": "string"
+    },
+    "game_patch": {
+      "$ref": "#/$defs/GamePatchInfo"
+    },
+    "icons_base": {
+      "title": "Icons Base",
+      "type": "string"
+    },
+    "meta": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ManifestEntry"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "schema_version": {
+      "const": 1,
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "verified_at": {
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+      "title": "Verified At",
+      "type": "string"
+    }
+  },
+  "required": [
+    "game_patch",
+    "catalog",
+    "meta",
+    "icons_base",
+    "verified_at"
+  ],
+  "title": "Manifest",
+  "type": "object"
+}

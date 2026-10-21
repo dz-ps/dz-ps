@@ -95,3 +95,22 @@ Registro de cada decisão técnica relevante e o motivo. Mais recentes no fim.
 
 - NativeWind 5 ainda é RC. Testado no SDK 58 (RN 0.88): renderiza no Jest e no export web.
 - Duas classes de cor de texto no mesmo elemento se resolvem pela ordem do CSS, não pela ordem das classes; o `AppText` descarta a cor padrão da variante quando recebe outra.
+
+## D19. Fontes de dados efetivas no patch 7.3b
+
+- **Wiki fora do ar** (HTTP 502 "Server maintenance" no robots.txt): pela RFC 9309, nada foi coletado dela. Itens, runas e feitiços vêm do Rift Patch Notes, que é focado em Wild Rift (a seção `/lol`, de PC, é bloqueada pela guarda do pipeline). Quando a wiki voltar, ela pode virar fonte cruzada.
+- **Campeões:** site oficial (nomes en/pt-BR, classes, dificuldade, habilidades e ícones) + Rift Patch Notes (atributos base, texto detalhado das habilidades, rotas).
+- O patch atual vem do sitemap oficial (notas de patch) e é comparado com o patch que o Rift Patch Notes informa; divergência vira aviso.
+
+## D20. Teclas das habilidades
+
+- O site oficial numera as habilidades como PASSIVE/1/2/3/ULTIMATE. O app guarda `P/Q/W/E/R` (convenção usada pela comunidade e no próprio spec: "o W da Mel") e mostra os dois na interface.
+
+## D21. Itens transformados e consumíveis
+
+- Itens alcançados por transformação ou missão ("Transforms into Seraph's Embrace", "upgrade to Black Mist Scythe") não têm custo na fonte: ficam com `purchasable: false` e `transforms_from`. A checagem de custo vale só para itens compráveis.
+- Itens sem custo, sem atributos e com ativo (ex.: Sentinela de Controle) são consumíveis e ficam fora das builds, com aviso no relatório.
+
+## D22. Regras de CC derivadas do texto
+
+- Frases de condição sobre o próprio campeão ("se ela estiver imobilizada durante a conjuração", "não pode avançar enquanto estiver no chão") não contam como controle aplicado. Os casos reais que motivaram cada regra estão em `pipeline/tests/test_text_rules.py`.

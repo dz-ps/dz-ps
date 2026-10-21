@@ -1,0 +1,38 @@
+# Champion aliases and common Brazilian typos (spec §5.4). Values are champion IDs (slug of name_en).
+# Editable in the admin panel; the pipeline merges these with the admin table and drops unknown IDs.
+mumu: amumu
+momu: amumu
+amumo: amumu
+ww: warwick
+warike: warwick
+warwik: warwick
+voli: volibear
+volibar: volibear
+mf: miss_fortune
+tf: twisted_fate
+j4: jarvan_iv
+jarvan: jarvan_iv
+mundo: dr_mundo
+drmundo: dr_mundo
+kaisa: kaisa
+kai sa: kaisa
+ez: ezreal
+yi: master_yi
+mestre yi: master_yi
+asol: aurelion_sol
+lee: lee_sin
+noc: nocturne
+kha: khazix
+cait: caitlyn
+blitz: blitzcrank
+morg: morgana
+naut: nautilus
+panth: pantheon
+trynda: tryndamere
+xin: xin_zhao
+heca: hecarim
+vlad: vladimir
+cho: chogath
+nunu: nunu_willump
+sorak: soraka
+jinks: jinx

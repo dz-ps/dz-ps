@@ -1,0 +1,356 @@
+{
+  "$defs": {
+    "Matchup": {
+      "additionalProperties": false,
+      "properties": {
+        "champion_id": {
+          "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$",
+          "title": "Champion Id",
+          "type": "string"
+        },
+        "collected_at": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+          "title": "Collected At",
+          "type": "string"
+        },
+        "derived": {
+          "title": "Derived",
+          "type": "boolean"
+        },
+        "opponent_id": {
+          "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$",
+          "title": "Opponent Id",
+          "type": "string"
+        },
+        "role": {
+          "enum": [
+            "baron",
+            "jungle",
+            "mid",
+            "dragon",
+            "support"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "source_url": {
+          "anyOf": [
+            {
+              "pattern": "^https://",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Source Url"
+        },
+        "win_rate": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Win Rate"
+        }
+      },
+      "required": [
+        "champion_id",
+        "opponent_id",
+        "role",
+        "derived",
+        "source_url",
+        "collected_at"
+      ],
+      "title": "Matchup",
+      "type": "object"
+    },
+    "MetaBuild": {
+      "additionalProperties": false,
+      "properties": {
+        "boots": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Boots"
+        },
+        "champion_id": {
+          "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$",
+          "title": "Champion Id",
+          "type": "string"
+        },
+        "collected_at": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+          "title": "Collected At",
+          "type": "string"
+        },
+        "core_items": {
+          "items": {
+            "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$",
+            "type": "string"
+          },
+          "title": "Core Items",
+          "type": "array"
+        },
+        "patch": {
+          "pattern": "^\\d+\\.\\d+[a-z]?$",
+          "title": "Patch",
+          "type": "string"
+        },
+        "pick_rate": {
+          "anyOf": [
+            {
+              "maximum": 100,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Pick Rate"
+        },
+        "role": {
+          "enum": [
+            "baron",
+            "jungle",
+            "mid",
+            "dragon",
+            "support"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "runes": {
+          "items": {
+            "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$",
+            "type": "string"
+          },
+          "title": "Runes",
+          "type": "array"
+        },
+        "source_url": {
+          "pattern": "^https://",
+          "title": "Source Url",
+          "type": "string"
+        },
+        "spells": {
+          "items": {
+            "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$",
+            "type": "string"
+          },
+          "title": "Spells",
+          "type": "array"
+        },
+        "win_rate": {
+          "anyOf": [
+            {
+              "maximum": 100,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Win Rate"
+        }
+      },
+      "required": [
+        "champion_id",
+        "role",
+        "core_items",
+        "patch",
+        "source_url",
+        "collected_at"
+      ],
+      "title": "MetaBuild",
+      "type": "object"
+    },
+    "MetaStat": {
+      "additionalProperties": false,
+      "properties": {
+        "ban_rate": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Ban Rate",
+          "type": "number"
+        },
+        "champion_id": {
+          "pattern": "^[a-z0-9]+(?:_[a-z0-9]+)*$",
+          "title": "Champion Id",
+          "type": "string"
+        },
+        "collected_at": {
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+          "title": "Collected At",
+          "type": "string"
+        },
+        "patch": {
+          "pattern": "^\\d+\\.\\d+[a-z]?$",
+          "title": "Patch",
+          "type": "string"
+        },
+        "pick_rate": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Pick Rate",
+          "type": "number"
+        },
+        "rank_tier": {
+          "title": "Rank Tier",
+          "type": "string"
+        },
+        "role": {
+          "enum": [
+            "baron",
+            "jungle",
+            "mid",
+            "dragon",
+            "support"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "source_tier": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Tier"
+        },
+        "source_url": {
+          "pattern": "^https://",
+          "title": "Source Url",
+          "type": "string"
+        },
+        "win_rate": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Win Rate",
+          "type": "number"
+        }
+      },
+      "required": [
+        "champion_id",
+        "role",
+        "rank_tier",
+        "patch",
+        "win_rate",
+        "pick_rate",
+        "ban_rate",
+        "source_url",
+        "collected_at"
+      ],
+      "title": "MetaStat",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "builds": {
+      "items": {
+        "$ref": "#/$defs/MetaBuild"
+      },
+      "title": "Builds",
+      "type": "array"
+    },
+    "collected_at": {
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+      "title": "Collected At",
+      "type": "string"
+    },
+    "fixture": {
+      "default": false,
+      "title": "Fixture",
+      "type": "boolean"
+    },
+    "game": {
+      "const": "wild_rift",
+      "default": "wild_rift",
+      "title": "Game",
+      "type": "string"
+    },
+    "kind": {
+      "const": "meta",
+      "default": "meta",
+      "title": "Kind",
+      "type": "string"
+    },
+    "matchups": {
+      "items": {
+        "$ref": "#/$defs/Matchup"
+      },
+      "title": "Matchups",
+      "type": "array"
+    },
+    "patch": {
+      "pattern": "^\\d+\\.\\d+[a-z]?$",
+      "title": "Patch",
+      "type": "string"
+    },
+    "rank_tiers": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Rank Tiers",
+      "type": "array"
+    },
+    "schema_version": {
+      "const": 1,
+      "default": 1,
+      "title": "Schema Version",
+      "type": "integer"
+    },
+    "source_name": {
+      "title": "Source Name",
+      "type": "string"
+    },
+    "source_note": {
+      "title": "Source Note",
+      "type": "string"
+    },
+    "source_url": {
+      "pattern": "^https://",
+      "title": "Source Url",
+      "type": "string"
+    },
+    "stats": {
+      "items": {
+        "$ref": "#/$defs/MetaStat"
+      },
+      "title": "Stats",
+      "type": "array"
+    }
+  },
+  "required": [
+    "patch",
+    "rank_tiers",
+    "stats",
+    "builds",
+    "source_url",
+    "source_name",
+    "source_note",
+    "collected_at"
+  ],
+  "title": "MetaBundle",
+  "type": "object"
+}

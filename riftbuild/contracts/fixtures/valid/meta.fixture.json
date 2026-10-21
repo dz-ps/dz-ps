@@ -1,0 +1,46 @@
+{
+ "builds": [
+  {
+   "boots": null,
+   "champion_id": "fx_tank",
+   "collected_at": "2026-01-01T00:00:00Z",
+   "core_items": [
+    "fx_mr_item"
+   ],
+   "patch": "9.9z",
+   "pick_rate": null,
+   "role": "jungle",
+   "runes": [],
+   "source_url": "https://example.invalid/fixture",
+   "spells": [],
+   "win_rate": null
+  }
+ ],
+ "collected_at": "2026-01-01T00:00:00Z",
+ "fixture": true,
+ "game": "wild_rift",
+ "kind": "meta",
+ "matchups": [],
+ "patch": "9.9z",
+ "rank_tiers": [
+  "Fx Tier"
+ ],
+ "schema_version": 1,
+ "source_name": "fixture",
+ "source_note": "fixture",
+ "source_url": "https://example.invalid/fixture",
+ "stats": [
+  {
+   "ban_rate": 10.0,
+   "champion_id": "fx_tank",
+   "collected_at": "2026-01-01T00:00:00Z",
+   "patch": "9.9z",
+   "pick_rate": 5.0,
+   "rank_tier": "Fx Tier",
+   "role": "jungle",
+   "source_tier": null,
+   "source_url": "https://example.invalid/fixture",
+   "win_rate": 51.5
+  }
+ ]
+}

@@ -29,12 +29,12 @@ build-backend = "hatchling.build"
 packages = ["src/riftbuild_pipeline"]
 
 [tool.ruff]
-line-length = 110
+line-length = 115
 target-version = "py313"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
-ignore = ["RUF001", "RUF002", "RUF003"]
+ignore = ["RUF001", "RUF002", "RUF003", "E501"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

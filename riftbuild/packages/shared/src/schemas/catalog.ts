@@ -1,0 +1,224 @@
+import { z } from 'zod';
+import {
+  AbilityKey,
+  ChampionClass,
+  ChampionTag,
+  ChangeKind,
+  CcType,
+  DamageType,
+  HttpsUrl,
+  IsoDate,
+  IsoDateTime,
+  ItemCategory,
+  ItemTag,
+  PatchVersion,
+  provenanceShape,
+  Role,
+  RunePath,
+  Slug,
+  StatKey,
+} from './common.ts';
+
+export const TagEvidence = z.strictObject({
+  tag: ChampionTag,
+  ability_key: AbilityKey.nullable(),
+  phrase: z.string(),
+  source: z.enum(['derived', 'override']).default('derived'),
+});
+export type TagEvidence = z.infer<typeof TagEvidence>;
+
+export const Ability = z.strictObject({
+  key: AbilityKey,
+  name_en: z.string(),
+  name_pt: z.string().nullable(),
+  description_en: z.string(),
+  description_pt: z.string().nullable(),
+  details_en: z.string().nullable().default(null),
+  damage_types: z.array(DamageType).default([]),
+  cc_types: z.array(CcType).default([]),
+  cooldown: z.string().nullable().default(null),
+  icon: z.string().nullable(),
+});
+export type Ability = z.infer<typeof Ability>;
+
+export const DamageProfile = z.strictObject({
+  physical: z.number().min(0).max(1),
+  magic: z.number().min(0).max(1),
+  true: z.number().min(0).max(1),
+  method: z.enum(['heuristic_v1', 'override']),
+});
+export type DamageProfile = z.infer<typeof DamageProfile>;
+
+const optionalNumber = z.number().nullable().default(null);
+export const BaseStats = z.strictObject({
+  hp: optionalNumber,
+  hp_per_level: optionalNumber,
+  mana: optionalNumber,
+  mana_per_level: optionalNumber,
+  ad: optionalNumber,
+  ad_per_level: optionalNumber,
+  attack_speed: optionalNumber,
+  attack_speed_per_level: optionalNumber,
+  armor: optionalNumber,
+  armor_per_level: optionalNumber,
+  mr: optionalNumber,
+  mr_per_level: optionalNumber,
+  move_speed: optionalNumber,
+  attack_range: optionalNumber,
+});
+export type BaseStats = z.infer<typeof BaseStats>;
+
+export const Champion = z.strictObject({
+  ...provenanceShape,
+  id: Slug,
+  name_en: z.string(),
+  name_pt: z.string().nullable(),
+  title_en: z.string().nullable().default(null),
+  title_pt: z.string().nullable().default(null),
+  aliases: z.array(z.string()).default([]),
+  roles: z.array(Role).default([]),
+  classes: z.array(ChampionClass).default([]),
+  difficulty: z.number().int().min(1).max(3).nullable().default(null),
+  damage_profile: DamageProfile.nullable(),
+  tags: z.array(TagEvidence).default([]),
+  abilities: z.array(Ability),
+  base_stats: BaseStats.nullable(),
+  icon: z.string().nullable(),
+});
+export type Champion = z.infer<typeof Champion>;
+
+export const ItemEffect = z.strictObject({
+  name: z.string(),
+  kind: z.enum(['passive', 'active']),
+  unique: z.boolean(),
+  description: z.string(),
+  cooldown: z.string().nullable().default(null),
+});
+export type ItemEffect = z.infer<typeof ItemEffect>;
+
+export const Item = z.strictObject({
+  ...provenanceShape,
+  id: Slug,
+  name_en: z.string(),
+  name_pt: z.string().nullable(),
+  category: ItemCategory,
+  source_category: z.string(),
+  tier: z.number().int().min(1).max(4),
+  cost: z.number().int().min(0).nullable(),
+  recipe: z.array(Slug).default([]),
+  stats: z.partialRecord(StatKey, z.number()).default({}),
+  raw_stats: z.record(z.string(), z.union([z.number(), z.string()])).default({}),
+  passives: z.array(ItemEffect).default([]),
+  actives: z.array(ItemEffect).default([]),
+  tags: z.array(ItemTag).default([]),
+  unique_groups: z.array(Slug).default([]),
+  limit: z.number().int().min(1).nullable().default(null),
+  limit_group: Slug.nullable().default(null),
+  purchasable: z.boolean().default(true),
+  transforms_from: Slug.nullable().default(null),
+  icon: z.string().nullable(),
+  last_changed_patch: PatchVersion.nullable().default(null),
+  last_change: ChangeKind.nullable().default(null),
+});
+export type Item = z.infer<typeof Item>;
+
+export const Rune = z.strictObject({
+  ...provenanceShape,
+  id: Slug,
+  name_en: z.string(),
+  name_pt: z.string().nullable(),
+  kind: z.enum(['keystone', 'minor']),
+  path: RunePath.nullable(),
+  slot: z.number().int().min(1).max(3).nullable().default(null),
+  description: z.string(),
+  icon: z.string().nullable(),
+});
+export type Rune = z.infer<typeof Rune>;
+
+export const SummonerSpell = z.strictObject({
+  ...provenanceShape,
+  id: Slug,
+  name_en: z.string(),
+  name_pt: z.string().nullable(),
+  cooldown: z.number().nullable(),
+  description: z.string(),
+  icon: z.string().nullable(),
+  jungle_only: z.boolean(),
+  selectable: z.boolean().default(true),
+});
+export type SummonerSpell = z.infer<typeof SummonerSpell>;
+
+export const PatchChange = z.strictObject({
+  entity_kind: z.enum(['champion', 'item', 'rune', 'spell', 'system']),
+  entity_id: Slug,
+  change: ChangeKind,
+  summary: z.string().nullable().default(null),
+  before: z.string().nullable().default(null),
+  after: z.string().nullable().default(null),
+});
+export type PatchChange = z.infer<typeof PatchChange>;
+
+export const Patch = z.strictObject({
+  version: PatchVersion,
+  date: IsoDate.nullable(),
+  notes_url: HttpsUrl.nullable(),
+  changes: z.array(PatchChange).default([]),
+  source_url: HttpsUrl,
+  collected_at: IsoDateTime,
+});
+export type Patch = z.infer<typeof Patch>;
+
+export const RunePageRule = z.strictObject({
+  keystones: z.number().int().default(1),
+  primary_slots: z.array(z.number().int()).default([1, 2, 3]),
+  secondary_count: z.number().int().default(1),
+  secondary_must_differ_from_primary: z.boolean().default(true),
+  keystone_tied_to_primary_path: z.boolean().default(false),
+  source_text: z.string().nullable().default(null),
+});
+export type RunePageRule = z.infer<typeof RunePageRule>;
+
+export const RuleFlag = z.strictObject({
+  confirmed: z.boolean(),
+  note: z.string().nullable().default(null),
+});
+
+export const Rules = z.strictObject({
+  item_slots: z.number().int().min(1).max(8),
+  boots_max: z.number().int().default(1),
+  boots_category: ItemCategory.default('boots'),
+  unique_passives_do_not_stack: z.boolean().default(true),
+  jungle_requires_spell: Slug.nullable().default('smite'),
+  rune_page: RunePageRule,
+  max_level: z.number().int().min(1).max(30),
+  stat_growth: z.enum(['linear_estimate', 'unconfirmed']),
+  flags: z.record(z.string(), RuleFlag).default({}),
+});
+export type Rules = z.infer<typeof Rules>;
+
+export const SourceStatus = z.strictObject({
+  id: z.enum(['wr_official', 'lol_wiki', 'riftpatchnotes']),
+  status: z.enum(['used', 'disallowed', 'unreachable', 'skipped']),
+  robots: z.string(),
+  checked_at: IsoDateTime,
+  note: z.string().nullable().default(null),
+});
+
+export const CatalogBundle = z.strictObject({
+  schema_version: z.literal(1).default(1),
+  kind: z.literal('catalog').default('catalog'),
+  game: z.literal('wild_rift').default('wild_rift'),
+  patch: PatchVersion,
+  fixture: z.boolean().default(false),
+  partial: z.boolean().default(false),
+  generated_by: z.string(),
+  sources: z.array(SourceStatus),
+  champions: z.array(Champion),
+  items: z.array(Item),
+  runes: z.array(Rune),
+  summoner_spells: z.array(SummonerSpell),
+  patches: z.array(Patch),
+  rules: Rules,
+  aliases: z.record(z.string(), Slug).default({}),
+});
+export type CatalogBundle = z.infer<typeof CatalogBundle>;

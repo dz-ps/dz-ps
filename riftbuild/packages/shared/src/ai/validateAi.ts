@@ -1,0 +1,298 @@
+import type { CatalogIndex } from '../catalog/index.ts';
+import type { CompRead } from '../comp/compAnalyzer.ts';
+import { itemIssues } from '../rules/buildValidator.ts';
+import { runeIssues } from '../rules/runeValidator.ts';
+import { spellIssues } from '../rules/spellValidator.ts';
+import type { Role } from '../schemas/common.ts';
+import { AiDraftResponse, type DraftSection } from '../schemas/ai.ts';
+
+export type AiProblem = {
+  section: DraftSection | 'root';
+  path: string;
+  id?: string;
+  code: string;
+  message: string;
+};
+
+export type DraftContext = {
+  index: CatalogIndex;
+  comp: CompRead;
+  enemies: string[];
+  allies: string[];
+  myChampionId: string | null;
+  role: Role | null;
+};
+
+export type SectionResult<T> = { value: T; problems: AiProblem[] };
+
+const known = (map: Map<string, unknown>, id: string) => map.has(id);
+
+/** comp_read numbers always come from the deterministic layer: the model never sets numbers (spec §6.3). */
+export function validateCompRead(
+  value: AiDraftResponse['comp_read'],
+  ctx: DraftContext,
+): SectionResult<AiDraftResponse['comp_read']> {
+  const problems: AiProblem[] = [];
+  const threats = value.threats.filter((id) => {
+    const ok = ctx.enemies.includes(id);
+    if (!ok)
+      problems.push({
+        section: 'comp_read',
+        path: 'comp_read.threats',
+        id,
+        code: 'NOT_AN_ENEMY',
+        message: `${id} não está na composição inimiga`,
+      });
+    return ok;
+  });
+  return {
+    value: {
+      damage: { ...ctx.comp.damage },
+      hard_cc_count: ctx.comp.hardCcCount,
+      healing: ctx.comp.healing,
+      threats: threats.length ? threats : ctx.comp.threats.map((t) => t.championId),
+    },
+    problems,
+  };
+}
+
+export function validateBuildSection(
+  value: AiDraftResponse['build'],
+  ctx: DraftContext,
+): SectionResult<AiDraftResponse['build']> {
+  const { index } = ctx;
+  const problems: AiProblem[] = [];
+  const push = (path: string, code: string, message: string, id?: string) =>
+    problems.push({ section: 'build', path, code, message, ...(id ? { id } : {}) });
+
+  const seen = new Set<string>();
+  let items = value.items.filter((entry, i) => {
+    if (!known(index.items, entry.id)) {
+      push(
+        `build.items[${i}]`,
+        'NOT_IN_CATALOG',
+        `item ${entry.id} não existe no patch ${index.patch}`,
+        entry.id,
+      );
+      return false;
+    }
+    if (index.items.get(entry.id)!.category === index.rules.boots_category) {
+      push(
+        `build.items[${i}]`,
+        'BOOTS_IN_ITEMS',
+        `${entry.id} é uma bota: use o campo boots`,
+        entry.id,
+      );
+      return false;
+    }
+    if (seen.has(entry.id)) {
+      push(`build.items[${i}]`, 'DUPLICATE', `${entry.id} repetido`, entry.id);
+      return false;
+    }
+    seen.add(entry.id);
+    return true;
+  });
+
+  let boots = value.boots;
+  if (
+    boots &&
+    (!known(index.items, boots.id) ||
+      index.items.get(boots.id)!.category !== index.rules.boots_category)
+  ) {
+    push('build.boots', 'INVALID_BOOTS', `${boots.id} não é uma bota do catálogo`, boots.id);
+    boots = null;
+  }
+
+  // Same item rules as the build creator (slots, boots, limits); unique-passive overlaps are errors for the AI.
+  const maxItems = index.rules.item_slots - (boots ? 1 : 0);
+  if (items.length > maxItems) {
+    push('build.items', 'TOO_MANY_ITEMS', `no máximo ${maxItems} itens além da bota`);
+    items = items.slice(0, maxItems);
+  }
+  const allIds = [...items.map((i) => i.id), ...(boots ? [boots.id] : [])];
+  for (const issue of itemIssues(allIds, index)) {
+    push('build.items', issue.code, issue.message_pt);
+    if (issue.code === 'UNIQUE_GROUP_OVERLAP' || issue.code === 'ITEM_LIMIT') {
+      const drop = issue.ids[issue.ids.length - 1];
+      items = items.filter((i) => i.id !== drop);
+    }
+  }
+
+  let runes = value.runes;
+  if (runes) {
+    const page = {
+      keystone: runes.keystone,
+      primaryPath: runes.primary_path,
+      primary: runes.primary,
+      secondary: runes.secondary,
+    };
+    const runeErrors = runeIssues(page, index);
+    if (runeErrors.length) {
+      for (const e of runeErrors) push('build.runes', e.code, e.message_pt, e.ids[0]);
+      runes = null;
+    }
+  }
+
+  let spells = value.spells;
+  if (spells) {
+    const spellErrors = spellIssues(spells, ctx.role, index);
+    if (spellErrors.length || spells.length !== 2) {
+      for (const e of spellErrors) push('build.spells', e.code, e.message_pt, e.ids[0]);
+      if (spells.length !== 2) push('build.spells', 'SPELL_COUNT', 'exatamente dois feitiços');
+      spells = null;
+    }
+  }
+
+  const skill =
+    value.skill_order && /^[QWER](\s*>\s*[QWER])*$/.test(value.skill_order.trim())
+      ? value.skill_order.trim()
+      : null;
+  if (value.skill_order && !skill)
+    push('build.skill_order', 'INVALID_SKILL_ORDER', 'use o formato "Q > W > E"');
+
+  return { value: { items, boots, runes, spells, skill_order: skill }, problems };
+}
+
+export function validateChampionList<T extends { champion_id: string }>(
+  section: 'counter_picks' | 'bans',
+  list: T[],
+  ctx: DraftContext,
+): SectionResult<T[]> {
+  const problems: AiProblem[] = [];
+  const taken = new Set([
+    ...ctx.enemies,
+    ...ctx.allies,
+    ...(ctx.myChampionId ? [ctx.myChampionId] : []),
+  ]);
+  const seen = new Set<string>();
+  const value = list.filter((entry, i) => {
+    const path = `${section}[${i}]`;
+    if (!known(ctx.index.champions, entry.champion_id)) {
+      problems.push({
+        section,
+        path,
+        id: entry.champion_id,
+        code: 'NOT_IN_CATALOG',
+        message: `campeão ${entry.champion_id} não existe`,
+      });
+      return false;
+    }
+    if (taken.has(entry.champion_id) || seen.has(entry.champion_id)) {
+      problems.push({
+        section,
+        path,
+        id: entry.champion_id,
+        code: 'ALREADY_PICKED',
+        message: `${entry.champion_id} já está no draft`,
+      });
+      return false;
+    }
+    seen.add(entry.champion_id);
+    return true;
+  });
+  return { value, problems };
+}
+
+export type ValidatedDraft = {
+  response: AiDraftResponse;
+  problems: AiProblem[];
+  removed: AiProblem[];
+  incomplete: boolean;
+};
+
+/** Validates a full response; nothing from the AI reaches the screen without passing here (spec §6.5). */
+export function validateSection(
+  section: DraftSection,
+  raw: unknown,
+  ctx: DraftContext,
+): SectionResult<unknown> {
+  const shape = AiDraftResponse.shape[section];
+  const parsed = shape.safeParse(raw);
+  if (!parsed.success) {
+    return {
+      value: null,
+      problems: [
+        {
+          section,
+          path: section,
+          code: 'SCHEMA',
+          message: parsed.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join('; '),
+        },
+      ],
+    };
+  }
+  switch (section) {
+    case 'comp_read':
+      return validateCompRead(parsed.data as AiDraftResponse['comp_read'], ctx);
+    case 'build':
+      return validateBuildSection(parsed.data as AiDraftResponse['build'], ctx);
+    case 'counter_picks':
+      return validateChampionList(
+        'counter_picks',
+        parsed.data as AiDraftResponse['counter_picks'],
+        ctx,
+      );
+    case 'bans':
+      return validateChampionList('bans', parsed.data as AiDraftResponse['bans'], ctx);
+    case 'game_plan':
+      return { value: (parsed.data as string[]).filter((s) => s.trim()).slice(0, 8), problems: [] };
+  }
+}
+
+export function validateAiDraft(raw: unknown, ctx: DraftContext): ValidatedDraft {
+  const parsed = AiDraftResponse.safeParse(raw);
+  const base = (parsed.success ? parsed.data : null) ?? (raw as Partial<AiDraftResponse>);
+  const problems: AiProblem[] = [];
+  const out: Record<string, unknown> = {};
+  for (const section of ['comp_read', 'build', 'counter_picks', 'bans', 'game_plan'] as const) {
+    const result = validateSection(section, (base as Record<string, unknown>)?.[section], ctx);
+    problems.push(...result.problems);
+    out[section] = result.value ?? emptySection(section, ctx);
+  }
+  const missing = new Set<string>(
+    Array.isArray(base?.missing_data) ? base.missing_data.filter((x) => typeof x === 'string') : [],
+  );
+  const build = out.build as AiDraftResponse['build'];
+  if (!build.runes) missing.add('runes');
+  if (!build.spells) missing.add('spells');
+  const response: AiDraftResponse = {
+    patch: ctx.index.patch,
+    comp_read: out.comp_read as AiDraftResponse['comp_read'],
+    build,
+    counter_picks: out.counter_picks as AiDraftResponse['counter_picks'],
+    bans: out.bans as AiDraftResponse['bans'],
+    game_plan: out.game_plan as string[],
+    confidence:
+      base?.confidence && ['alta', 'media', 'baixa'].includes(base.confidence)
+        ? base.confidence
+        : 'baixa',
+    missing_data: [...missing],
+  };
+  return { response, problems, removed: problems, incomplete: problems.length > 0 };
+}
+
+export function emptySection(section: DraftSection, ctx: DraftContext): unknown {
+  switch (section) {
+    case 'comp_read':
+      return validateCompRead(
+        {
+          damage: { physical: 0, magic: 0, true: 0 },
+          hard_cc_count: 0,
+          healing: 'nenhuma',
+          threats: [],
+        },
+        ctx,
+      ).value;
+    case 'build':
+      return { items: [], boots: null, runes: null, spells: null, skill_order: null };
+    default:
+      return [];
+  }
+}
+
+/** Short, model-readable error list for the single automatic retry. */
+export function describeProblems(problems: AiProblem[]): string {
+  return problems
+    .map((p) => `- ${p.path}${p.id ? ` (${p.id})` : ''}: ${p.code} — ${p.message}`)
+    .join('\n');
+}

@@ -32,6 +32,11 @@ export default tseslint.config(
     files: ['packages/**/*.ts', 'evals/**/*.ts', 'supabase/functions/**/*.ts'],
     extends: [tseslint.configs.recommended],
   },
+  // zod idiom: `export const X = z.object(...)` + `export type X = z.infer<typeof X>`.
+  {
+    files: ['**/*.ts', '**/*.tsx'],
+    rules: { '@typescript-eslint/no-redeclare': 'off' },
+  },
   // packages/shared must stay runtime-agnostic: it runs in React Native, Node (Vitest) and Deno.
   {
     files: ['packages/shared/src/**/*.ts'],

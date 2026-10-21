@@ -1,0 +1,54 @@
+import { bestMatch, search, type Match, type SearchIndex } from './matcher.ts';
+import { normalizeName } from './normalize.ts';
+
+export type ParsedChampion = Match & { input: string };
+export type ParseResult = { resolved: ParsedChampion[]; unresolved: string[] };
+
+/**
+ * Turns free text like "soraka mumu jinx mel voli" or "miss fortune, j4, dr mundo" into champion IDs.
+ * Multi-word windows are accepted only on exact/alias matches, so two adjacent names never merge;
+ * single tokens may fall back to prefix/fuzzy matching (Brazilian nicknames and typos, spec §5.4).
+ */
+export function parseChampions(text: string, index: SearchIndex, max = 5): ParseResult {
+  const resolved: ParsedChampion[] = [];
+  const unresolved: string[] = [];
+  const seen = new Set<string>();
+  const groups = text
+    .split(/[,;\n/|]+/)
+    .map((g) => normalizeName(g))
+    .filter(Boolean);
+
+  for (const group of groups) {
+    const tokens = group.split(' ');
+    let i = 0;
+    while (i < tokens.length) {
+      let taken = 0;
+      for (let size = Math.min(3, tokens.length - i); size >= 2; size--) {
+        const phrase = tokens.slice(i, i + size).join(' ');
+        const strict = search(phrase, index, { fuzzy: false }).find(
+          (m) => m.method === 'exact' || m.method === 'alias',
+        );
+        if (strict) {
+          add(strict, phrase);
+          taken = size;
+          break;
+        }
+      }
+      if (!taken) {
+        const token = tokens[i]!;
+        const match = bestMatch(token, index);
+        if (match && match.confidence >= 0.55) add(match, token);
+        else unresolved.push(token);
+        taken = 1;
+      }
+      i += taken;
+    }
+  }
+  return { resolved: resolved.slice(0, max), unresolved };
+
+  function add(match: Match, input: string) {
+    if (seen.has(match.id)) return;
+    seen.add(match.id);
+    resolved.push({ ...match, input });
+  }
+}

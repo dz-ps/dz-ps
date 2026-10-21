@@ -1,0 +1,87 @@
+import { compact, editDistance, normalizeName } from './normalize.ts';
+
+export type MatchMethod = 'exact' | 'alias' | 'prefix' | 'substring' | 'fuzzy';
+
+export type SearchEntry = {
+  id: string;
+  /** Display names (pt-BR, English) and the ID itself. */
+  names: string[];
+  aliases?: string[];
+};
+
+export type Match = { id: string; method: MatchMethod; confidence: number; matched: string };
+
+type Prepared = { id: string; term: string; compact: string; isAlias: boolean };
+
+export type SearchIndex = { entries: Prepared[] };
+
+export function buildSearchIndex(entries: SearchEntry[]): SearchIndex {
+  const prepared: Prepared[] = [];
+  for (const entry of entries) {
+    const terms = new Set([...entry.names, entry.id.replace(/_/g, ' ')]);
+    for (const name of terms) {
+      const term = normalizeName(name);
+      if (term) prepared.push({ id: entry.id, term, compact: compact(term), isAlias: false });
+    }
+    for (const alias of entry.aliases ?? []) {
+      const term = normalizeName(alias);
+      if (term) prepared.push({ id: entry.id, term, compact: compact(term), isAlias: true });
+    }
+  }
+  return { entries: prepared };
+}
+
+function fuzzyBudget(length: number): number {
+  if (length <= 3) return 0;
+  if (length <= 5) return 1;
+  if (length <= 9) return 2;
+  return 3;
+}
+
+/** All matches for a query, best first, one per entity. */
+export function search(query: string, index: SearchIndex, { fuzzy = true } = {}): Match[] {
+  const q = normalizeName(query);
+  if (!q) return [];
+  const qc = compact(q);
+  const best = new Map<string, Match>();
+  const offer = (m: Match) => {
+    const current = best.get(m.id);
+    if (!current || m.confidence > current.confidence) best.set(m.id, m);
+  };
+  for (const e of index.entries) {
+    if (e.term === q || e.compact === qc) {
+      offer({
+        id: e.id,
+        method: e.isAlias ? 'alias' : 'exact',
+        confidence: e.isAlias ? 0.98 : 1,
+        matched: e.term,
+      });
+    } else if (
+      qc.length >= 2 &&
+      (e.compact.startsWith(qc) || e.term.split(' ').some((w) => w.startsWith(q)))
+    ) {
+      offer({
+        id: e.id,
+        method: 'prefix',
+        confidence: 0.9 - Math.min(0.2, (e.compact.length - qc.length) * 0.01),
+        matched: e.term,
+      });
+    } else if (qc.length >= 3 && e.compact.includes(qc)) {
+      offer({ id: e.id, method: 'substring', confidence: 0.75, matched: e.term });
+    } else if (fuzzy) {
+      const budget = fuzzyBudget(qc.length);
+      if (budget > 0) {
+        const distance = editDistance(qc, e.compact, budget);
+        if (distance <= budget) {
+          offer({ id: e.id, method: 'fuzzy', confidence: 0.7 - distance * 0.08, matched: e.term });
+        }
+      }
+    }
+  }
+  return [...best.values()].sort((a, b) => b.confidence - a.confidence || a.id.localeCompare(b.id));
+}
+
+/** Single best match, or null when nothing is close enough. */
+export function bestMatch(query: string, index: SearchIndex): Match | null {
+  return search(query, index)[0] ?? null;
+}

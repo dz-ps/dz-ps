@@ -6,3 +6,7 @@ pipeline
 supabase/functions/_shared/riftbuild-shared
 contracts/schema
 .expo
+contracts/fixtures
+docs/sources.md
+docs/screenshots
+supabase/functions/deno.lock

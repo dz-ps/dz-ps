@@ -1,0 +1,19 @@
+{
+ "catalog": {
+  "bytes": 1,
+  "hash": "md5:abc",
+  "patch": "9.9z",
+  "path": "catalog/9.9z/x.json.gz",
+  "published_at": "2026-01-01T00:00:00Z"
+ },
+ "game": "wild_rift",
+ "game_patch": {
+  "detected_at": "2026-01-01T00:00:00Z",
+  "source_url": "https://example.invalid/fixture",
+  "version": "9.9z"
+ },
+ "icons_base": "icons/",
+ "meta": null,
+ "schema_version": 1,
+ "verified_at": "2026-01-01T00:00:00Z"
+}
