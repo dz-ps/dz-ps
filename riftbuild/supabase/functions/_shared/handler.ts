@@ -6,10 +6,20 @@ import {
   PROMPT_VERSION,
 } from './riftbuild-shared/ai/prompt.ts';
 import { draftOutputSchema } from './riftbuild-shared/ai/structuredSchema.ts';
+import {
+  buildTipsSystemPrompt,
+  buildTipsUserMessage,
+  tipChampions,
+  tipsCacheKey,
+  tipsOutputSchema,
+  TIPS_PROMPT_VERSION,
+  validateTips,
+} from './riftbuild-shared/ai/tips.ts';
 import { validateAiDraft, type DraftContext } from './riftbuild-shared/ai/validateAi.ts';
 import { selectCandidates } from './riftbuild-shared/comp/candidates.ts';
 import { analyzeComp } from './riftbuild-shared/comp/compAnalyzer.ts';
 import { AiBuildReview, DraftInput, type AiDraftResponse } from './riftbuild-shared/schemas/ai.ts';
+import { ROLES, Role } from './riftbuild-shared/schemas/common.ts';
 import { canAddItem, itemIssues } from './riftbuild-shared/rules/buildValidator.ts';
 import { emptyBuild } from './riftbuild-shared/rules/types.ts';
 import { z } from 'zod';
@@ -34,8 +44,10 @@ export type HandlerDeps = {
   >;
   catalog: () => Promise<LoadedCatalog>;
   stores: Stores;
-  llm: (purpose: 'draft' | 'review') => LlmClient;
+  llm: (purpose: 'draft' | 'review' | 'tips') => LlmClient;
   auth: (req: Request) => Promise<Subject | null>;
+  /** Scheduled jobs only (pipeline workflow): true when the request carries the service-role key. */
+  isAdminTask: (req: Request) => boolean;
   now?: () => number;
 };
 
@@ -53,6 +65,8 @@ export function createHandler(deps: HandlerDeps) {
       if (path.endsWith('/draft') && req.method === 'POST') return await draft(req);
       if (path.endsWith('/build-review') && req.method === 'POST') return await buildReview(req);
       if (path.endsWith('/meta-tips') && req.method === 'GET') return await metaTips(req);
+      if (path.endsWith('/meta-tips/generate') && req.method === 'POST')
+        return await generateTips(req);
       return json(errorBody('not_found', 'Rota não encontrada.'), 404);
     } catch (err) {
       console.error('ai handler error', err);
@@ -375,17 +389,15 @@ export function createHandler(deps: HandlerDeps) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), deps.env.AI_TIMEOUT_MS_REVIEW);
     try {
-      const result = await deps
-        .llm('review')
-        .streamJson(
-          {
-            system,
-            messages: [{ role: 'user', content: message }],
-            schema,
-            signal: controller.signal,
-          },
-          () => {},
-        );
+      const result = await deps.llm('review').streamJson(
+        {
+          system,
+          messages: [{ role: 'user', content: message }],
+          schema,
+          signal: controller.signal,
+        },
+        () => {},
+      );
       if (result.stopReason === 'refusal')
         return json(errorBody('ai_refused', 'A IA recusou este pedido.'), 200);
       const review = AiBuildReview.safeParse(JSON.parse(result.text || '{}'));
@@ -432,10 +444,84 @@ export function createHandler(deps: HandlerDeps) {
   }
 
   async function metaTips(req: Request): Promise<Response> {
-    const role = new URL(req.url).searchParams.get('role') ?? '';
+    const role = Role.safeParse(new URL(req.url).searchParams.get('role'));
+    if (!role.success) return json(errorBody('invalid_input', 'Rota inválida.'), 400);
     const loaded = await deps.catalog();
-    const hit = await deps.stores.cacheGet(`tips:${loaded.index.patch}:${role}`);
+    const hit = await deps.stores.cacheGet(tipsCacheKey(loaded.index.patch, role.data));
     return hit ? json({ available: true, tips: hit.response }) : json({ available: false });
+  }
+
+  /**
+   * Generates "campeões em alta" tips once per patch and role (spec §5.3). Called by the pipeline workflow
+   * after a publish; never by the app. Roles that already have tips for this patch are skipped.
+   */
+  async function generateTips(req: Request): Promise<Response> {
+    if (!deps.isAdminTask(req))
+      return json(errorBody('forbidden', 'Rota reservada para tarefas agendadas.'), 403);
+    const body = z
+      .object({ roles: z.array(Role).optional(), force: z.boolean().default(false) })
+      .safeParse(await req.json().catch(() => ({})));
+    if (!body.success) return json(errorBody('invalid_input', 'Pedido inválido.'), 400);
+    const loaded = await deps.catalog();
+    const { index, meta } = loaded;
+    const results: Record<string, string> = {};
+    for (const role of body.data.roles ?? ROLES) {
+      const key = tipsCacheKey(index.patch, role);
+      if (!body.data.force && (await deps.stores.cacheGet(key))) {
+        results[role] = 'cached';
+        continue;
+      }
+      const ids = tipChampions(index, meta, role);
+      if (!ids.length) {
+        results[role] = 'no_meta';
+        continue;
+      }
+      const started = now();
+      try {
+        const result = await deps.llm('tips').streamJson(
+          {
+            system: buildTipsSystemPrompt(index.patch),
+            messages: [{ role: 'user', content: buildTipsUserMessage(index, meta, role, ids) }],
+            schema: tipsOutputSchema(ids),
+          },
+          () => {},
+        );
+        const tips =
+          result.stopReason === 'refusal'
+            ? null
+            : validateTips(JSON.parse(result.text || '{}'), { index, role, allowed: ids });
+        const status = !tips ? 'error' : tips.tips.length < ids.length ? 'incomplete' : 'ok';
+        if (tips?.tips.length)
+          await deps.stores.cachePut(key, {
+            kind: 'meta_tips',
+            patch: index.patch,
+            bundle_hash: loaded.bundleHash,
+            model: result.model,
+            prompt_version: TIPS_PROMPT_VERSION,
+            response: tips,
+            // One generation per patch: the key carries the patch, so a new patch starts empty.
+            ttlHours: 24 * 60,
+          });
+        await deps.stores.logCall({
+          kind: 'meta_tips',
+          subject_hash: 'admin',
+          model: result.model,
+          patch: index.patch,
+          cache_hit: false,
+          attempts: 1,
+          input_tokens: result.usage.input_tokens,
+          output_tokens: result.usage.output_tokens,
+          latency_ms: now() - started,
+          status: result.stopReason === 'refusal' ? 'refused' : status,
+          prompt_version: TIPS_PROMPT_VERSION,
+        });
+        results[role] = tips?.tips.length ? status : 'error';
+      } catch (err) {
+        console.error('tips generation failed', role, err);
+        results[role] = 'error';
+      }
+    }
+    return json({ patch: index.patch, results });
   }
 }
 

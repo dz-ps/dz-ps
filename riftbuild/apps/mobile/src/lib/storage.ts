@@ -30,6 +30,9 @@ export const prefs = {
   delete(key: string): void {
     mmkv().remove(key);
   },
+  keys(): string[] {
+    return mmkv().getAllKeys();
+  },
   clearAll(): void {
     mmkv().clearAll();
   },

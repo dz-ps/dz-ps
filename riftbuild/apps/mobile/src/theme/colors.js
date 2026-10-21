@@ -4,7 +4,8 @@ const colors = {
   bg: '#0B0E14',
   surface: '#151A23',
   surface2: '#1E2531',
-  border: '#2C3544',
+  border: '#2C3544', // decorative separators and card edges
+  control: '#66768E', // outlines that identify a control (inputs, chips): WCAG 1.4.11 needs 3:1
   text: '#F2F4F8',
   muted: '#A9B3C4',
   accent: '#E8B341',

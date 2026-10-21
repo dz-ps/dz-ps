@@ -9,7 +9,9 @@
     "web": "expo start --web",
     "export:web": "expo export --platform web --output-dir dist",
     "typecheck": "tsc --noEmit",
-    "test": "jest --ci"
+    "test": "jest --ci",
+    "eas-build-pre-install": "node scripts/eas-seed.mjs",
+    "seed:fetch": "node scripts/eas-seed.mjs --force"
   },
   "dependencies": {
     "@expo/metro-runtime": "~58.0.14",

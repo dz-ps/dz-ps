@@ -3,6 +3,7 @@ import { FlashList } from '@shopify/flash-list';
 import { useState } from 'react';
 import { Modal, View } from 'react-native';
 import { AppText, Button, SearchInput } from '@/components/ui';
+import { useCatalog } from '@/data/catalog/CatalogProvider';
 import { useEntitySearch } from '@/features/catalog/useEntitySearch';
 import { t } from '@/i18n/pt-BR';
 import type { DetailsTarget } from './DetailsSheet';
@@ -33,7 +34,13 @@ export function EntityPicker<T extends Entity>({
   testID,
 }: Props<T>) {
   const [query, setQuery] = useState('');
-  const results = useEntitySearch(entities, query);
+  const { championSearch } = useCatalog();
+  // Champions get the alias-aware index ("ww", "mumu", "voli"), same as the catalog and draft parser.
+  const results = useEntitySearch(
+    entities,
+    query,
+    detailsKind === 'champion' ? championSearch : null,
+  );
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={onClose}>
       <View testID={testID} className="flex-1 gap-3 bg-bg px-4 pt-10">

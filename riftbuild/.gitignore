@@ -14,7 +14,6 @@ web-build/
 expo-env.d.ts
 apps/mobile/ios/
 apps/mobile/android/
-apps/mobile/assets/seed/
 
 # Python
 __pycache__/

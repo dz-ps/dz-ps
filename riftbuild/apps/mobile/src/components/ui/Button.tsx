@@ -5,7 +5,7 @@ type Kind = 'primary' | 'secondary' | 'ghost' | 'danger';
 
 const kindClass: Record<Kind, string> = {
   primary: 'bg-accent',
-  secondary: 'bg-surface2 border border-border',
+  secondary: 'bg-surface2 border border-control',
   ghost: 'bg-transparent',
   danger: 'bg-surface2 border border-danger',
 };

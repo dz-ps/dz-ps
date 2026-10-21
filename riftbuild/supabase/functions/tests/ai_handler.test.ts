@@ -61,6 +61,7 @@ function setup(responses: unknown[], overrides: Partial<HandlerDeps['env']> = {}
     stores,
     llm: () => llm,
     auth: async () => (authed ? { id: 'u:test', hash: 'h' } : null),
+    isAdminTask: (req) => req.headers.get('authorization') === 'Bearer service',
   });
   return { handle, stores, llm };
 }
@@ -200,6 +201,7 @@ Deno.test('timeout aborts the stream and reports it', async () => {
     stores,
     llm: () => slow,
     auth: async () => ({ id: 'u:t', hash: 'h' }),
+    isAdminTask: () => false,
   });
   const evs = await events(await handle(post('/draft', draftBody)));
   assertExists(
@@ -240,3 +242,63 @@ Deno.test('build review keeps only swaps that pass the build rules', async () =>
     ['fx_anti_heal_ap'],
   );
 });
+
+Deno.test(
+  'meta tips: generated once per patch by the scheduled job, validated, then served',
+  async () => {
+    const tips = {
+      patch: '9.9z',
+      role: 'jungle',
+      tips: [
+        {
+          champion_id: 'fx_tank',
+          power_spikes: ['Nível 5.'],
+          combos: ['E > Q'],
+          common_mistakes: [],
+        },
+        {
+          champion_id: 'garen',
+          power_spikes: ['fora do catálogo'],
+          combos: [],
+          common_mistakes: [],
+        },
+      ],
+      missing_data: [],
+    };
+    const { handle, stores, llm } = setup([tips]);
+    const generate = (auth: string) =>
+      new Request('http://localhost/functions/v1/ai/meta-tips/generate', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', authorization: auth },
+        body: JSON.stringify({ roles: ['jungle', 'mid'] }),
+      });
+    assertEquals((await handle(generate('Bearer user-token'))).status, 403);
+
+    const first = (await (await handle(generate('Bearer service'))).json()) as {
+      results: Record<string, string>;
+    };
+    assertEquals(first.results, { jungle: 'ok', mid: 'no_meta' });
+    assertEquals(stores.calls.at(-1)!.kind, 'meta_tips');
+
+    const second = (await (await handle(generate('Bearer service'))).json()) as {
+      results: Record<string, string>;
+    };
+    assertEquals(second.results.jungle, 'cached');
+    assertEquals(llm.requests.length, 1);
+
+    const served = (await (
+      await handle(new Request('http://localhost/functions/v1/ai/meta-tips?role=jungle'))
+    ).json()) as { available: boolean; tips: { tips: { champion_id: string }[] } };
+    assert(served.available);
+    assertEquals(
+      served.tips.tips.map((t) => t.champion_id),
+      ['fx_tank'],
+    );
+    const none = await handle(new Request('http://localhost/functions/v1/ai/meta-tips?role=mid'));
+    assertEquals(((await none.json()) as { available: boolean }).available, false);
+    assertEquals(
+      (await handle(new Request('http://localhost/functions/v1/ai/meta-tips?role=lol'))).status,
+      400,
+    );
+  },
+);

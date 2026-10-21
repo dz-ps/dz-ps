@@ -39,4 +39,30 @@ pnpm sync:deno --check && (cd supabase/functions && npx deno@2.9.6 test -A)
 (cd pipeline && uv run ruff check && uv run pytest)
 pnpm web:export && pnpm web:smoke            # export web + Playwright (screenshots em docs/screenshots)
 pnpm check:sources                           # nenhuma fonte de LoL PC
+bash supabase/tests/run.sh                   # migrations + RLS no Postgres 16 local
+pnpm evals                                   # evals do draft (modo deterministic; precisa do catálogo real)
 ```
+
+## Dados e backend
+
+```sh
+(cd pipeline && uv run riftbuild run)              # coleta e valida o patch atual (out/ + report.md)
+(cd pipeline && uv run riftbuild run --publish)    # publica no Supabase (SUPABASE_URL + service role)
+```
+
+- Supabase: aplique `supabase/migrations`, ative o login anônimo e publique a função `ai`
+  (`supabase functions deploy ai`) com os secrets listados em `.env.example`. Os nomes dos modelos
+  (`AI_MODEL_*`) vêm só de variável de ambiente; confira os atuais em https://docs.claude.com.
+- O workflow `pipeline.yml` roda todo dia: coleta, publica, gera as dicas de meta do patch e apaga
+  logs antigos de IA.
+
+## Release (EAS)
+
+`apps/mobile/eas.json` tem os perfis `development` (APK com dev client), `preview` (APK interno) e
+`production` (AAB para a Play Store). O hook `eas-build-pre-install` embute o último catálogo publicado
+como seed. Antes do primeiro build: `npx eas-cli@latest init` e as variáveis `EXPO_PUBLIC_SUPABASE_URL`
+e `EXPO_PUBLIC_SUPABASE_ANON_KEY` nos ambientes do EAS.
+
+Loja e privacidade: [docs/store/checklist.md](docs/store/checklist.md),
+[docs/store/listing.pt-BR.md](docs/store/listing.pt-BR.md), [docs/privacy.md](docs/privacy.md) e
+[docs/store/data-safety.md](docs/store/data-safety.md).

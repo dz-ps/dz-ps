@@ -10,6 +10,13 @@ jest.mock('@/lib/env', () => ({
     manifestUrl: undefined,
   },
 }));
+jest.mock('react-native-view-shot', () => ({
+  captureRef: jest.fn(async () => 'file:///tmp/draft.png'),
+}));
+jest.mock('expo-sharing', () => ({
+  isAvailableAsync: jest.fn(async () => true),
+  shareAsync: jest.fn(async () => {}),
+}));
 jest.mock('@/data/remote/ai', () => ({
   streamDraft: jest.fn(async (_input, _ctx, handlers) => {
     handlers.onMeta({ cached: false, model: 'test' });
@@ -43,6 +50,26 @@ describe('draft assistant (phase 5)', () => {
     await waitFor(() => expect(screen.getByText('Anti-cura contra o Fx Healer.')).toBeTruthy());
     expect(screen.getByText('• Foco no Fx Marksman.')).toBeTruthy();
     expect(screen.getByText('Q > W > E')).toBeTruthy();
+  });
+
+  it('logs a loss against an enemy and shares the analysis as an image', async () => {
+    const { store } = await renderApp({ index: DraftScreen }, '/');
+    await fireEvent.changeText(await screen.findByTestId('draft-input'), 'fx healer, fx tank');
+    await waitFor(() =>
+      expect(screen.getByTestId('enemy-slot-1').props.accessibilityLabel).toBe('Fx Tank'),
+    );
+    await fireEvent.press(screen.getByTestId('draft-analyze'));
+    await fireEvent.press(screen.getByTestId('draft-confirm'));
+    await fireEvent.press(await screen.findByTestId('lost-to-fx_tank'));
+    await waitFor(async () => expect(await store.getLossLog()).toEqual({ fx_tank: 1 }));
+    expect(screen.getByTestId('draft-notice').props.children).toMatch(/Derrota para Fx Tank/);
+
+    expect(screen.getByTestId('draft-share-card', { includeHiddenElements: true })).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('share-draft'));
+    const sharing = jest.requireMock('expo-sharing') as { shareAsync: jest.Mock };
+    await waitFor(() =>
+      expect(sharing.shareAsync).toHaveBeenCalledWith('file:///tmp/draft.png', expect.anything()),
+    );
   });
 
   it('reports what it could not recognize', async () => {

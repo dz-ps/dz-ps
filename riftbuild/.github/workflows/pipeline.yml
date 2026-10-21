@@ -46,6 +46,18 @@ jobs:
           else
             uv run riftbuild run
           fi
+      - name: Generate meta tips for the published patch (once per patch; cached roles are skipped)
+        if: success() && env.SUPABASE_URL != '' && (github.event_name == 'schedule' || inputs.publish)
+        run: |
+          curl -fsS -X POST "$SUPABASE_URL/functions/v1/ai/meta-tips/generate" \
+            -H "authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+            -H 'content-type: application/json' -d '{}' || echo '::warning::meta tips not generated'
+      - name: Purge old AI logs (LGPD retention)
+        if: success() && env.SUPABASE_URL != ''
+        run: |
+          curl -fsS -X POST "$SUPABASE_URL/rest/v1/rpc/purge_ai_logs" \
+            -H "apikey: $SUPABASE_SERVICE_ROLE_KEY" -H "authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+            -H 'content-type: application/json' -d '{}' || echo '::warning::purge failed'
       - uses: actions/upload-artifact@v4
         if: always()
         with:

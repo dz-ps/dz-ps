@@ -23,5 +23,7 @@ export * from './ai/orchestrator.ts';
 export * from './ai/prompt.ts';
 export * from './ai/cacheKey.ts';
 export * from './ai/structuredSchema.ts';
+export * from './ai/tips.ts';
+export * from './meta/trending.ts';
 export * from './sse.ts';
 export * from './share/buildCode.ts';

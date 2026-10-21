@@ -8,7 +8,7 @@ import {
   type UserBuild,
 } from '@riftbuild/shared';
 import { router, useFocusEffect } from 'expo-router';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 import { DataBanners } from '@/components/catalog/DataBanners';
 import { EntityIcon } from '@/components/catalog/EntityIcon';
@@ -17,12 +17,17 @@ import { AppText, Banner, Button, Card, Screen } from '@/components/ui';
 import { useCatalog } from '@/data/catalog/CatalogProvider';
 import type { SavedDraft } from '@/data/store/types';
 import { setPendingBuild } from '@/features/builds/handoff';
+import type { ShareCardRef } from '@/features/builds/ShareCard';
 import { AiResult } from '@/features/draft/AiResult';
 import { DeterministicResult } from '@/features/draft/DeterministicResult';
+import { DraftShareCard } from '@/features/draft/DraftShareCard';
+import { takePendingDraft } from '@/features/draft/handoff';
+import { recordLoss } from '@/features/profile/lossLog';
 import { useDraftAnalysis } from '@/features/draft/useDraftAnalysis';
 import { loadProfile } from '@/features/profile/profile';
 import { formatDate, ROLE_LABEL } from '@/i18n/labels';
 import { env } from '@/lib/env';
+import { shareViewAsImage } from '@/lib/shareImage';
 import { color } from '@/theme/tokens';
 
 type Step = 'input' | 'confirm' | 'result';
@@ -44,12 +49,24 @@ export default function DraftScreen() {
   const [lossLog, setLossLog] = useState<Record<string, number>>({});
   const [notice, setNotice] = useState<string | null>(null);
   const { deterministic, ai, analyze, reset } = useDraftAnalysis(index, meta);
+  const shareRef = useRef<ShareCardRef>(null);
 
   useFocusEffect(
     useCallback(() => {
       void store.listDrafts(5).then(setHistory);
       void store.getLossLog().then(setLossLog);
-    }, [store]),
+      const reopen = takePendingDraft();
+      if (reopen && index) {
+        reset();
+        setEnemies(reopen.enemies.filter((id) => index.champions.has(id)));
+        setAllies(reopen.allies.filter((id) => index.champions.has(id)));
+        setMyChampion(
+          reopen.myChampion && index.champions.has(reopen.myChampion) ? reopen.myChampion : null,
+        );
+        setMyRole((reopen.myRole as Role | null) ?? null);
+        setStep('confirm');
+      }
+    }, [store, index, reset]),
   );
 
   const champions = useMemo(() => [...(index?.champions.values() ?? [])], [index]);
@@ -136,6 +153,19 @@ export default function DraftScreen() {
     setNotice('Draft salvo no aparelho.');
   }
 
+  async function shareAnalysis() {
+    const problem = await shareViewAsImage(shareRef, 'Compartilhar análise de draft');
+    if (problem) setNotice(problem);
+  }
+
+  async function lostTo(id: string) {
+    setLossLog(await recordLoss(store, id));
+    const champ = index?.champions.get(id);
+    setNotice(
+      `Derrota para ${champ ? displayName(champ) : id} registrada. Ela pesa nos bans sugeridos.`,
+    );
+  }
+
   function startOver() {
     reset();
     setStep('input');
@@ -167,7 +197,7 @@ export default function DraftScreen() {
                   fontSize: 16,
                   minHeight: 48,
                   borderWidth: 1,
-                  borderColor: color.border,
+                  borderColor: color.control,
                   borderRadius: 12,
                   paddingHorizontal: 12,
                 }}
@@ -233,7 +263,7 @@ export default function DraftScreen() {
                         accessibilityRole="button"
                         accessibilityState={{ selected: myRole === r }}
                         onPress={() => setMyRole(myRole === r ? null : r)}
-                        className={`min-h-touch justify-center rounded-full border px-4 ${myRole === r ? 'border-accent' : 'border-border'}`}
+                        className={`min-h-touch justify-center rounded-full border px-4 ${myRole === r ? 'border-accent' : 'border-control'}`}
                       >
                         <AppText className={myRole === r ? 'text-accent' : 'text-text'}>
                           {ROLE_LABEL[r]}
@@ -323,13 +353,61 @@ export default function DraftScreen() {
                   onPress={applyToBuilder}
                 />
               </View>
-              <Button
-                testID="save-draft"
-                label="Salvar draft"
-                kind="secondary"
-                onPress={() => void saveDraft()}
-              />
-              {notice ? <AppText variant="caption">{notice}</AppText> : null}
+              <View className="flex-row gap-2">
+                <Button
+                  className="flex-1"
+                  testID="save-draft"
+                  label="Salvar draft"
+                  kind="secondary"
+                  onPress={() => void saveDraft()}
+                />
+                <Button
+                  className="flex-1"
+                  testID="share-draft"
+                  label="Compartilhar imagem"
+                  kind="secondary"
+                  onPress={() => void shareAnalysis()}
+                />
+              </View>
+              <Card className="gap-2" testID="loss-row">
+                <AppText variant="label">Perdeu a partida? Toque em quem mais te venceu:</AppText>
+                <View className="flex-row flex-wrap gap-2">
+                  {enemies.map((id) => {
+                    const champ = index.champions.get(id);
+                    if (!champ) return null;
+                    return (
+                      <EntityIcon
+                        key={id}
+                        testID={`lost-to-${id}`}
+                        icon={champ.icon}
+                        name={`Perdi para ${displayName(champ)}${lossLog[id] ? ` (${lossLog[id]})` : ''}`}
+                        size={44}
+                        onPress={() => void lostTo(id)}
+                      />
+                    );
+                  })}
+                </View>
+              </Card>
+              {notice ? (
+                <AppText testID="draft-notice" variant="caption">
+                  {notice}
+                </AppText>
+              ) : null}
+              <View
+                style={{ position: 'absolute', left: -10000, top: 0 }}
+                pointerEvents="none"
+                accessibilityElementsHidden
+                importantForAccessibility="no-hide-descendants"
+              >
+                <DraftShareCard
+                  ref={shareRef}
+                  result={deterministic}
+                  ai={ai.status === 'done' ? (ai.response as AiDraftResponse) : null}
+                  index={index}
+                  myChampion={myChampion}
+                  myRole={myRole}
+                />
+              </View>
             </>
           ) : null}
 

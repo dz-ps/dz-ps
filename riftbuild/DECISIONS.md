@@ -135,3 +135,25 @@ Registro de cada decisão técnica relevante e o motivo. Mais recentes no fim.
 - `evals/cases.yaml`: 22 casos com expectativas escritas como tags e propriedades do catálogo (não nomes de itens), para sobreviver a patches. Asserção cuja tag não existe em nenhum item do catálogo é marcada como pulada, não como aprovada.
 - Modos: `deterministic` (sem IA), `replay` (gravações), `local` (Claude direto com o mesmo orquestrador) e `remote` (Edge Function publicada). Nunca rodam com fixtures: sem catálogo real, o resultado é BLOCKED (código 2).
 - As respostas da IA são revalidadas antes da correção; a verificação de IDs inválidos olha a resposta bruta.
+
+## D26. Dicas de meta ("Campeões em alta")
+
+- Geradas uma vez por patch e rota por `POST /ai/meta-tips/generate`, chamado pelo workflow do pipeline depois de publicar (autenticado com a service role; o app nunca dispara geração). Rotas que já têm dicas no patch são puladas; a chave do cache inclui o patch, então um patch novo começa vazio.
+- Os campeões são os mesmos "em alta" da tela Início (`trendingByRole` no shared, top 3 por rota). O schema da saída limita `champion_id` a esses campeões, e o validador (`validateTips`) descarta IDs fora do pedido ou do catálogo, duplicados e frases longas.
+- O app lê `GET /ai/meta-tips?role=`, revalida contra o próprio catálogo, só mostra dicas do mesmo patch e guarda uma cópia local por patch para uso offline. A tela marca o texto como gerado por IA.
+
+## D27. Seed do catálogo no build
+
+- O hook `eas-build-pre-install` (`apps/mobile/scripts/eas-seed.mjs`) baixa o catálogo e o meta publicados, confere o sha256 do manifest e grava `assets/seed/release.json`. Roda antes do `pnpm install`, então usa só módulos do Node; o app valida o seed com zod e com as mesmas regras de fixture/parcial da sincronização.
+- No repositório fica só o stub `{"seed": null}` (o repo não guarda dado do jogo; `check-forbidden-sources` falha se um seed real for commitado). Em preview e production, `SEED_REQUIRED=1` faz o build falhar se o seed não puder ser baixado.
+- Os ícones continuam vindo do Storage (cache do expo-image); no primeiro uso totalmente offline o app mostra o nome no lugar do ícone até a primeira conexão.
+
+## D28. Exclusão de dados e retenção (LGPD)
+
+- "Apagar meus dados" apaga primeiro o que o servidor guarda da sessão anônima (RPC `delete_my_data` + logout) e depois tudo do aparelho (builds, drafts, derrotas, perfil, preferências). O catálogo fica, porque é dado do jogo. Se o servidor não responder, a sessão é mantida para o usuário repetir a parte remota.
+- `ai_calls` guarda só um hash com sal do identificador; não dá para ligar ao usuário sem o sal, por isso não entra na exclusão individual e é apagado por idade: `purge_ai_logs()` (90 dias de logs, cache expirado e contadores com mais de 7 dias), chamado todo dia pelo workflow do pipeline.
+
+## D29. Contraste e contornos de controle
+
+- Os tokens de texto passam 4,5:1 (WCAG AA) sobre os três fundos; um teste (`contrast.test.ts`) quebra se alguém mudar a paleta para pior.
+- `border` (#2C3544) é decorativo (cards e separadores). Campos de texto, chips e botões secundários usam `control` (#66768E), que passa 3:1 (WCAG 1.4.11) sobre todos os fundos.

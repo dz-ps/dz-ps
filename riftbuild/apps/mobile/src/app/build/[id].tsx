@@ -12,10 +12,8 @@ import {
 import * as Clipboard from 'expo-clipboard';
 import * as Haptics from 'expo-haptics';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
-import * as Sharing from 'expo-sharing';
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { AccessibilityInfo, Platform, Pressable, Share, TextInput, View } from 'react-native';
-import { captureRef } from 'react-native-view-shot';
 import { DataBanners } from '@/components/catalog/DataBanners';
 import { EntityIcon } from '@/components/catalog/EntityIcon';
 import { EntityPicker } from '@/components/catalog/EntityPicker';
@@ -29,6 +27,7 @@ import { ShareCard, type ShareCardRef } from '@/features/builds/ShareCard';
 import { editorReducer, initialEditorState } from '@/features/builds/state';
 import { StatPanel } from '@/features/builds/StatPanel';
 import { ROLE_LABEL } from '@/i18n/labels';
+import { shareViewAsImage } from '@/lib/shareImage';
 import { color } from '@/theme/tokens';
 
 const newId = () => `b_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 7)}`;
@@ -156,17 +155,8 @@ function Editor({
   }
 
   async function shareImage() {
-    try {
-      const uri = await captureRef(shareRef.current as Parameters<typeof captureRef>[0], {
-        format: 'png',
-        quality: 1,
-      });
-      if (await Sharing.isAvailableAsync())
-        await Sharing.shareAsync(uri, { mimeType: 'image/png', dialogTitle: 'Compartilhar build' });
-      else setNotice('Compartilhamento de imagem indisponível neste dispositivo.');
-    } catch {
-      setNotice('Não foi possível gerar a imagem.');
-    }
+    const problem = await shareViewAsImage(shareRef, 'Compartilhar build');
+    if (problem) setNotice(problem);
   }
 
   async function shareLink() {
@@ -205,7 +195,7 @@ function Editor({
               accessibilityRole="button"
               accessibilityState={{ selected: b.role === r }}
               onPress={() => dispatch({ type: 'role', role: b.role === r ? null : r })}
-              className={`min-h-touch justify-center rounded-full border px-4 ${b.role === r ? 'border-accent' : 'border-border'}`}
+              className={`min-h-touch justify-center rounded-full border px-4 ${b.role === r ? 'border-accent' : 'border-control'}`}
             >
               <AppText className={b.role === r ? 'text-accent' : 'text-text'}>
                 {ROLE_LABEL[r]}
@@ -381,7 +371,7 @@ function Editor({
             color: color.text,
             minHeight: 48,
             borderWidth: 1,
-            borderColor: color.border,
+            borderColor: color.control,
             borderRadius: 12,
             paddingHorizontal: 12,
           }}

@@ -1,6 +1,15 @@
-import type { MetaStat, Role } from '@riftbuild/shared';
+import {
+  ROLES,
+  trendingByRole,
+  type AiMetaTips,
+  type MetaStat,
+  type Role,
+} from '@riftbuild/shared';
+import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { useCatalog } from '@/data/catalog/CatalogProvider';
+import { fetchMetaTips } from '@/data/remote/tips';
+import { env } from '@/lib/env';
 
 export type TierRow = MetaStat & { rank: number };
 
@@ -21,26 +30,29 @@ export function useTierList(
   }, [meta, index, role, rankTier]);
 }
 
-/** "Campeões em alta": best win rate per role among picks with a meaningful pick rate. */
+/** "Campeões em alta": same selection as the server-side tips generator (shared trendingByRole). */
 export function useTrending(rankTier: string | null, minPick = 2): MetaStat[] {
   const { meta, index } = useCatalog();
-  return useMemo(() => {
-    if (!meta) return [];
-    const tier = rankTier ?? meta.rank_tiers[0];
-    const roles: Role[] = ['baron', 'jungle', 'mid', 'dragon', 'support'];
-    return roles
-      .map(
-        (role) =>
-          meta.stats
-            .filter(
-              (s) =>
-                s.role === role &&
-                s.rank_tier === tier &&
-                s.pick_rate >= minPick &&
-                index?.champions.has(s.champion_id),
-            )
-            .sort((a, b) => b.win_rate - a.win_rate)[0],
-      )
-      .filter((s): s is MetaStat => !!s);
-  }, [meta, index, rankTier, minPick]);
+  return useMemo(
+    () => trendingByRole(meta, index, { rankTier, minPick }),
+    [meta, index, rankTier, minPick],
+  );
+}
+
+/** AI tips per role for the current catalog patch, when the scheduled job has generated them. */
+export function useMetaTips(): Partial<Record<Role, AiMetaTips>> {
+  const { index } = useCatalog();
+  const { data } = useQuery({
+    queryKey: ['meta-tips', index?.patch],
+    enabled: !!index && env.hasBackend,
+    queryFn: async () => {
+      const entries = await Promise.all(
+        ROLES.map(async (role) => [role, await fetchMetaTips(role, index!)] as const),
+      );
+      return Object.fromEntries(entries.filter(([, tips]) => tips?.tips.length)) as Partial<
+        Record<Role, AiMetaTips>
+      >;
+    },
+  });
+  return data ?? {};
 }

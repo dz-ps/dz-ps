@@ -22,6 +22,7 @@ export type ErrorCode =
   | 'timeout'
   | 'config'
   | 'unauthorized'
+  | 'forbidden'
   | 'not_found';
 
 export function errorBody(code: ErrorCode, message_pt: string) {
@@ -52,4 +53,12 @@ export function sse(
       connection: 'keep-alive',
     },
   });
+}
+
+/** Constant-time string comparison for secrets. */
+export function sameSecret(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
 }

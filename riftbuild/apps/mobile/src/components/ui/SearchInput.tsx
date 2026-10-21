@@ -11,7 +11,7 @@ type Props = {
 
 export function SearchInput({ value, onChangeText, placeholder, testID, autoFocus }: Props) {
   return (
-    <View className="min-h-touch flex-row items-center rounded-xl border border-border bg-surface2 px-3">
+    <View className="min-h-touch flex-row items-center rounded-xl border border-control bg-surface2 px-3">
       <TextInput
         testID={testID}
         value={value}

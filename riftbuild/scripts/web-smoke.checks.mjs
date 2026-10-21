@@ -119,6 +119,24 @@ export const CHECKS = [
       await page.getByTestId('draft-confirm').click();
       await expectTestId(page, 'comp-read');
       await expectText(page, 'Controle pesado');
+      await expectTestId(page, 'loss-row');
+    },
+  },
+  {
+    name: 'profile',
+    path: '/profile',
+    async run(page, { realData }) {
+      await expectTestId(page, 'profile-mains');
+      await page.getByTestId('delete-data').click();
+      await expectTestId(page, 'delete-confirm');
+      await page.getByRole('button', { name: 'Cancelar' }).click();
+      await page.getByTestId('profile-role-jungle').click();
+      if (realData) {
+        await page.getByTestId('add-main').click();
+        await page.getByTestId('profile-picker-search').fill('ww'); // alias → Warwick
+        await page.getByTestId('profile-picker-warwick').click();
+        await expectTestId(page, 'main-warwick');
+      }
     },
   },
 ];

@@ -10,6 +10,7 @@ jest.mock('@/lib/storage', () => {
       getJSON: (k: string) => (map.has(k) ? JSON.parse(map.get(k)!) : undefined),
       setJSON: (k: string, v: unknown) => void map.set(k, JSON.stringify(v)),
       delete: (k: string) => void map.delete(k),
+      keys: () => [...map.keys()],
       clearAll: () => map.clear(),
     },
   };

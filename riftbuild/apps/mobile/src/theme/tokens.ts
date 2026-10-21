@@ -6,6 +6,7 @@ export type ColorName =
   | 'surface'
   | 'surface2'
   | 'border'
+  | 'control'
   | 'text'
   | 'muted'
   | 'accent'

@@ -59,7 +59,7 @@ function TierList() {
               setRole(r);
               prefs.setString('meta.role', r);
             }}
-            className={`min-h-touch justify-center rounded-full border px-4 ${role === r ? 'border-accent' : 'border-border'}`}
+            className={`min-h-touch justify-center rounded-full border px-4 ${role === r ? 'border-accent' : 'border-control'}`}
           >
             <AppText className={role === r ? 'text-accent' : 'text-text'}>{ROLE_LABEL[r]}</AppText>
           </Pressable>
@@ -81,7 +81,7 @@ function TierList() {
               setElo(tier);
               prefs.setString('meta.elo', tier);
             }}
-            className={`min-h-touch justify-center rounded-lg border px-3 ${current === tier ? 'border-info' : 'border-border'}`}
+            className={`min-h-touch justify-center rounded-lg border px-3 ${current === tier ? 'border-info' : 'border-control'}`}
           >
             <AppText className={`text-sm ${current === tier ? 'text-info' : 'text-muted'}`}>
               {tier}

@@ -13,4 +13,22 @@ export function loadProfile(): Profile {
 
 export function saveProfile(profile: Profile): void {
   prefs.setJSON(KEY, profile);
+  // The profile elo is also the default filter of the meta screens.
+  if (profile.elo) prefs.setString('meta.elo', profile.elo);
+}
+
+export const MAX_MAINS = 3;
+
+/** Style preferences sent to the build rules and the AI (spec §5.6). "AP"/"AD" steer item candidates. */
+export const STYLE_OPTIONS = ['AP', 'AD', 'agressivo', 'seguro', 'tanque'] as const;
+const EXCLUSIVE: Record<string, string> = {
+  AP: 'AD',
+  AD: 'AP',
+  agressivo: 'seguro',
+  seguro: 'agressivo',
+};
+
+export function toggleStyle(style: string[], value: string): string[] {
+  if (style.includes(value)) return style.filter((s) => s !== value);
+  return [...style.filter((s) => s !== EXCLUSIVE[value]), value];
 }

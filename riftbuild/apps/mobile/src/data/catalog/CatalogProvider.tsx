@@ -20,7 +20,8 @@ import { AppState } from 'react-native';
 import { env } from '@/lib/env';
 import { prefs } from '@/lib/storage';
 import type { AppStore, StoredRelease } from '../store/types';
-import { staleMessage, syncRelease, SyncError, type SyncDeps } from './sync';
+import { bundledSeed } from './seed';
+import { releaseFromSeed, staleMessage, syncRelease, SyncError, type SyncDeps } from './sync';
 
 export type CatalogStatus = 'loading' | 'ready' | 'empty';
 
@@ -112,7 +113,7 @@ export function CatalogProvider({ store, children, syncDeps }: CatalogProviderPr
   // Startup never waits on the network: render the stored release first, then check in the background.
   useEffect(() => {
     let cancelled = false;
-    void store.loadRelease().then((stored) => {
+    void loadOrSeed(store).then((stored) => {
       if (cancelled) return;
       if (stored) {
         setRelease(stored);
@@ -175,6 +176,18 @@ export function CatalogProvider({ store, children, syncDeps }: CatalogProviderPr
     ],
   );
   return <CatalogContext.Provider value={value}>{children}</CatalogContext.Provider>;
+}
+
+/** Stored release, or on a fresh install the seed embedded in the build (works offline from the first launch). */
+async function loadOrSeed(store: AppStore): Promise<StoredRelease | null> {
+  const stored = await store.loadRelease();
+  if (stored) return stored;
+  const seeded = releaseFromSeed(bundledSeed(), {
+    allowFixtures: env.allowFixtures,
+    allowPartial: env.allowPartial,
+  });
+  if (seeded) await store.saveRelease(seeded);
+  return seeded;
 }
 
 export function useCatalog(): CatalogContextValue {

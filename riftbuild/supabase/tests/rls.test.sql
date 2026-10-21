@@ -89,6 +89,27 @@ do $$ begin
   end if;
 end $$;
 
+-- retention: only the service role can purge; old logs and expired cache go, recent rows stay
+insert into public.ai_calls (created_at, kind, subject_hash, latency_ms, status)
+values (now() - interval '120 days', 'draft', 'old', 1, 'ok'), (now(), 'draft', 'new', 1, 'ok');
+insert into public.ai_cache (key, kind, patch, bundle_hash, model, prompt_version, response, expires_at)
+values ('expired', 'draft', '1.0', 'h', 'm', 'v', '{}', now() - interval '1 hour');
+set role authenticated;
+do $$ begin
+  perform public.purge_ai_logs();
+  raise exception 'authenticated must not purge logs';
+exception when insufficient_privilege then null;
+end $$;
+reset role;
+set role service_role;
+select public.purge_ai_logs();
+reset role;
+do $$ begin
+  if exists (select 1 from public.ai_calls where subject_hash = 'old') then raise exception 'old call kept'; end if;
+  if not exists (select 1 from public.ai_calls where subject_hash = 'new') then raise exception 'recent call purged'; end if;
+  if exists (select 1 from public.ai_cache where key = 'expired') then raise exception 'expired cache kept'; end if;
+end $$;
+
 -- storage buckets exist and are public
 do $$ begin
   if (select count(*) from storage.buckets where id in ('catalog', 'icons') and public) <> 2 then

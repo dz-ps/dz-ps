@@ -5,3 +5,4 @@ export { Card } from './Card';
 export { Screen } from './Screen';
 export { SearchInput } from './SearchInput';
 export { Segmented } from './Segmented';
+export { ToggleChip } from './ToggleChip';

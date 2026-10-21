@@ -60,6 +60,10 @@ for (const dir of SCAN_DIRS) {
     if (rel.startsWith('apps/mobile/assets') && /"fixture"\s*:\s*true/.test(text)) {
       problems.push(`${rel}: fixture data must never ship inside the app`);
     }
+    // The seed is filled only inside EAS builds; the repo never stores game data (D5).
+    if (rel === 'apps/mobile/assets/seed/release.json' && JSON.parse(text).seed !== null) {
+      problems.push(`${rel}: commit the empty stub ({"seed": null}), not a fetched seed`);
+    }
   }
 }
 

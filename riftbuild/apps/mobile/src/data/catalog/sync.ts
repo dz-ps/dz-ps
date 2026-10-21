@@ -110,6 +110,33 @@ export async function syncRelease(
   return { kind: 'updated', release, gamePatch };
 }
 
+/**
+ * The seed embedded at build time (scripts/eas-seed.mjs, already sha256-checked there). Validated with the
+ * same zod schemas and fixture/partial rules as a download; anything off means "no seed", never a crash.
+ */
+export function releaseFromSeed(
+  raw: unknown,
+  opts: { allowFixtures: boolean; allowPartial: boolean },
+): StoredRelease | null {
+  if (!raw || typeof raw !== 'object') return null;
+  const seed = raw as Record<string, unknown>;
+  const manifest = Manifest.safeParse(seed.manifest);
+  const catalog = CatalogBundle.safeParse(seed.catalog);
+  if (!manifest.success || !catalog.success || !manifest.data.catalog) return null;
+  if (catalog.data.fixture && !opts.allowFixtures) return null;
+  if (catalog.data.partial && !opts.allowPartial) return null;
+  const meta = seed.meta ? MetaBundle.safeParse(seed.meta) : null;
+  const metaOk = meta?.success && (!meta.data.fixture || opts.allowFixtures);
+  return {
+    catalog: catalog.data,
+    catalogHash: manifest.data.catalog.hash,
+    meta: metaOk ? meta.data : null,
+    metaHash: metaOk ? (manifest.data.meta?.hash ?? null) : null,
+    manifest: manifest.data,
+    savedAt: typeof seed.generated_at === 'string' ? seed.generated_at : new Date().toISOString(),
+  };
+}
+
 export function staleMessage(
   dataPatch: string | null | undefined,
   gamePatch: string | null | undefined,
