@@ -182,7 +182,13 @@ de qualquer forma, então não vou investir em portabilidade do código Swift em
 
 ### 3.1 Decode
 
-- `VideoDecoder` com `hardwareAcceleration: 'prefer-hardware'`, `optimizeForLatency: true`,
+- **[Ajuste pós-sondagem]** `hardwareAcceleration` é configurável (`auto` | `prefer-hardware` |
+  `prefer-software`). No Poco X7 Pro, o decode em software foi **mais rápido e mais estável** que o
+  de hardware em 1280×800 (mediana 8.7 vs 15.9 ms; p95 11.3 vs 57 ms; ver seção 12). No modo `auto`,
+  o cliente mede os dois nos primeiros ~60 frames do stream real e fica com o de menor p95. Com
+  3 streams em software, o custo de CPU entra no orçamento: os displays fora do olhar já caem pra
+  10–15 fps.
+- `VideoDecoder` com `optimizeForLatency: true`,
   `codec` vindo do host (ex.: `avc1.640028`), `description` = avcC (ver 4.3).
 - `EncodedVideoChunk.timestamp = captureTimeUs`, então o `VideoFrame` de saída carrega o tempo de
   captura e a latência ponta a ponta sai direto daí.
@@ -224,13 +230,16 @@ de qualquer forma, então não vou investir em portabilidade do código Swift em
   que precisa ser configurável.
 - Fullscreen + `screen.orientation.lock('landscape')` + `navigator.wakeLock.request('screen')`
   (reaplicado em `visibilitychange`).
-- Taxa: `requestAnimationFrame` roda na taxa do display (até 120 Hz). Limito a 60 por padrão
-  pulando frames pelo timestamp; 90 e 120 ficam como opção.
+- Taxa: `requestAnimationFrame` roda na taxa do display. Limito a 60 por padrão pulando frames pelo
+  timestamp; 90 e 120 ficam como opção. **Na sondagem o rAF do Chrome veio travado em 60 Hz** (o
+  HyperOS limita o navegador), então 90/120 provavelmente nem ficam disponíveis. O cliente detecta
+  a taxa real e esconde as opções que o aparelho não entrega.
 
 ### 3.4 Head tracking 3DoF
 
-- `RelativeOrientationSensor({ frequency: 60, referenceFrame: 'screen' })`. 60 Hz é o teto prático
-  do Chrome. O quaternion vem no frame da tela, já considerando a paisagem.
+- `RelativeOrientationSensor({ frequency: 60, referenceFrame: 'screen' })`. 60 Hz é o teto do Chrome:
+  confirmado na sondagem, pedir 120 também entrega 60 (e o giroscópio idem). Por isso a predição
+  abaixo é importante. O quaternion vem no frame da tela, já considerando a paisagem.
 - Fallback: `deviceorientation` (alpha/beta/gamma → quaternion, compensando `screen.orientation.angle`).
 - Predição: extrapolação curta (~1 frame) usando a velocidade angular derivada dos quaternions,
   configurável (0 = sem predição).
@@ -368,7 +377,11 @@ Encode e decode dessas mensagens moram em `client/src/net/protocol.ts` e
 
 ### 5.3 Mãos (Fase 5)
 - `getUserMedia` na câmera traseira escolhida (lista por `enumerateDevices`; a ultrawide é
-  preferida se aparecer), 640×480 @ 15/30 fps. O mesmo `MediaStream` alimenta o MediaPipe e o
+  preferida se aparecer), 640×480 @ 15/30 fps. **No Poco X7 Pro o Chrome só expõe a câmera
+  principal** ("camera 0", máx. 4096×3072): **a ultrawide não aparece**. Isso é limitação do
+  Camera2/HyperOS e não tem contorno pela web. O FOV horizontal da principal fica em ~65–70°, então
+  as mãos precisam ficar mais à frente e mais centralizadas. A sondagem mediu 15 fps entregues
+  pedindo 30 (provável auto-exposição em pouca luz): a refazer com boa luz. O mesmo `MediaStream` alimenta o MediaPipe e o
   passthrough.
 - `@mediapipe/tasks-vision` `HandLandmarker`, `runningMode: 'VIDEO'`, `delegate: 'GPU'`, 1 mão. O
   wasm e o modelo `.task` ficam no build (nada de CDN em runtime).
@@ -509,3 +522,24 @@ imprime no terminal um QR com `https://<ip>:<porta>/#t=<token>`. Com Tailscale, 
   sensores e a frequência real deles, câmeras traseiras e suas capabilities, BarcodeDetector,
   taxa do display, e registra os eventos do controle VR BOX. Serve pra derrubar os riscos antes
   de escrever código.
+
+---
+
+## 12. Resultados da sondagem — Poco X7 Pro (2412DPC0AG), Android 16, Chrome 157
+
+| Item | Resultado | Consequência |
+|---|---|---|
+| Contexto seguro via `adb reverse` | ✅ | plano USB confirmado |
+| Tela em fullscreen paisagem | 2711×1219 px físicos (834×375 CSS, dpr 3.25) | praticamente a tela toda é útil |
+| rAF | 60 Hz | 90/120 provavelmente indisponíveis |
+| GPU | Mali-G720 MC7, WebGL2, aniso 16×, MSAA 4×, max texture 8192 | ok |
+| H.264 decode 1280×800 (submit→output, 60 fps) | HW: mediana 15.9 / p95 57 ms · SW: 8.7 / 11.3 ms | decoder configurável, `auto` mede e escolhe |
+| `RelativeOrientationSensor` | 60 Hz (pedindo 60 ou 120) | predição de 1 frame |
+| Câmeras traseiras expostas | só a principal | sem ultrawide; FOV ~65–70° |
+| fps de câmera medido (640×480) | 15 (traseira), 20 (frontal) | refazer com boa luz |
+| BarcodeDetector | `qr_code` suportado | leitura do QR do viewer é viável |
+| WebGPU | disponível | não usado por enquanto |
+
+Observação: o benchmark de decode é sintético (frames de "tela" gerados pelo VideoEncoder do
+próprio celular, com o hardware rodando antes do software). A Fase 1 refaz a medição com o stream
+real do Mac.

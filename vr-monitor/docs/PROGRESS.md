@@ -4,7 +4,7 @@ Legenda: ✅ feito · 🟡 em andamento / aguardando validação · ⬜ não ini
 
 | Fase | Status | Resumo |
 |---|---|---|
-| 0. Ambiente + arquitetura | 🟡 aguardando sua execução no Mac/celular | `check-env.sh`, `probe.sh`, `docs/ARCHITECTURE.md` |
+| 0. Ambiente + arquitetura | 🟡 celular validado; falta `check-env.sh` no Mac e o controle | `check-env.sh`, `probe.sh`, `docs/ARCHITECTURE.md` |
 | 1. Stream da tela principal (plano, USB, latência) | ⬜ | |
 | 2. Displays virtuais (N, um stream por display) | ⬜ | |
 | 3. VR: painéis, estéreo, head tracking, distorção, calibração | ⬜ | |
@@ -17,8 +17,15 @@ Legenda: ✅ feito · 🟡 em andamento / aguardando validação · ⬜ não ini
 - `scripts/check-env.sh`: checa macOS ≥ 14 / arm64, CLT + Swift ≥ 6, Node ≥ 20, adb, celular conectado (modelo, Android, Chrome, tela, refresh), opcionais. Pergunta antes de instalar qualquer coisa via brew.
 - `scripts/probe.sh` + `tools/probe/index.html`: sondagem de capacidades do celular (WebCodecs com benchmark real de encode→decode, WebGL2, sensores e frequência real, fullscreen/orientação/wake lock, câmeras traseiras com capabilities e fps medido, BarcodeDetector, log de eventos do controle). Validada no Chromium headless (Linux): sem erros de JS, e o caminho AVCC + `description` decodifica.
 
+## Fase 0 — resultado da sondagem no celular
+Ver ARCHITECTURE.md §12. Resumo: WebCodecs, sensores (60 Hz), fullscreen, orientação, wake lock e
+BarcodeDetector ok. O decode em software foi mais estável que em hardware, então o decoder ficou
+configurável. Ultrawide não exposta. Câmera a 15 fps (refazer com luz).
+
 ## Fase 0 — falta
-- Rodar `check-env.sh` no Mac e a sondagem no Poco X7 Pro, e me mandar os resultados.
+- Rodar `check-env.sh --report` no Mac e mandar o `docs/env-report.txt`.
+- Controle VR BOX: a sondagem registrou só `pointerdown` de toque (nenhum gamepad ou tecla). Falta
+  confirmar se esses toques vieram do controle (alguns modos emulam toque na tela) ou do dedo.
 
 ## Decisões que divergem do pedido (detalhes no ARCHITECTURE.md)
 - Token de sessão obrigatório **também no USB** (CSWSH a partir do navegador do Mac e outros apps do celular conseguem alcançar o localhost do adb reverse).
@@ -28,5 +35,7 @@ Legenda: ✅ feito · 🟡 em andamento / aguardando validação · ⬜ não ini
 - **Sessão de desenvolvimento roda num container Linux na nuvem**: não consigo compilar Swift com ScreenCaptureKit/VideoToolbox nem falar com o adb. Até isso mudar, o host vai ser escrito "às cegas" e você compila e me manda os erros. Recomendado: rodar o Claude Code no próprio Mac (CLI ou app desktop) a partir da Fase 1.
 - Limite de displays virtuais no M1 Air: a validar na Fase 2.
 - Custo do MediaPipe na thread principal: a medir na Fase 5 (o plano B é um Worker).
-- A ultrawide pode não ser exposta pelo Chrome no HyperOS: a sondagem vai dizer.
+- Ultrawide **não** é exposta pelo Chrome no HyperOS: hand tracking vai usar a câmera principal (FOV menor).
+- rAF travado em 60 Hz no Chrome do HyperOS: 90/120 provavelmente fora de alcance.
+- Decode H.264 em hardware com p95 alto (57 ms) no benchmark sintético: confirmar com stream real na Fase 1.
 - O projeto está em `vr-monitor/` dentro do repo de perfil `dz-ps/dz-ps`. Dá pra extrair pra um repo próprio depois com `git subtree split --prefix vr-monitor`.
