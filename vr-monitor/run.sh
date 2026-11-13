@@ -30,10 +30,20 @@ step() { printf '\n\033[1m▸ %s\033[0m\n' "$1"; }
 step "build do cliente"
 ( cd "$ROOT/client" && { [ -d node_modules ] || npm ci; } && npm run build --silent )
 
-step "build do host (a primeira vez baixa e compila as dependências: alguns minutos)"
-( cd "$ROOT/host" && swift build -c release )
-BIN="$ROOT/host/.build/release/vrmonitor"
-[ -x "$BIN" ] || { echo "build do host falhou"; exit 1; }
+# O build do Swift fica fora do repo: o banco SQLite do SwiftPM (build.db) corrompe ("disk I/O
+# error") quando a pasta é sincronizada pelo iCloud Drive (Mesa/Documentos) ou Dropbox.
+SCRATCH="${VRM_SCRATCH:-$HOME/Library/Caches/vr-monitor/host-build}"
+mkdir -p "$SCRATCH"
+step "build do host em $SCRATCH (a primeira vez baixa e compila as dependências: alguns minutos)"
+if ! ( cd "$ROOT/host" && swift build -c release --scratch-path "$SCRATCH" ); then
+  echo
+  echo "build do host falhou."
+  echo "Se o erro for 'disk I/O error' no build.db: confira se não há outro 'swift build' rodando"
+  echo "(pgrep -fl swift-build) e apague o cache:  rm -rf \"$SCRATCH\""
+  exit 1
+fi
+BIN="$SCRATCH/release/vrmonitor"
+[ -x "$BIN" ] || { echo "binário não encontrado em $BIN"; exit 1; }
 
 if [ ${#SOURCE_ARGS[@]} -gt 0 ] && [ ! -f "$ROOT/host/test-clip.h264" ]; then
   step "gerando clipe de teste"
