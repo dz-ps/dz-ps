@@ -5,3 +5,4 @@ host/.swiftpm/
 *.pem
 *.key
 .DS_Store
+test-clip.h264

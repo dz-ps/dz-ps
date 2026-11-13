@@ -91,6 +91,13 @@ protocol InputInjector {
 protocol PermissionChecker { func screenCapture() -> PermissionState; func accessibility() -> PermissionState }
 ```
 
+**[Ajuste na Fase 1]** No código, o `HostCore` expõe captura+encode juntos como
+`VideoStreamSource` (que emite `EncodedUnit`: config ou frame AVCC), mais um `HostPlatform`
+(lista de displays, permissões, fábrica de streams). `FrameSource` e `VideoEncoder` viraram
+detalhes internos do `HostMac` (`MacDisplayStream` + `H264Encoder`), porque o `CVPixelBuffer` não
+existe fora do macOS e não vale a pena abstraí-lo. Também existe um `SyntheticStream` (clipe H.264
+em loop) que roda em qualquer plataforma, pra testar sem captura.
+
 **Sobre portar pro Windows:** o contrato realmente estável é o **protocolo de rede** (seção 4).
 O cliente não sabe nada do host. No Windows, o host provavelmente seria reescrito (C#/Rust/C++)
 com: driver IddCx (ex.: Virtual Display Driver) → Windows.Graphics.Capture ou DXGI Desktop
@@ -120,7 +127,7 @@ de qualquer forma, então não vou investir em portabilidade do código Swift em
 
 - Um `SCStream` por display, `SCContentFilter(display:excludingWindows:[])`.
 - `SCStreamConfiguration`: `pixelFormat = kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange` (420v),
-  `queueDepth = 3`, `showsCursor = true`, `minimumFrameInterval = 1/fps`, `width/height` = resolução
+  `queueDepth = 4` (3 + 1 porque o host segura o último buffer), `showsCursor = true`, `minimumFrameInterval = 1/fps`, `width/height` = resolução
   do display em pixels, `colorSpaceName = sRGB`.
 - O status de `SCStreamFrameInfo` vem em cada sample. Frames `.idle`/`.blank` não carregam pixels
   novos e são descartados. Mantemos uma referência ao último `CVPixelBuffer` `.complete`.
@@ -286,7 +293,13 @@ Mecanismo:
   vídeo sai e nenhum input entra.
 - Além do token, o servidor checa `Origin` (allowlist: `http://localhost:8420`,
   `http://127.0.0.1:8420` e, no Wi-Fi, `https://<host>:<porta>`) e `Host` (anti-rebinding).
-- 5 falhas de autenticação seguidas de um mesmo peer → bloqueio por 60 s.
+- Limitador **global** de falhas: 5 falhas em 10 s → novas tentativas bloqueadas por 5 s. Não dá
+  pra ser por peer, porque via `adb reverse` todo mundo chega de 127.0.0.1. O bloqueio é curto pra
+  um atacante local não travar o cliente legítimo; com token de 128 bits, força bruta já é inviável.
+- Upgrade recusado volta como HTTP 400 (é assim que o Hummingbird trata erro no `shouldUpgrade`).
+  O motivo real (Host, Origin ou token) vai pro log do host.
+- IDs de display no protocolo são pequenos (1, 2, …) e o host mapeia pro `CGDirectDisplayID`
+  (o de monitor externo não cabe em u16).
 
 ### 4.2 Canal de controle — `/ws/control` (JSON)
 

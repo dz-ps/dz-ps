@@ -4,8 +4,8 @@ Legenda: ✅ feito · 🟡 em andamento / aguardando validação · ⬜ não ini
 
 | Fase | Status | Resumo |
 |---|---|---|
-| 0. Ambiente + arquitetura | 🟡 Mac e celular validados; falta confirmar o controle | `check-env.sh`, `probe.sh`, `docs/ARCHITECTURE.md` |
-| 1. Stream da tela principal (plano, USB, latência) | ⬜ | |
+| 0. Ambiente + arquitetura | ✅ (controle VR BOX fica pra quando você tiver o viewer) | `check-env.sh`, `probe.sh`, `docs/ARCHITECTURE.md` |
+| 1. Stream da tela principal (plano, USB, latência) | 🟡 código pronto; aguardando teste no Mac + celular | `./run.sh` |
 | 2. Displays virtuais (N, um stream por display) | ⬜ | |
 | 3. VR: painéis, estéreo, head tracking, distorção, calibração | ⬜ | |
 | 4. Input: gaze, foco segue olhar, toque, controle VR BOX | ⬜ | |
@@ -31,6 +31,29 @@ na hora do relatório; a sondagem rodou depois, então ele já foi instalado. 2 
 ## Fase 0 — falta
 - Controle VR BOX: a sondagem registrou só `pointerdown` de toque (nenhum gamepad ou tecla). Falta
   confirmar se esses toques vieram do controle (alguns modos emulam toque na tela) ou do dedo.
+
+## Fase 1 — feito
+- **Host (Swift 6.3, SwiftPM):**
+  - `HostCore` (protocolo binário, mensagens de controle, H.264/avcC, token, Origin/Host, limitador, fonte sintética);
+  - `HostMac` (ScreenCaptureKit 420v + VideoToolbox H.264 em HW com low-latency RC, BT.709, keyframe sob demanda reaproveitando o último frame);
+  - `vrmonitor` (Hummingbird 2 + WebSocket: estático, `/healthz`, `/ws/control`, `/ws/video?display=N`, backpressure por assinante).
+- **Cliente (TS strict + Vite + Three.js):**
+  - WebCodecs AVCC com `description`, decoder `auto` (mede HW vs SW com o stream real e escolhe pelo p95);
+  - upload `VideoFrame` → textura WebGL via `texSubImage2D` (sem canvas 2D), `frame.close()` sempre;
+  - sync de relógio (menor RTT), HUD com fps, decode, e2e e quebra host/rede/decode/espera, aviso de throttling;
+  - fullscreen, paisagem, wake lock.
+- `run.sh`: build, token, host, `adb reverse`, `am start`.
+- **Testes:**
+  - 18 em Swift (protocolo com vetores compartilhados, H.264, auth, mensagens, fonte sintética);
+  - 12 no cliente (protocolo com os mesmos vetores, clock sync, estatísticas).
+- **Validado neste container Linux:**
+  - host com fonte sintética + cliente no Chromium headless, de ponta a ponta;
+  - token errado, Origin errado e Host errado são recusados.
+- **Não validado:** `HostMac` (ScreenCaptureKit/VideoToolbox) não compila no Linux. Foi escrito com
+  atenção às assinaturas, mas é o primeiro ponto a checar no Mac.
+
+## Fase 1 — falta
+- Você rodar no Mac + celular e me mandar o HUD (principalmente e2e e decoder escolhido).
 
 ## Decisões que divergem do pedido (detalhes no ARCHITECTURE.md)
 - Token de sessão obrigatório **também no USB** (CSWSH a partir do navegador do Mac e outros apps do celular conseguem alcançar o localhost do adb reverse).

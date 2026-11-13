@@ -1,0 +1,33 @@
+{
+ "_comment": "Vetores do protocolo de vídeo v1. Usados pelos testes do cliente (TS) e do host (Swift).",
+ "frame": {
+  "type": 2,
+  "displayId": 3,
+  "flags": 1,
+  "seq": 258,
+  "captureTimeUs": 1234567890123,
+  "sendTimeUs": 1234567895000,
+  "payloadHex": "0000000465888400",
+  "hex": "564d01020300010002010000cb04fb711f010000d817fb711f0100000000000465888400"
+ },
+ "config": {
+  "type": 1,
+  "displayId": 0,
+  "flags": 1,
+  "seq": 7,
+  "captureTimeUs": 1000000,
+  "sendTimeUs": 1000250,
+  "width": 1280,
+  "height": 800,
+  "codec": "avc1.640028",
+  "avccHex": "01640028ffe1000a6764002873a0e010080a8001000468ee3cb0",
+  "hex": "564d0101000001000700000040420f00000000003a430f0000000000000520030b617663312e36343030323801640028ffe1000a6764002873a0e010080a8001000468ee3cb0"
+ },
+ "avcc": {
+  "_comment": "SPS/PPS -> avcC",
+  "spsHex": "6764002873a0e010080a80",
+  "ppsHex": "68ee3cb0",
+  "expectedHex": "01640028ffe1000b6764002873a0e010080a8001000468ee3cb0",
+  "codec": "avc1.640028"
+ }
+}

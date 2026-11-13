@@ -1,0 +1,10 @@
+html, body { margin: 0; height: 100%; background: #000; overflow: hidden; touch-action: none; overscroll-behavior: none; }
+#app { position: fixed; inset: 0; }
+canvas { display: block; width: 100%; height: 100%; }
+#hud { position: fixed; left: 8px; top: 8px; margin: 0; padding: 6px 8px; background: rgba(0,0,0,.65); color: #9fef9f;
+  font: 11px/1.35 ui-monospace, Menlo, monospace; border-radius: 4px; pointer-events: none; white-space: pre; }
+#hud.warn { color: #ffd166; }
+#overlay { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: rgba(0,0,0,.7); color: #eee; font: 16px system-ui, sans-serif; text-align: center; padding: 16px; }
+#overlay .mut { color: #999; font-size: 13px; }
+code { background: #222; padding: 1px 4px; border-radius: 3px; }
