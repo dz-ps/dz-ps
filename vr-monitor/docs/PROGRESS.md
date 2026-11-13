@@ -5,7 +5,7 @@ Legenda: ✅ feito · 🟡 em andamento / aguardando validação · ⬜ não ini
 | Fase | Status | Resumo |
 |---|---|---|
 | 0. Ambiente + arquitetura | ✅ (controle VR BOX fica pra quando você tiver o viewer) | `check-env.sh`, `probe.sh`, `docs/ARCHITECTURE.md` |
-| 1. Stream da tela principal (plano, USB, latência) | 🟡 código pronto; aguardando teste no Mac + celular | `./run.sh` |
+| 1. Stream da tela principal (plano, USB, latência) | ✅ validado no Poco X7 Pro via USB | `./run.sh` |
 | 2. Displays virtuais (N, um stream por display) | ⬜ | |
 | 3. VR: painéis, estéreo, head tracking, distorção, calibração | ⬜ | |
 | 4. Input: gaze, foco segue olhar, toque, controle VR BOX | ⬜ | |
@@ -59,8 +59,21 @@ na hora do relatório; a sondagem rodou depois, então ele já foi instalado. 2 
   de 60 (75 Hz → 37.5 fps). Agora usa um acumulador (`FrameLimiter`, com testes).
 - O "espelho infinito" ao ver no Mac o mesmo display capturado é esperado.
 
-## Fase 1 — falta
-- Teste no celular via USB (`./run.sh`).
+## Fase 1 — validado no celular (Poco X7 Pro, USB, conteúdo de jogo em movimento)
+- Render 56–61 fps; e2e **23 ms** (p95 33–34), bem abaixo da meta de 100 ms.
+- Quebra: host 2.0–2.4 · rede (adb/USB) 4.1–4.2 · decode 6.6–6.7 · espera 8.6–9.4 ms.
+- O `auto` escolheu `prefer-software` (6.7 / p95 10 ms), confirmando a sondagem. Fila 0–1.
+- Bitrate 3.4–5.6 Mbps a 1280×720 com jogo em movimento.
+- Descartados 41: concentrados no início (espera do keyframe + troca HW→SW do `auto`), sem erros.
+
+## Fase 1 — observações para depois
+- "desenhado" (46 fps) < "dec" (50 fps): quando dois frames saem do decoder entre dois rAF, o mais
+  antigo é descartado. É correto pra latência, mas dá pra suavizar na Fase 3 (ver se o padrão de
+  chegada ajuda o pacing).
+- A "espera" (~9 ms ≈ meio frame) é o tempo até o próximo rAF; dá pra cortar uns ms alinhando o
+  pacing, se for preciso.
+- A build do host foi movida pra `~/Library/Caches/vr-monitor/host-build` (o `build.db` corrompeu
+  com o repo na Mesa, provavelmente por sincronização do iCloud).
 
 ## Decisões que divergem do pedido (detalhes no ARCHITECTURE.md)
 - Token de sessão obrigatório **também no USB** (CSWSH a partir do navegador do Mac e outros apps do celular conseguem alcançar o localhost do adb reverse).
