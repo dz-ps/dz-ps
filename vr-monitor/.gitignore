@@ -1,0 +1,7 @@
+node_modules/
+client/dist/
+host/.build/
+host/.swiftpm/
+*.pem
+*.key
+.DS_Store

@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>vr-monitor probe</title>
+<style>
+  :root { color-scheme: dark; --bg:#0d1117; --fg:#e6edf3; --mut:#8b949e; --ok:#3fb950; --warn:#d29922; --bad:#f85149; --card:#161b22; --line:#30363d; }
+  * { box-sizing: border-box; }
+  body { margin:0; padding:12px 16px 80px; background:var(--bg); color:var(--fg); font:14px/1.4 system-ui, sans-serif; }
+  h1 { font-size:18px; margin:4px 0 8px; }
+  h2 { font-size:15px; margin:0 0 6px; }
+  section { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:10px 12px; margin:10px 0; }
+  pre { margin:0; white-space:pre-wrap; word-break:break-word; font:12px/1.35 ui-monospace, monospace; color:var(--fg); }
+  button { background:#238636; color:#fff; border:0; border-radius:6px; padding:8px 12px; margin:4px 6px 4px 0; font-size:14px; }
+  button.sec { background:#30363d; }
+  .ok { color:var(--ok); } .warn { color:var(--warn); } .bad { color:var(--bad); } .mut { color:var(--mut); }
+  #bar { position:fixed; left:0; right:0; bottom:0; background:#010409; border-top:1px solid var(--line); padding:8px 16px; display:flex; gap:6px; }
+  #log { max-height:240px; overflow:auto; }
+</style>
+</head>
+<body>
+<h1>vr-monitor — sondagem do dispositivo</h1>
+<p class="mut">Os testes automáticos rodam sozinhos. Os que pedem permissão ou gesto têm botão. No fim, toque em <b>Copiar relatório</b> e me mande o JSON.</p>
+
+<section><h2>Básico</h2><pre id="basic">…</pre></section>
+<section><h2>Taxa do display (rAF)</h2><pre id="raf">…</pre></section>
+<section><h2>WebGL2</h2><pre id="gl">…</pre></section>
+<section><h2>WebCodecs H.264</h2><pre id="codecs">…</pre>
+  <button id="bDecode">Benchmark encode→decode 1280×800</button><pre id="decodeBench"></pre></section>
+<section><h2>Sensores</h2><button id="bSensors">Testar sensores (3 s, deixe o celular parado e depois mexa)</button><pre id="sensors"></pre></section>
+<section><h2>Fullscreen / orientação / wake lock</h2><button id="bFs">Testar</button><button class="sec" id="bFsExit">Sair</button><pre id="fs"></pre></section>
+<section><h2>Câmeras</h2><button id="bCam">Listar câmeras (pede permissão)</button><pre id="cams"></pre></section>
+<section><h2>BarcodeDetector</h2><pre id="barcode">…</pre></section>
+<section><h2>Eventos de input (controle VR BOX)</h2>
+  <p class="mut">Pareie o controle e aperte cada botão em cada modo dele (chave lateral / combinações @+A, @+B, @+C, @+D). Tudo que o Chrome recebe aparece aqui.</p>
+  <button class="sec" id="bClear">Limpar</button><pre id="log"></pre></section>
+
+<div id="bar"><button id="bCopy">Copiar relatório</button><button class="sec" id="bDl">Baixar JSON</button><span id="copyMsg" class="mut"></span></div>
+
+<script>
+'use strict';
+const R = { version: 1, at: new Date().toISOString() };
+const $ = (id) => document.getElementById(id);
+const show = (id, obj) => { $(id).textContent = typeof obj === 'string' ? obj : JSON.stringify(obj, null, 2); };
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const median = (a) => { const s = [...a].sort((x, y) => x - y); return s.length ? s[Math.floor(s.length / 2)] : NaN; };
+const pct = (a, p) => { const s = [...a].sort((x, y) => x - y); return s.length ? s[Math.min(s.length - 1, Math.floor(s.length * p))] : NaN; };
+const r2 = (x) => Math.round(x * 100) / 100;
+
+// ---------------- básico ----------------
+async function basic() {
+  const b = {
+    ua: navigator.userAgent,
+    secureContext: window.isSecureContext,
+    screen: { w: screen.width, h: screen.height, availW: screen.availWidth, availH: screen.availHeight },
+    dpr: devicePixelRatio,
+    physicalPx: { w: Math.round(screen.width * devicePixelRatio), h: Math.round(screen.height * devicePixelRatio) },
+    inner: { w: innerWidth, h: innerHeight },
+    orientation: screen.orientation ? { type: screen.orientation.type, angle: screen.orientation.angle } : null,
+    cores: navigator.hardwareConcurrency, deviceMemory: navigator.deviceMemory ?? null,
+    apis: {
+      VideoDecoder: 'VideoDecoder' in window, VideoEncoder: 'VideoEncoder' in window,
+      RelativeOrientationSensor: 'RelativeOrientationSensor' in window, Gyroscope: 'Gyroscope' in window,
+      DeviceOrientationEvent: 'DeviceOrientationEvent' in window, wakeLock: 'wakeLock' in navigator,
+      orientationLock: !!(screen.orientation && screen.orientation.lock), BarcodeDetector: 'BarcodeDetector' in window,
+      getGamepads: 'getGamepads' in navigator, OffscreenCanvas: 'OffscreenCanvas' in window,
+      requestVideoFrameCallback: 'requestVideoFrameCallback' in HTMLVideoElement.prototype,
+      WebGPU: 'gpu' in navigator, Worker: 'Worker' in window,
+    },
+  };
+  try {
+    if (navigator.userAgentData?.getHighEntropyValues) {
+      b.uaData = await navigator.userAgentData.getHighEntropyValues(['model', 'platformVersion', 'fullVersionList']);
+    }
+  } catch (e) { b.uaDataErr = String(e); }
+  R.basic = b; show('basic', b);
+}
+
+// ---------------- rAF ----------------
+async function raf() {
+  const ts = [];
+  await new Promise((done) => {
+    const t0 = performance.now();
+    const f = (t) => { ts.push(t); if (t - t0 < 2000) requestAnimationFrame(f); else done(); };
+    requestAnimationFrame(f);
+  });
+  const d = ts.slice(1).map((t, i) => t - ts[i]);
+  const m = median(d);
+  R.raf = { frames: ts.length, medianMs: r2(m), hz: r2(1000 / m), p95Ms: r2(pct(d, 0.95)) };
+  show('raf', R.raf);
+}
+
+// ---------------- WebGL2 ----------------
+function gl() {
+  const c = document.createElement('canvas');
+  const g = c.getContext('webgl2');
+  if (!g) { R.gl = { webgl2: false }; show('gl', R.gl); return; }
+  const dbg = g.getExtension('WEBGL_debug_renderer_info');
+  const an = g.getExtension('EXT_texture_filter_anisotropic');
+  R.gl = {
+    webgl2: true,
+    vendor: dbg ? g.getParameter(dbg.UNMASKED_VENDOR_WEBGL) : g.getParameter(g.VENDOR),
+    renderer: dbg ? g.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : g.getParameter(g.RENDERER),
+    maxTexture: g.getParameter(g.MAX_TEXTURE_SIZE),
+    maxSamples: g.getParameter(g.MAX_SAMPLES),
+    maxAniso: an ? g.getParameter(an.MAX_TEXTURE_MAX_ANISOTROPY_EXT) : 0,
+    colorBufferFloat: !!g.getExtension('EXT_color_buffer_float'),
+    precisionHighFrag: g.getShaderPrecisionFormat(g.FRAGMENT_SHADER, g.HIGH_FLOAT).precision,
+  };
+  show('gl', R.gl);
+}
+
+// ---------------- WebCodecs support ----------------
+async function codecs() {
+  if (!('VideoDecoder' in window)) { R.codecs = { supported: false }; show('codecs', R.codecs); return; }
+  const list = ['avc1.640028', 'avc1.64002A', 'avc1.640033', 'avc1.4D401F', 'avc1.42E01F'];
+  const out = {};
+  for (const codec of list) {
+    out[codec] = {};
+    for (const hw of ['prefer-hardware', 'prefer-software']) {
+      try {
+        const r = await VideoDecoder.isConfigSupported({ codec, codedWidth: 1280, codedHeight: 800, hardwareAcceleration: hw, optimizeForLatency: true });
+        out[codec][hw] = r.supported;
+      } catch (e) { out[codec][hw] = 'err: ' + e.message; }
+    }
+  }
+  const enc = {};
+  if ('VideoEncoder' in window) {
+    for (const hw of ['prefer-hardware', 'prefer-software']) {
+      try {
+        const r = await VideoEncoder.isConfigSupported({ codec: 'avc1.640028', width: 1280, height: 800, bitrate: 6e6, framerate: 60, hardwareAcceleration: hw, latencyMode: 'realtime', avc: { format: 'avc' } });
+        enc[hw] = r.supported;
+      } catch (e) { enc[hw] = 'err: ' + e.message; }
+    }
+  }
+  R.codecs = { decoder: out, encoder_avc1_640028: enc };
+  show('codecs', R.codecs);
+}
+
+// Gera H.264 de verdade com VideoEncoder (se existir) e mede o decode com prefer-hardware.
+// Mede: tempo submit→output por frame, que é o que vai contar na latência.
+async function decodeBench() {
+  show('decodeBench', 'rodando…');
+  const W = 1280, H = 800, N = 120;
+  try {
+    if (!('VideoEncoder' in window)) throw new Error('VideoEncoder indisponível — o benchmark real fica pra Fase 1');
+    const cv = new OffscreenCanvas(W, H); const cx = cv.getContext('2d');
+    const chunks = []; let decoderConfig = null; let encErr = null;
+    const encoder = new VideoEncoder({
+      output: (chunk, meta) => {
+        if (meta?.decoderConfig) decoderConfig = meta.decoderConfig;
+        const buf = new Uint8Array(chunk.byteLength); chunk.copyTo(buf);
+        chunks.push({ type: chunk.type, ts: chunk.timestamp, buf });
+      },
+      error: (e) => { encErr = e.message; },
+    });
+    const encCfg = { codec: 'avc1.640028', width: W, height: H, bitrate: 6e6, framerate: 60, latencyMode: 'realtime', avc: { format: 'avc' } };
+    let encHw = null;
+    for (const hw of ['prefer-hardware', 'no-preference', 'prefer-software']) {
+      if ((await VideoEncoder.isConfigSupported({ ...encCfg, hardwareAcceleration: hw })).supported) { encHw = hw; break; }
+    }
+    if (!encHw) throw new Error('nenhuma config de VideoEncoder H.264 suportada');
+    encoder.configure({ ...encCfg, hardwareAcceleration: encHw });
+    for (let i = 0; i < N; i++) {
+      // conteúdo tipo "tela": texto e blocos, mudando um pouco por frame
+      cx.fillStyle = '#1e1e1e'; cx.fillRect(0, 0, W, H);
+      cx.fillStyle = '#d4d4d4'; cx.font = '14px monospace';
+      for (let l = 0; l < 45; l++) cx.fillText(`${l + i} const value_${l} = compute(${(l * 7 + i) % 97}); // lorem ipsum dolor sit amet`, 20, 20 + l * 17);
+      cx.fillStyle = '#0a84ff'; cx.fillRect((i * 9) % (W - 200), 300, 200, 120);
+      const f = new VideoFrame(cv, { timestamp: i * 16667 });
+      encoder.encode(f, { keyFrame: i === 0 }); f.close();
+    }
+    await encoder.flush(); encoder.close();
+    if (encErr) throw new Error('encoder: ' + encErr);
+    if (!decoderConfig) throw new Error('encoder não forneceu decoderConfig');
+
+    const res = {};
+    for (const hw of ['prefer-hardware', 'prefer-software']) {
+      const dcfg = { ...decoderConfig, hardwareAcceleration: hw, optimizeForLatency: true };
+      if (!(await VideoDecoder.isConfigSupported(dcfg)).supported) { res[hw] = { supported: false }; continue; }
+      const submit = new Map(); const lat = [];
+      let outN = 0; let err = null;
+      const dec = new VideoDecoder({
+        output: (fr) => { const t = submit.get(fr.timestamp); if (t != null) lat.push(performance.now() - t); outN++; fr.close(); },
+        error: (e) => { err = e.message; },
+      });
+      dec.configure(dcfg);
+      const t0 = performance.now();
+      for (const c of chunks) {
+        if (dec.state === 'closed') break;
+        // ritmo de 60 fps pra medir latência realista (não throughput)
+        submit.set(c.ts, performance.now());
+        dec.decode(new EncodedVideoChunk({ type: c.type, timestamp: c.ts, data: c.buf }));
+        await sleep(16);
+      }
+      if (dec.state !== 'closed') { await dec.flush().catch((e) => { err = err || e.message; }); dec.close(); }
+      res[hw] = err ? { error: err } : { frames: outN, medianMs: r2(median(lat)), p95Ms: r2(pct(lat, 0.95)), totalMs: Math.round(performance.now() - t0) };
+    }
+    const bytes = chunks.reduce((s, c) => s + c.buf.length, 0);
+    R.decodeBench = { encoderMode: encHw, codec: decoderConfig.codec, hasDescription: !!decoderConfig.description, kbpsAt60: Math.round(bytes * 8 / (N / 60) / 1000), ...res };
+  } catch (e) {
+    R.decodeBench = { error: String(e.message || e) };
+  }
+  show('decodeBench', R.decodeBench);
+}
+
+// ---------------- sensores ----------------
+async function sensors() {
+  show('sensors', 'medindo 3 s…');
+  const out = {};
+  try {
+    if (navigator.permissions) {
+      for (const n of ['accelerometer', 'gyroscope', 'magnetometer']) {
+        try { out['perm_' + n] = (await navigator.permissions.query({ name: n })).state; } catch (e) { out['perm_' + n] = 'n/a'; }
+      }
+    }
+  } catch (e) {}
+  const measure = (mk, label) => new Promise((done) => {
+    let s; const t = [];
+    try { s = mk(); } catch (e) { out[label] = { error: e.name + ': ' + e.message }; return done(); }
+    s.addEventListener('reading', () => t.push(performance.now()));
+    s.addEventListener('error', (e) => { out[label] = { error: e.error?.name + ': ' + e.error?.message }; });
+    s.start();
+    setTimeout(() => {
+      s.stop();
+      if (!out[label]) {
+        const d = t.slice(1).map((x, i) => x - t[i]);
+        out[label] = { readings: t.length, hz: d.length ? r2(1000 / median(d)) : 0, p95Ms: r2(pct(d, 0.95)), sample: s.quaternion ? s.quaternion.map(r2) : undefined };
+      }
+      done();
+    }, 3000);
+  });
+  if ('RelativeOrientationSensor' in window) {
+    await measure(() => new RelativeOrientationSensor({ frequency: 60, referenceFrame: 'screen' }), 'RelativeOrientationSensor@60');
+    await measure(() => new RelativeOrientationSensor({ frequency: 120, referenceFrame: 'screen' }), 'RelativeOrientationSensor@120');
+  }
+  if ('Gyroscope' in window) await measure(() => new Gyroscope({ frequency: 120 }), 'Gyroscope@120');
+  // fallback deviceorientation
+  await new Promise((done) => {
+    const t = []; const h = () => t.push(performance.now());
+    addEventListener('deviceorientation', h);
+    setTimeout(() => {
+      removeEventListener('deviceorientation', h);
+      const d = t.slice(1).map((x, i) => x - t[i]);
+      out.deviceorientation = { events: t.length, hz: d.length ? r2(1000 / median(d)) : 0 };
+      done();
+    }, 2000);
+  });
+  R.sensors = out; show('sensors', out);
+}
+
+// ---------------- fullscreen ----------------
+async function fs() {
+  const out = {};
+  try { await document.documentElement.requestFullscreen({ navigationUI: 'hide' }); out.fullscreen = true; } catch (e) { out.fullscreen = 'erro: ' + e.message; }
+  try { await screen.orientation.lock('landscape'); out.orientationLock = true; } catch (e) { out.orientationLock = 'erro: ' + e.message; }
+  try { const l = await navigator.wakeLock.request('screen'); out.wakeLock = !l.released; window.__wl = l; } catch (e) { out.wakeLock = 'erro: ' + e.message; }
+  await sleep(500);
+  out.after = { inner: { w: innerWidth, h: innerHeight }, dpr: devicePixelRatio, physical: { w: Math.round(innerWidth * devicePixelRatio), h: Math.round(innerHeight * devicePixelRatio) }, orientation: screen.orientation?.type };
+  R.fullscreen = out; show('fs', out);
+}
+
+// ---------------- câmeras ----------------
+async function cams() {
+  show('cams', 'abrindo…');
+  const out = { devices: [] };
+  try {
+    const s0 = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+    s0.getTracks().forEach((t) => t.stop());
+    const devs = (await navigator.mediaDevices.enumerateDevices()).filter((d) => d.kind === 'videoinput');
+    for (const d of devs) {
+      const e = { label: d.label, deviceId: d.deviceId.slice(0, 8) + '…' };
+      try {
+        const s = await navigator.mediaDevices.getUserMedia({ video: { deviceId: { exact: d.deviceId }, width: 640, height: 480, frameRate: 30 } });
+        const tr = s.getVideoTracks()[0];
+        const caps = tr.getCapabilities ? tr.getCapabilities() : {};
+        const st = tr.getSettings();
+        e.facingMode = st.facingMode ?? caps.facingMode;
+        e.settings = { w: st.width, h: st.height, fps: st.frameRate };
+        e.max = { w: caps.width?.max, h: caps.height?.max, fps: caps.frameRate?.max };
+        if (caps.zoom) e.zoom = { min: caps.zoom.min, max: caps.zoom.max };
+        if (caps.focusMode) e.focusMode = caps.focusMode;
+        // fps real entregue
+        const v = document.createElement('video'); v.muted = true; v.playsInline = true; v.srcObject = s; await v.play();
+        const ts = [];
+        if (v.requestVideoFrameCallback) {
+          await new Promise((done) => { const t0 = performance.now(); const f = (now) => { ts.push(now); if (now - t0 < 2000) v.requestVideoFrameCallback(f); else done(); }; v.requestVideoFrameCallback(f); });
+          const dd = ts.slice(1).map((x, i) => x - ts[i]);
+          e.measuredFps = dd.length ? r2(1000 / median(dd)) : 0;
+        }
+        s.getTracks().forEach((t) => t.stop());
+      } catch (err) { e.error = err.name + ': ' + err.message; }
+      out.devices.push(e);
+      show('cams', out);
+    }
+  } catch (err) { out.error = err.name + ': ' + err.message; }
+  R.cameras = out; show('cams', out);
+}
+
+// ---------------- barcode ----------------
+async function barcode() {
+  if (!('BarcodeDetector' in window)) { R.barcode = { supported: false }; }
+  else { try { R.barcode = { supported: true, formats: await BarcodeDetector.getSupportedFormats() }; } catch (e) { R.barcode = { error: e.message }; } }
+  show('barcode', R.barcode);
+}
+
+// ---------------- input log ----------------
+R.inputEvents = [];
+function logEv(o) {
+  o.t = Math.round(performance.now());
+  R.inputEvents.push(o); if (R.inputEvents.length > 300) R.inputEvents.shift();
+  const el = $('log'); el.textContent = R.inputEvents.slice(-40).map((x) => JSON.stringify(x)).reverse().join('\n');
+}
+for (const ty of ['keydown', 'keyup']) addEventListener(ty, (e) => logEv({ ev: ty, key: e.key, code: e.code, keyCode: e.keyCode, repeat: e.repeat }));
+for (const ty of ['pointerdown', 'pointerup']) addEventListener(ty, (e) => {
+  if (e.target.closest && e.target.closest('button')) return;
+  logEv({ ev: ty, pointerType: e.pointerType, button: e.button, buttons: e.buttons, x: Math.round(e.clientX), y: Math.round(e.clientY) });
+});
+addEventListener('wheel', (e) => logEv({ ev: 'wheel', dx: r2(e.deltaX), dy: r2(e.deltaY), mode: e.deltaMode }), { passive: true });
+addEventListener('contextmenu', (e) => { e.preventDefault(); logEv({ ev: 'contextmenu' }); });
+let lastMove = 0;
+addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse' && performance.now() - lastMove > 250) { lastMove = performance.now(); logEv({ ev: 'mousemove', x: Math.round(e.clientX), y: Math.round(e.clientY) }); } });
+addEventListener('gamepadconnected', (e) => logEv({ ev: 'gamepadconnected', id: e.gamepad.id, mapping: e.gamepad.mapping, buttons: e.gamepad.buttons.length, axes: e.gamepad.axes.length }));
+addEventListener('gamepaddisconnected', (e) => logEv({ ev: 'gamepaddisconnected', id: e.gamepad.id }));
+const gpPrev = {};
+(function pollGamepads() {
+  for (const gp of navigator.getGamepads ? navigator.getGamepads() : []) {
+    if (!gp) continue;
+    const p = gpPrev[gp.index] || { b: [], a: [] };
+    gp.buttons.forEach((b, i) => { if (b.pressed !== !!p.b[i]) logEv({ ev: b.pressed ? 'gp-down' : 'gp-up', pad: gp.index, button: i }); p.b[i] = b.pressed; });
+    gp.axes.forEach((v, i) => { const q = Math.round(v * 2) / 2; if (q !== (p.a[i] ?? 0)) logEv({ ev: 'gp-axis', pad: gp.index, axis: i, value: q }); p.a[i] = q; });
+    gpPrev[gp.index] = p;
+  }
+  requestAnimationFrame(pollGamepads);
+})();
+if ('mediaSession' in navigator) {
+  for (const a of ['play', 'pause', 'previoustrack', 'nexttrack']) {
+    try { navigator.mediaSession.setActionHandler(a, () => logEv({ ev: 'mediaSession', action: a })); } catch (e) {}
+  }
+}
+
+// ---------------- report ----------------
+function reportText() { return JSON.stringify(R, null, 1); }
+$('bCopy').onclick = async () => {
+  try { await navigator.clipboard.writeText(reportText()); $('copyMsg').textContent = 'copiado'; }
+  catch (e) {
+    const ta = document.createElement('textarea'); ta.value = reportText(); document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+    $('copyMsg').textContent = 'copiado (fallback)';
+  }
+};
+$('bDl').onclick = () => {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([reportText()], { type: 'application/json' }));
+  a.download = 'vr-monitor-probe.json'; a.click();
+};
+$('bDecode').onclick = decodeBench;
+$('bSensors').onclick = sensors;
+$('bFs').onclick = fs;
+$('bFsExit').onclick = async () => { try { await document.exitFullscreen(); } catch (e) {} try { await window.__wl?.release(); } catch (e) {} };
+$('bCam').onclick = cams;
+$('bClear').onclick = () => { R.inputEvents = []; $('log').textContent = ''; };
+
+(async () => {
+  for (const f of [basic, gl, codecs, barcode, raf]) { try { await f(); } catch (e) { console.error(f.name, e); } }
+})();
+</script>
+</body>
+</html>
