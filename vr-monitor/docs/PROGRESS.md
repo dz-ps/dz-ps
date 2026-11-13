@@ -4,7 +4,7 @@ Legenda: ✅ feito · 🟡 em andamento / aguardando validação · ⬜ não ini
 
 | Fase | Status | Resumo |
 |---|---|---|
-| 0. Ambiente + arquitetura | 🟡 celular validado; falta `check-env.sh` no Mac e o controle | `check-env.sh`, `probe.sh`, `docs/ARCHITECTURE.md` |
+| 0. Ambiente + arquitetura | 🟡 Mac e celular validados; falta confirmar o controle | `check-env.sh`, `probe.sh`, `docs/ARCHITECTURE.md` |
 | 1. Stream da tela principal (plano, USB, latência) | ⬜ | |
 | 2. Displays virtuais (N, um stream por display) | ⬜ | |
 | 3. VR: painéis, estéreo, head tracking, distorção, calibração | ⬜ | |
@@ -22,8 +22,13 @@ Ver ARCHITECTURE.md §12. Resumo: WebCodecs, sensores (60 Hz), fullscreen, orien
 BarcodeDetector ok. O decode em software foi mais estável que em hardware, então o decoder ficou
 configurável. Ultrawide não exposta. Câmera a 15 fps (refazer com luz).
 
+## Fase 0 — ambiente do Mac
+macOS 26.5.2 (Tahoe), MacBookAir10,1 (M1, **8 GB RAM**), iTerm2, brew, CLT com Swift 6.3.3
+(sem o Xcode completo, o que basta pra SwiftPM), Node 26.3, Tailscale presente. O `adb` faltava
+na hora do relatório; a sondagem rodou depois, então ele já foi instalado. 2 displays ativos
+(interno + 1 externo).
+
 ## Fase 0 — falta
-- Rodar `check-env.sh --report` no Mac e mandar o `docs/env-report.txt`.
 - Controle VR BOX: a sondagem registrou só `pointerdown` de toque (nenhum gamepad ou tecla). Falta
   confirmar se esses toques vieram do controle (alguns modos emulam toque na tela) ou do dedo.
 
@@ -32,6 +37,10 @@ configurável. Ultrawide não exposta. Câmera a 15 fps (refazer com luz).
 - Foco segue olhar tem dois modos ("só cursor" e "cursor + clique"), porque mover o cursor no macOS não troca o foco de teclado.
 
 ## Problemas conhecidos / riscos abertos
+- 8 GB de RAM: cada display virtual custa framebuffers no WindowServer + pool do SCStream + sessão
+  VT. Vou medir memória na Fase 2 junto com o limite de displays.
+- macOS 26 (Tahoe): `CGVirtualDisplay` é API privada e pode ter mudado. A validação vem logo no
+  início da Fase 2; se quebrar, o fallback é o BetterDisplay.
 - **Sessão de desenvolvimento roda num container Linux na nuvem**: não consigo compilar Swift com ScreenCaptureKit/VideoToolbox nem falar com o adb. Até isso mudar, o host vai ser escrito "às cegas" e você compila e me manda os erros. Recomendado: rodar o Claude Code no próprio Mac (CLI ou app desktop) a partir da Fase 1.
 - Limite de displays virtuais no M1 Air: a validar na Fase 2.
 - Custo do MediaPipe na thread principal: a medir na Fase 5 (o plano B é um Worker).
