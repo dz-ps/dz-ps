@@ -30,8 +30,8 @@ step() { printf '\n\033[1m▸ %s\033[0m\n' "$1"; }
 step "build do cliente"
 ( cd "$ROOT/client" && { [ -d node_modules ] || npm ci; } && npm run build --silent )
 
-step "build do host"
-( cd "$ROOT/host" && swift build -c release 2>&1 | grep -E "error|warning: unre|Compiling|Build" || true )
+step "build do host (a primeira vez baixa e compila as dependências: alguns minutos)"
+( cd "$ROOT/host" && swift build -c release )
 BIN="$ROOT/host/.build/release/vrmonitor"
 [ -x "$BIN" ] || { echo "build do host falhou"; exit 1; }
 
