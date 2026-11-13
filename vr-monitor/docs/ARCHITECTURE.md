@@ -119,6 +119,17 @@ de qualquer forma, então não vou investir em portabilidade do código Swift em
   displays virtuais não passam pelo mesmo caminho de hardware: o BetterDisplay cria vários no M1.
   Vou validar na Fase 2, nesta ordem: 1 display, depois 2, depois 3. Também vou medir o custo de GPU
   e memória de cada display extra no WindowServer.
+- **[Implementação, Fase 2]** `MacVirtualDisplays`:
+  - as quatro classes são declaradas com `weak_import` e checadas com `NSClassFromString` antes do
+    uso; se o macOS remover a API, o host continua funcionando com os displays físicos e explica o
+    motivo;
+  - o `serialNum` é estável por "slot" (1…N), então o macOS lembra o arranjo de cada display entre
+    execuções;
+  - o tamanho físico declarado é de ~110 ppi;
+  - depois do `applySettings`, o host espera o display aparecer em `CGGetActiveDisplayList`
+    (até 4 s) antes de devolvê-lo;
+  - `destroy` solta a referência; no Ctrl-C/SIGTERM todos são removidos;
+  - limite padrão: 4 (`--max-virtual`).
 - **Fallback:** criar as telas virtuais no BetterDisplay e o host só capturar (o `FrameSource` não
   depende de quem criou o display). Fica documentado no README.
 - HiDPI: por padrão **desligado** (1x). Ver seção 6 (legibilidade).
@@ -321,7 +332,7 @@ Host → cliente:
 
 | `t` | campos |
 |---|---|
-| `welcome` | `proto: 1, hostTimeUs, displays: DisplayInfo[], permissions: {screen, accessibility}, inputEnabled` |
+| `welcome` | `proto: 1, hostTimeUs, displays: DisplayInfo[], permissions: {screen, accessibility}, inputEnabled, virtualDisplays: {available, reason?, max}` |
 | `pong` | `id, c0, h` (µs do host no momento da resposta) |
 | `displays` | `displays: DisplayInfo[]` (enviado quando a lista muda) |
 | `error` | `code, message` |

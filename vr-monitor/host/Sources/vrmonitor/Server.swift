@@ -15,6 +15,22 @@ struct ServerConfig {
     var inputEnabled: Bool
 }
 
+/// Clientes do canal de controle, pra broadcast (ex.: lista de displays mudou).
+final class ControlClients: @unchecked Sendable {
+    private let lock = NSLock()
+    private var writers: [UUID: WebSocketOutboundWriter] = [:]
+
+    func add(_ id: UUID, _ w: WebSocketOutboundWriter) { lock.withLock { writers[id] = w } }
+    func remove(_ id: UUID) { _ = lock.withLock { writers.removeValue(forKey: id) } }
+
+    func broadcast(_ m: HostMessage) async {
+        let text = m.json()
+        for w in lock.withLock({ Array(writers.values) }) {
+            try? await w.write(.text(text))
+        }
+    }
+}
+
 /// Checagem de `Host` + headers de segurança em todas as respostas HTTP.
 struct SecurityMiddleware<Context: RequestContext>: RouterMiddleware {
     let policy: AccessPolicy
@@ -63,7 +79,13 @@ struct UpgradeGuard: Sendable {
     }
 }
 
-func buildApplication(config: ServerConfig, hub: StreamHub, platform: HostPlatform, logger: Logger) -> some ApplicationProtocol {
+func virtualCapability(_ platform: HostPlatform) -> VirtualCapability {
+    guard let v = platform.virtualDisplays else { return VirtualCapability(available: false, reason: "não suportado nesta plataforma", max: 0) }
+    let reason = v.unavailableReason
+    return VirtualCapability(available: reason == nil, reason: reason, max: v.maxDisplays)
+}
+
+func buildApplication(config: ServerConfig, hub: StreamHub, platform: HostPlatform, clients: ControlClients, logger: Logger) -> some ApplicationProtocol {
     let router = Router(context: BasicWebSocketRequestContext.self)
     let guardian = UpgradeGuard(policy: config.policy, token: config.token, limiter: AuthLimiter(), logger: logger)
 
@@ -74,6 +96,9 @@ func buildApplication(config: ServerConfig, hub: StreamHub, platform: HostPlatfo
     // ---------------- canal de controle ----------------
     router.ws("/ws/control", shouldUpgrade: { req, _ in try guardian.check(req) }) { inbound, outbound, ctx in
         let log = ctx.logger
+        let clientId = UUID()
+        clients.add(clientId, outbound)
+        defer { clients.remove(clientId) }
         log.info("cliente de controle conectado")
         for try await message in inbound.messages(maxSize: 64 * 1024) {
             guard case .text(let text) = message, let m = ClientMessage.parse(text) else { continue }
@@ -85,7 +110,8 @@ func buildApplication(config: ServerConfig, hub: StreamHub, platform: HostPlatfo
                     hostTimeUs: HostClock.nowMicros(),
                     displays: await hub.displays(),
                     permissions: Permissions(screen: p.screenCapture(), accessibility: p.accessibility()),
-                    inputEnabled: config.inputEnabled
+                    inputEnabled: config.inputEnabled,
+                    virtualDisplays: virtualCapability(platform)
                 )
                 try await outbound.write(.text(welcome.json()))
             case let .ping(id, c0):
@@ -96,6 +122,30 @@ func buildApplication(config: ServerConfig, hub: StreamHub, platform: HostPlatfo
                 await hub.configure(display: d, fps: fps, bitrateKbps: kbps)
             case let .stats(d, fps, decodeMs, e2eMs):
                 log.debug("stats", metadata: ["display": "\(d)", "fps": "\(fps)", "decodeMs": "\(decodeMs)", "e2eMs": "\(e2eMs)"])
+            case .displayCreate(let spec):
+                guard let v = platform.virtualDisplays else {
+                    try await outbound.write(.text(HostMessage.error(code: "virtual.unsupported", message: "displays virtuais não suportados").json()))
+                    continue
+                }
+                do {
+                    let d = try await v.create(spec)
+                    log.info("display virtual criado", metadata: ["display": "\(d.id)", "tamanho": "\(d.width)x\(d.height)"])
+                    logMemory(log)
+                    await clients.broadcast(.displays(await hub.displays()))
+                } catch {
+                    log.error("criação de display virtual falhou", metadata: ["erro": "\(error)"])
+                    try await outbound.write(.text(HostMessage.error(code: "virtual.create", message: "\(error)").json()))
+                }
+            case .displayDestroy(let id):
+                do {
+                    guard let v = platform.virtualDisplays, v.ids().contains(id) else { throw VirtualDisplayError.notVirtual(id) }
+                    await hub.removeDisplay(id)
+                    try await v.destroy(id: id)
+                    log.info("display virtual removido", metadata: ["display": "\(id)"])
+                    await clients.broadcast(.displays(await hub.displays()))
+                } catch {
+                    try await outbound.write(.text(HostMessage.error(code: "virtual.destroy", message: "\(error)").json()))
+                }
             case .unknown(let t):
                 log.debug("mensagem desconhecida", metadata: ["t": "\(t)"])
             }
@@ -143,4 +193,10 @@ func buildApplication(config: ServerConfig, hub: StreamHub, platform: HostPlatfo
         configuration: .init(address: .hostname(config.bind, port: config.port), serverName: nil),
         logger: logger
     )
+}
+
+func logMemory(_ log: Logger) {
+    if let mb = ProcessStats.footprintMB() {
+        log.info("memória do host: \(String(format: "%.0f", mb)) MB")
+    }
 }

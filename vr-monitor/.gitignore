@@ -6,3 +6,4 @@ host/.swiftpm/
 *.key
 .DS_Store
 test-clip.h264
+docs/mem-log.txt

@@ -123,8 +123,14 @@ export interface Permissions {
   accessibility: 'granted' | 'denied' | 'unknown';
 }
 
+export interface VirtualCapability {
+  available: boolean;
+  reason?: string | null;
+  max: number;
+}
+
 export type HostMessage =
-  | { t: 'welcome'; proto: number; hostTimeUs: number; displays: DisplayInfo[]; permissions: Permissions; inputEnabled: boolean }
+  | { t: 'welcome'; proto: number; hostTimeUs: number; displays: DisplayInfo[]; permissions: Permissions; inputEnabled: boolean; virtualDisplays: VirtualCapability }
   | { t: 'pong'; id: number; c0: number; h: number }
   | { t: 'displays'; displays: DisplayInfo[] }
   | { t: 'error'; code: string; message: string };
@@ -134,7 +140,9 @@ export type ClientMessage =
   | { t: 'ping'; id: number; c0: number }
   | { t: 'keyframe'; display: number }
   | { t: 'stream.config'; display: number; fps?: number; bitrateKbps?: number; active?: boolean }
-  | { t: 'stats'; display: number; fps: number; decodeMs: number; e2eMs: number };
+  | { t: 'stats'; display: number; fps: number; decodeMs: number; e2eMs: number }
+  | { t: 'display.create'; width: number; height: number; hiDPI?: boolean; name?: string }
+  | { t: 'display.destroy'; display: number };
 
 export function parseHostMessage(text: string): HostMessage | null {
   let v: unknown;

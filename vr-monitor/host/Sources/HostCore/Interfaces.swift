@@ -63,9 +63,70 @@ public protocol PermissionChecker: Sendable {
     func requestScreenCapture()
 }
 
+/// Especificação de um display virtual (Fase 2).
+public struct VirtualDisplaySpec: Sendable, Equatable {
+    public var width: Int
+    public var height: Int
+    public var hiDPI: Bool
+    public var refreshRate: Int
+    public var name: String?
+
+    public init(width: Int, height: Int, hiDPI: Bool = false, refreshRate: Int = 60, name: String? = nil) {
+        self.width = width; self.height = height; self.hiDPI = hiDPI; self.refreshRate = refreshRate; self.name = name
+    }
+
+    public static let minSize = (width: 640, height: 400)
+    public static let maxSize = (width: 3840, height: 2400)
+
+    /// Limita aos tamanhos aceitos e arredonda pra par.
+    public func clamped() -> VirtualDisplaySpec {
+        var c = self
+        c.width = min(max(width, Self.minSize.width), Self.maxSize.width) & ~1
+        c.height = min(max(height, Self.minSize.height), Self.maxSize.height) & ~1
+        c.refreshRate = min(max(refreshRate, 30), 120)
+        if let n = name { c.name = String(n.filter { $0.isLetter || $0.isNumber || $0 == " " || $0 == "-" }.prefix(32)) }
+        return c
+    }
+
+    /// "1280x800" → spec.
+    public static func parse(_ s: String) -> VirtualDisplaySpec? {
+        let parts = s.lowercased().split(separator: "x").compactMap { Int($0) }
+        guard parts.count == 2 else { return nil }
+        return VirtualDisplaySpec(width: parts[0], height: parts[1])
+    }
+}
+
+/// Criação/destruição de displays virtuais. No macOS: `CGVirtualDisplay` (API privada).
+public protocol VirtualDisplayProvider: Sendable {
+    /// `nil` se disponível; senão, o motivo (ex.: API ausente nesta versão do macOS).
+    var unavailableReason: String? { get }
+    var maxDisplays: Int { get }
+    func create(_ spec: VirtualDisplaySpec) async throws -> DisplayInfo
+    func destroy(id: Int) async throws
+    func destroyAll() async
+    func ids() -> Set<Int>
+}
+
+public enum VirtualDisplayError: Error, CustomStringConvertible {
+    case unavailable(String)
+    case limitReached(Int)
+    case notVirtual(Int)
+    case creationFailed(String)
+
+    public var description: String {
+        switch self {
+        case .unavailable(let r): return "displays virtuais indisponíveis: \(r)"
+        case .limitReached(let n): return "limite de \(n) displays virtuais atingido"
+        case .notVirtual(let id): return "display \(id) não é virtual (ou não existe)"
+        case .creationFailed(let r): return "falha ao criar display virtual: \(r)"
+        }
+    }
+}
+
 /// Lista de displays e fábrica de streams: a "plataforma".
 public protocol HostPlatform: Sendable {
     var permissions: PermissionChecker { get }
+    var virtualDisplays: VirtualDisplayProvider? { get }
     func displays() async throws -> [DisplayInfo]
     func makeStream(display: DisplayInfo, settings: StreamSettings) throws -> VideoStreamSource
 }

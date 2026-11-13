@@ -6,7 +6,7 @@ Legenda: ✅ feito · 🟡 em andamento / aguardando validação · ⬜ não ini
 |---|---|---|
 | 0. Ambiente + arquitetura | ✅ (controle VR BOX fica pra quando você tiver o viewer) | `check-env.sh`, `probe.sh`, `docs/ARCHITECTURE.md` |
 | 1. Stream da tela principal (plano, USB, latência) | ✅ validado no Poco X7 Pro via USB | `./run.sh` |
-| 2. Displays virtuais (N, um stream por display) | ⬜ | |
+| 2. Displays virtuais (N, um stream por display) | 🟡 código pronto; aguardando teste no Mac (limite de displays e memória) | `./run.sh --virtual 1` |
 | 3. VR: painéis, estéreo, head tracking, distorção, calibração | ⬜ | |
 | 4. Input: gaze, foco segue olhar, toque, controle VR BOX | ⬜ | |
 | 5. Mãos: MediaPipe, raio, gestos, debug | ⬜ | |
@@ -74,6 +74,31 @@ na hora do relatório; a sondagem rodou depois, então ele já foi instalado. 2 
   pacing, se for preciso.
 - A build do host foi movida pra `~/Library/Caches/vr-monitor/host-build` (o `build.db` corrompeu
   com o repo na Mesa, provavelmente por sincronização do iCloud).
+
+## Fase 2 — feito
+- **Host:**
+  - target `CGVirtualDisplayBridge` (headers da API privada, `weak_import`);
+  - `MacVirtualDisplays` (criar/destruir, serial estável, espera ficar ativo);
+  - `VirtualDisplayProvider` no `HostCore`;
+  - mensagens `display.create`/`display.destroy` e broadcast de `displays` pra todos os clientes;
+  - encerramento dos streams de display removido;
+  - `--virtual N`, `--virtual-size`, `--virtual-hidpi`, `--max-virtual`;
+  - log a cada 10 s com memória do host e fps/kbps por stream;
+  - remoção de todos os virtuais no encerramento.
+- **Cliente:**
+  - grade com um stream por display, reconciliada com a lista do host;
+  - barra pra criar (com tamanho) e remover displays;
+  - HUD por stream;
+  - `?show=auto|all|1,3`.
+- `scripts/mem-snapshot.sh` (vrmonitor + WindowServer + pressão de memória → `docs/mem-log.txt`).
+- `run.sh --virtual N` e `--query`.
+- **Testes:** 20 em Swift (mensagens novas, `VirtualDisplaySpec`, displays virtuais sintéticos) + 17 no cliente.
+- **Validado no Linux:** com displays sintéticos, criar 1→3 (o botão desabilita no limite), remover
+  um (os sockets dele são encerrados) e o Ctrl-C remove todos.
+- **Não validado:** `MacVirtualDisplays` (API privada no macOS 26) — é o teste principal desta fase.
+
+## Fase 2 — falta
+- Teste no Mac: 1, 2 e 3 displays, com memória em cada passo.
 
 ## Decisões que divergem do pedido (detalhes no ARCHITECTURE.md)
 - Token de sessão obrigatório **também no USB** (CSWSH a partir do navegador do Mac e outros apps do celular conseguem alcançar o localhost do adb reverse).

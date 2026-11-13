@@ -18,8 +18,13 @@ public final class MacPlatform: HostPlatform, @unchecked Sendable {
     // O protocolo usa u16 para o id; CGDirectDisplayID de monitor externo passa disso.
     private var idMap: [CGDirectDisplayID: Int] = [:]
     private var nextId = 1
+    private var virtualProvider: MacVirtualDisplays!
 
-    public init() {}
+    public init(maxVirtual: Int = 4) {
+        virtualProvider = MacVirtualDisplays(maxDisplays: maxVirtual) { [unowned self] cg in self.shortId(for: cg) }
+    }
+
+    public var virtualDisplays: VirtualDisplayProvider? { virtualProvider }
 
     public func displays() async throws -> [DisplayInfo] {
         var count: UInt32 = 0
@@ -31,11 +36,13 @@ public final class MacPlatform: HostPlatform, @unchecked Sendable {
             let w = mode?.pixelWidth ?? Int(CGDisplayPixelsWide(cg))
             let h = mode?.pixelHeight ?? Int(CGDisplayPixelsHigh(cg))
             let builtin = CGDisplayIsBuiltin(cg) != 0
+            let id = shortId(for: cg)
+            let virt = virtualProvider.info(for: id)
             return DisplayInfo(
-                id: shortId(for: cg),
-                name: builtin ? "Built-in" : "Display \(cg)",
+                id: id,
+                name: virt?.name ?? (builtin ? "Built-in" : "Display \(cg)"),
                 width: w, height: h,
-                virtual: false,
+                virtual: virt != nil,
                 main: CGDisplayIsMain(cg) != 0
             )
         }
@@ -48,7 +55,7 @@ public final class MacPlatform: HostPlatform, @unchecked Sendable {
                                 fps: settings.fps, bitrateKbps: settings.bitrateKbps)
     }
 
-    private func shortId(for cg: CGDirectDisplayID) -> Int {
+    fileprivate func shortId(for cg: CGDirectDisplayID) -> Int {
         lock.withLock {
             if let id = idMap[cg] { return id }
             let id = nextId

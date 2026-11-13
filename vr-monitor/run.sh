@@ -4,20 +4,26 @@
 #   ./run.sh                      # tela principal do Mac → celular via USB
 #   ./run.sh --no-phone           # só o host; abra a URL impressa no Chrome do Mac
 #   ./run.sh --synthetic          # clipe de teste em vez da captura (não precisa de permissão)
+#   ./run.sh --virtual 2          # cria 2 displays virtuais e mostra só eles no celular
+#   ./run.sh --query "show=all&hw=sw"  # parâmetros do cliente (antes do #t=)
 #   ./run.sh -- --fps 30 --kbps 4000   # argumentos depois de -- vão pro vrmonitor
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 PORT="${PORT:-8420}"
 PHONE=1
+QUERY=""
+VIRTUAL_ARGS=()
 SOURCE_ARGS=()
 HOST_ARGS=()
 while [ $# -gt 0 ]; do
   case "$1" in
     --no-phone) PHONE=0 ;;
     --synthetic) SOURCE_ARGS=(--source synthetic --clip "$ROOT/host/test-clip.h264") ;;
+    --virtual) shift; VIRTUAL_ARGS=(--virtual "$1") ;;
+    --query) shift; QUERY="?${1#\?}" ;;
     --) shift; HOST_ARGS=("$@"); break ;;
-    -h|--help) sed -n '2,8p' "$0"; exit 0 ;;
+    -h|--help) sed -n '2,10p' "$0"; exit 0 ;;
     *) echo "argumento desconhecido: $1"; exit 2 ;;
   esac
   shift
@@ -53,7 +59,7 @@ fi
 # token de sessão: 128 bits, base64url. Vai pro host por variável de ambiente (não aparece no ps)
 # e pro celular no fragmento da URL (#t=…), que o navegador nunca envia ao servidor.
 TOKEN="$(openssl rand -base64 16 | tr '+/' '-_' | tr -d '=\n')"
-URL="http://localhost:$PORT/#t=$TOKEN"
+URL="http://localhost:$PORT/$QUERY#t=$TOKEN"
 
 HOST_PID=""
 cleanup() {
@@ -65,7 +71,7 @@ trap cleanup EXIT INT TERM
 
 step "subindo o host"
 VRM_TOKEN="$TOKEN" "$BIN" --port "$PORT" --static "$ROOT/client/dist" \
-  ${SOURCE_ARGS[@]+"${SOURCE_ARGS[@]}"} ${HOST_ARGS[@]+"${HOST_ARGS[@]}"} &
+  ${SOURCE_ARGS[@]+"${SOURCE_ARGS[@]}"} ${VIRTUAL_ARGS[@]+"${VIRTUAL_ARGS[@]}"} ${HOST_ARGS[@]+"${HOST_ARGS[@]}"} &
 HOST_PID=$!
 
 for _ in $(seq 1 60); do

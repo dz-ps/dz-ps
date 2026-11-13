@@ -20,3 +20,14 @@ Status: **Fase 0**. Veja [docs/PROGRESS.md](docs/PROGRESS.md) e [docs/ARCHITECTU
 ```
 Parâmetros do cliente na URL (antes do `#`): `?hw=auto|hw|sw`, `?fps=60`, `?kbps=6000`,
 `?display=N`, `?renderfps=60`.
+
+## Fase 2 — displays virtuais
+```bash
+./run.sh --virtual 1                 # cria 1 display virtual 1280×800 e mostra só ele no celular
+./run.sh --virtual 2 -- --virtual-size 1440x900
+./run.sh --query "show=all"          # mostra também os displays físicos
+./scripts/mem-snapshot.sh "rótulo"   # memória do vrmonitor/WindowServer → docs/mem-log.txt
+```
+Também dá pra criar e remover displays pela barra no canto superior direito do cliente.
+Se a API privada não funcionar na sua versão do macOS, o fallback é criar as telas no
+[BetterDisplay](https://github.com/waydabber/BetterDisplay) e rodar `./run.sh --query "show=all"`.

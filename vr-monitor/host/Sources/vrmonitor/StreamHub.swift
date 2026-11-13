@@ -48,7 +48,25 @@ final class StreamFanout: @unchecked Sendable {
     private var subscribers: [UUID: VideoSubscriber] = [:]
     private var seq: UInt32 = 0
     private var lastKeyRequest = Date.distantPast
+    private var framesSincePoll = 0
+    private var bytesSincePoll = 0
     var requestKeyframe: @Sendable () -> Void = {}
+
+    /// Frames e bytes publicados desde a última chamada (pro log periódico).
+    func poll() -> (frames: Int, bytes: Int) {
+        lock.withLock {
+            defer { framesSincePoll = 0; bytesSincePoll = 0 }
+            return (framesSincePoll, bytesSincePoll)
+        }
+    }
+
+    func finishAll() {
+        let subs = lock.withLock { () -> [VideoSubscriber] in
+            defer { subscribers.removeAll() }
+            return Array(subscribers.values)
+        }
+        subs.forEach { $0.finish() }
+    }
 
     init(displayId: Int) { self.displayId = displayId }
 
@@ -76,6 +94,7 @@ final class StreamFanout: @unchecked Sendable {
             msg = VideoProtocol.encode(VideoHeader(type: .frame, displayId: did, flags: f, seq: s, captureTimeUs: t, sendTimeUs: 0), payload: data)
             isConfig = false; isKey = key
         }
+        if !isConfig { lock.withLock { framesSincePoll += 1; bytesSincePoll += msg.count } }
         var needKey = false
         for sub in subs where sub.offer(msg, isConfig: isConfig, isKey: isKey) { needKey = true }
         if needKey { throttledKeyframe() }
@@ -161,6 +180,22 @@ actor StreamHub {
         let f = fps.map { min(max($0, 1), 120) }
         let b = bitrateKbps.map { min(max($0, 200), 50_000) }
         entries[id]?.source.update(fps: f, bitrateKbps: b)
+    }
+
+    /// Display removido: para a fonte e encerra os sockets de vídeo dele.
+    func removeDisplay(_ id: Int) async {
+        guard let e = entries.removeValue(forKey: id) else { return }
+        e.fanout.finishAll()
+        await e.source.stop()
+        logger.info("stream encerrado (display removido)", metadata: ["display": "\(id)"])
+    }
+
+    /// Uma linha por stream ativo: fps e kbps publicados na janela.
+    func report(window seconds: Double) -> [String] {
+        entries.sorted { $0.key < $1.key }.map { id, e in
+            let p = e.fanout.poll()
+            return "display \(id): \(String(format: "%.0f", Double(p.frames) / seconds)) fps, \(String(format: "%.0f", Double(p.bytes) * 8 / seconds / 1000)) kbps, \(e.fanout.count) cliente(s)"
+        }
     }
 
     func stopAll() async {

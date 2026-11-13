@@ -15,7 +15,12 @@ let package = Package(
         // Independente de plataforma: protocolo, auth, interfaces, fonte sintética. Compila no Linux.
         .target(name: "HostCore"),
         // Implementações macOS (ScreenCaptureKit, VideoToolbox, CGEvent). Vazio fora do macOS.
-        .target(name: "HostMac", dependencies: ["HostCore"]),
+        // Headers da API privada CGVirtualDisplay (só tem conteúdo no macOS).
+        .target(name: "CGVirtualDisplayBridge"),
+        .target(name: "HostMac", dependencies: [
+            "HostCore",
+            .target(name: "CGVirtualDisplayBridge", condition: .when(platforms: [.macOS])),
+        ]),
         .executableTarget(
             name: "vrmonitor",
             dependencies: [

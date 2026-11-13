@@ -7,6 +7,8 @@ public enum ClientMessage: Equatable, Sendable {
     case keyframe(display: Int)
     case streamConfig(display: Int, fps: Int?, bitrateKbps: Int?, active: Bool?)
     case stats(display: Int, fps: Double, decodeMs: Double, e2eMs: Double)
+    case displayCreate(VirtualDisplaySpec)
+    case displayDestroy(display: Int)
     case unknown(String)
 
     private struct Envelope: Decodable { let t: String }
@@ -14,6 +16,7 @@ public enum ClientMessage: Equatable, Sendable {
     private struct Ping: Decodable { let id: Int; let c0: Double }
     private struct Display: Decodable { let display: Int }
     private struct StreamCfg: Decodable { let display: Int; let fps: Int?; let bitrateKbps: Int?; let active: Bool? }
+    private struct Create: Decodable { let width: Int; let height: Int; let hiDPI: Bool?; let name: String? }
     private struct Stats: Decodable { let display: Int; let fps: Double; let decodeMs: Double; let e2eMs: Double }
 
     /// `nil` se não for JSON válido ou faltar campo obrigatório.
@@ -35,6 +38,11 @@ public enum ClientMessage: Equatable, Sendable {
             case "stats":
                 let s = try dec.decode(Stats.self, from: data)
                 return .stats(display: s.display, fps: s.fps, decodeMs: s.decodeMs, e2eMs: s.e2eMs)
+            case "display.create":
+                let c = try dec.decode(Create.self, from: data)
+                return .displayCreate(VirtualDisplaySpec(width: c.width, height: c.height, hiDPI: c.hiDPI ?? false, name: c.name))
+            case "display.destroy":
+                return .displayDestroy(display: try dec.decode(Display.self, from: data).display)
             default:
                 return .unknown(env.t)
             }
@@ -52,13 +60,21 @@ public struct Permissions: Codable, Sendable, Equatable {
     }
 }
 
+/// O que o cliente pode fazer com displays virtuais.
+public struct VirtualCapability: Codable, Sendable, Equatable {
+    public var available: Bool
+    public var reason: String?
+    public var max: Int
+    public init(available: Bool, reason: String?, max: Int) { self.available = available; self.reason = reason; self.max = max }
+}
+
 public enum HostMessage: Sendable {
-    case welcome(hostTimeUs: UInt64, displays: [DisplayInfo], permissions: Permissions, inputEnabled: Bool)
+    case welcome(hostTimeUs: UInt64, displays: [DisplayInfo], permissions: Permissions, inputEnabled: Bool, virtualDisplays: VirtualCapability)
     case pong(id: Int, c0: Double, h: UInt64)
     case displays([DisplayInfo])
     case error(code: String, message: String)
 
-    private struct Welcome: Encodable { let t = "welcome"; let proto = 1; let hostTimeUs: UInt64; let displays: [DisplayInfo]; let permissions: Permissions; let inputEnabled: Bool }
+    private struct Welcome: Encodable { let t = "welcome"; let proto = 1; let hostTimeUs: UInt64; let displays: [DisplayInfo]; let permissions: Permissions; let inputEnabled: Bool; let virtualDisplays: VirtualCapability }
     private struct Pong: Encodable { let t = "pong"; let id: Int; let c0: Double; let h: UInt64 }
     private struct Displays: Encodable { let t = "displays"; let displays: [DisplayInfo] }
     private struct Err: Encodable { let t = "error"; let code: String; let message: String }
@@ -68,7 +84,7 @@ public enum HostMessage: Sendable {
         enc.outputFormatting = [.sortedKeys]
         let data: Data?
         switch self {
-        case let .welcome(t, d, p, i): data = try? enc.encode(Welcome(hostTimeUs: t, displays: d, permissions: p, inputEnabled: i))
+        case let .welcome(t, d, p, i, v): data = try? enc.encode(Welcome(hostTimeUs: t, displays: d, permissions: p, inputEnabled: i, virtualDisplays: v))
         case let .pong(id, c0, h): data = try? enc.encode(Pong(id: id, c0: c0, h: h))
         case let .displays(d): data = try? enc.encode(Displays(displays: d))
         case let .error(c, m): data = try? enc.encode(Err(code: c, message: m))

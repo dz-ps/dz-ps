@@ -24,6 +24,10 @@ struct VRMonitor: AsyncParsableCommand {
     @Option(help: "Altura máxima do stream.") var maxHeight = 800
     @Option(help: "fps inicial.") var fps = 60
     @Option(help: "Bitrate inicial em kbps.") var kbps = 6000
+    @Option(help: "Displays virtuais a criar na inicialização.") var virtual = 0
+    @Option(name: .customLong("virtual-size"), help: "Tamanho dos displays virtuais (ex.: 1280x800).") var virtualSize = "1280x800"
+    @Flag(name: .customLong("virtual-hidpi"), help: "Displays virtuais em HiDPI (2x pixels; geralmente desperdício no VR).") var virtualHiDPI = false
+    @Option(name: .customLong("max-virtual"), help: "Máximo de displays virtuais.") var maxVirtual = 4
     @Flag(help: "Modo Wi-Fi (Fase 6, ainda não implementado).") var wifi = false
     @Flag(help: "Logs detalhados.") var verbose = false
 
@@ -41,6 +45,8 @@ struct VRMonitor: AsyncParsableCommand {
             throw ValidationError("bind em \(bind) recusado: sem --wifi só loopback é permitido.")
         }
         guard (1...65535).contains(port) else { throw ValidationError("porta inválida") }
+        guard VirtualDisplaySpec.parse(virtualSize) != nil else { throw ValidationError("--virtual-size inválido (use LxA, ex.: 1280x800)") }
+        guard (0...16).contains(maxVirtual), (0...maxVirtual).contains(virtual) else { throw ValidationError("--virtual deve estar entre 0 e --max-virtual") }
     }
 
     func run() async throws {
@@ -64,10 +70,10 @@ struct VRMonitor: AsyncParsableCommand {
         let platform: HostPlatform
         switch source {
         case "synthetic":
-            platform = SyntheticPlatform(clipPath: clip)
+            platform = SyntheticPlatform(clipPath: clip, maxVirtual: maxVirtual)
         case "mac":
             #if os(macOS)
-            platform = MacPlatform()
+            platform = MacPlatform(maxVirtual: maxVirtual)
             #else
             throw ValidationError("--source mac só existe no macOS")
             #endif
@@ -94,6 +100,23 @@ struct VRMonitor: AsyncParsableCommand {
             inputEnabled: false
         )
 
+        // displays virtuais da linha de comando
+        if virtual > 0 {
+            guard let v = platform.virtualDisplays else { throw ValidationError("plataforma sem displays virtuais") }
+            if let reason = v.unavailableReason {
+                print("✘ \(reason)")
+                throw ExitCode(3)
+            }
+            var spec = VirtualDisplaySpec.parse(virtualSize)!
+            spec.hiDPI = virtualHiDPI
+            logMemory(logger)
+            for _ in 0..<virtual {
+                let d = try await v.create(spec)
+                logger.info("display virtual criado: \(d.id) \(d.width)×\(d.height)")
+                logMemory(logger)
+            }
+        }
+
         let displays = try await platform.displays()
         for d in displays {
             logger.info("display \(d.id): \(d.name) \(d.width)×\(d.height)\(d.main ? " (principal)" : "")")
@@ -107,9 +130,26 @@ struct VRMonitor: AsyncParsableCommand {
         """)
         fflush(stdout)
 
-        let app = buildApplication(config: config, hub: hub, platform: platform, logger: logger)
-        try await app.runService()
+        let clients = ControlClients()
+        let app = buildApplication(config: config, hub: hub, platform: platform, clients: clients, logger: logger)
+
+        // log periódico: memória + fps/kbps por stream (sem conteúdo de tela)
+        let reporter = Task {
+            let window = 10.0
+            while !Task.isCancelled {
+                try? await Task.sleep(nanoseconds: UInt64(window * 1e9))
+                let lines = await hub.report(window: window)
+                guard !lines.isEmpty else { continue }
+                logMemory(logger)
+                for l in lines { logger.info("\(l)") }
+            }
+        }
+
+        try await app.runService(gracefulShutdownSignals: [.sigterm, .sigint])
+        reporter.cancel()
         await hub.stopAll()
+        await platform.virtualDisplays?.destroyAll()
+        logger.info("encerrado; displays virtuais removidos")
     }
 
     private func printPermissionHelp() {

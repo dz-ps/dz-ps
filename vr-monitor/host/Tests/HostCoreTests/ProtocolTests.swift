@@ -149,6 +149,10 @@ private struct Vectors: Decodable {
         #expect(ClientMessage.parse(#"{"t":"keyframe","display":2}"#) == .keyframe(display: 2))
         #expect(ClientMessage.parse(#"{"t":"stream.config","display":1,"fps":30}"#) == .streamConfig(display: 1, fps: 30, bitrateKbps: nil, active: nil))
         #expect(ClientMessage.parse(#"{"t":"hello","client":{"ua":"x"}}"#) == .hello(ua: "x"))
+        #expect(ClientMessage.parse(#"{"t":"display.create","width":1280,"height":800}"#) == .displayCreate(VirtualDisplaySpec(width: 1280, height: 800)))
+        #expect(ClientMessage.parse(#"{"t":"display.create","width":1920,"height":1080,"hiDPI":true,"name":"A"}"#) == .displayCreate(VirtualDisplaySpec(width: 1920, height: 1080, hiDPI: true, name: "A")))
+        #expect(ClientMessage.parse(#"{"t":"display.destroy","display":3}"#) == .displayDestroy(display: 3))
+        #expect(ClientMessage.parse(#"{"t":"display.create","width":1280}"#) == nil)
         #expect(ClientMessage.parse(#"{"t":"nope"}"#) == .unknown("nope"))
         #expect(ClientMessage.parse(#"{"t":"ping"}"#) == nil)
         #expect(ClientMessage.parse("garbage") == nil)
@@ -156,7 +160,7 @@ private struct Vectors: Decodable {
 
     @Test func encodesHostMessages() {
         #expect(HostMessage.pong(id: 1, c0: 2.5, h: 99).json() == #"{"c0":2.5,"h":99,"id":1,"t":"pong"}"#)
-        #expect(HostMessage.welcome(hostTimeUs: 5, displays: [], permissions: .init(screen: .granted, accessibility: .denied), inputEnabled: false).json().contains(#""proto":1"#))
+        #expect(HostMessage.welcome(hostTimeUs: 5, displays: [], permissions: .init(screen: .granted, accessibility: .denied), inputEnabled: false, virtualDisplays: .init(available: true, reason: nil, max: 4)).json().contains(#""proto":1"#))
     }
 }
 
@@ -167,5 +171,32 @@ private struct Vectors: Decodable {
         #expect(s.fit(width: 1470, height: 956) == (1230, 800))
         #expect(s.fit(width: 1920, height: 1080) == (1280, 720))
         #expect(s.fit(width: 800, height: 600) == (800, 600)) // não amplia
+    }
+}
+
+@Suite struct VirtualDisplaySpecTests {
+    @Test func clampAndParse() {
+        #expect(VirtualDisplaySpec.parse("1280x800") == VirtualDisplaySpec(width: 1280, height: 800))
+        #expect(VirtualDisplaySpec.parse("1280X800") != nil)
+        #expect(VirtualDisplaySpec.parse("abc") == nil)
+        let c = VirtualDisplaySpec(width: 99_999, height: 11, refreshRate: 500, name: "a<script>b").clamped()
+        #expect(c.width == 3840 && c.height == 400 && c.refreshRate == 120 && c.name == "ascriptb")
+        #expect(VirtualDisplaySpec(width: 1281, height: 801).clamped().width == 1280)
+    }
+
+    @Test func syntheticVirtualDisplays() async throws {
+        let p = SyntheticPlatform(clipPath: "/nao/existe", maxVirtual: 2)
+        let v = try #require(p.virtualDisplays)
+        #expect(v.unavailableReason == nil)
+        let a = try await v.create(VirtualDisplaySpec(width: 1280, height: 800))
+        let b = try await v.create(VirtualDisplaySpec(width: 1920, height: 1080))
+        #expect(a.virtual && b.virtual && a.id != b.id)
+        await #expect(throws: VirtualDisplayError.self) { try await v.create(VirtualDisplaySpec(width: 1280, height: 800)) }
+        #expect(try await p.displays().count == 3)
+        try await v.destroy(id: a.id)
+        #expect(v.ids() == [b.id])
+        await #expect(throws: VirtualDisplayError.self) { try await v.destroy(id: 1) } // o principal não é virtual
+        await v.destroyAll()
+        #expect(try await p.displays().count == 1)
     }
 }

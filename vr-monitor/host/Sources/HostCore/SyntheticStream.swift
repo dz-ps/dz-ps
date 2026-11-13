@@ -105,19 +105,53 @@ public enum SyntheticError: Error, CustomStringConvertible {
     }
 }
 
-/// Plataforma de teste: um display sintético.
-public struct SyntheticPlatform: HostPlatform {
+/// Plataforma de teste: um display "principal" sintético, mais displays virtuais sintéticos
+/// (todos tocam o mesmo clipe). Permite testar a Fase 2 sem macOS.
+public final class SyntheticPlatform: HostPlatform, VirtualDisplayProvider, @unchecked Sendable {
     public let clipPath: String
     public let permissions: PermissionChecker = AlwaysGranted()
-    public init(clipPath: String) { self.clipPath = clipPath }
+    public let maxDisplays: Int
+    private let lock = NSLock()
+    private var virtuals: [DisplayInfo] = []
+    private var nextId = 2
+
+    public init(clipPath: String, maxVirtual: Int = 4) {
+        self.clipPath = clipPath
+        self.maxDisplays = maxVirtual
+    }
+
+    public var virtualDisplays: VirtualDisplayProvider? { self }
+    public var unavailableReason: String? { nil }
 
     public func displays() async throws -> [DisplayInfo] {
-        [DisplayInfo(id: 1, name: "Synthetic", width: 1280, height: 800, virtual: true, main: true)]
+        [DisplayInfo(id: 1, name: "Synthetic", width: 1280, height: 800, virtual: false, main: true)] + lock.withLock { virtuals }
     }
 
     public func makeStream(display: DisplayInfo, settings: StreamSettings) throws -> VideoStreamSource {
-        try SyntheticStream(displayId: display.id, clipPath: clipPath, width: display.width, height: display.height, fps: settings.fps)
+        // o clipe tem tamanho fixo; o "tamanho" do display virtual sintético é só informativo
+        try SyntheticStream(displayId: display.id, clipPath: clipPath, width: 1280, height: 800, fps: settings.fps)
     }
+
+    public func create(_ spec: VirtualDisplaySpec) async throws -> DisplayInfo {
+        let s = spec.clamped()
+        return try lock.withLock {
+            guard virtuals.count < maxDisplays else { throw VirtualDisplayError.limitReached(maxDisplays) }
+            let d = DisplayInfo(id: nextId, name: s.name ?? "Virtual \(nextId - 1)", width: s.width, height: s.height, virtual: true, main: false)
+            nextId += 1
+            virtuals.append(d)
+            return d
+        }
+    }
+
+    public func destroy(id: Int) async throws {
+        try lock.withLock {
+            guard let i = virtuals.firstIndex(where: { $0.id == id }) else { throw VirtualDisplayError.notVirtual(id) }
+            virtuals.remove(at: i)
+        }
+    }
+
+    public func destroyAll() async { lock.withLock { virtuals.removeAll() } }
+    public func ids() -> Set<Int> { lock.withLock { Set(virtuals.map(\.id)) } }
 
     struct AlwaysGranted: PermissionChecker {
         func screenCapture() -> PermissionState { .granted }
