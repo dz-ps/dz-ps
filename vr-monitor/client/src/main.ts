@@ -5,6 +5,7 @@ import { FlatView } from './render/flatView';
 import { Hud, fmt } from './ui/hud';
 import { RateCounter, RollingWindow, SustainedDropDetector } from './util/stats';
 import { StreamDecoder, type HwMode } from './video/decoder';
+import { FrameLimiter } from './util/frameLimiter';
 import './style.css';
 
 // ---------------- config via query string ----------------
@@ -101,15 +102,13 @@ function openStream(d: DisplayInfo): void {
 }
 
 // ---------------- loop de render ----------------
-const minFrameMs = 1000 / cfg.renderFps - 2;
-let lastRender = 0;
+const limiter = new FrameLimiter(cfg.renderFps);
 let lastHud = 0;
 let lastStats = 0;
 
 function frame(now: number): void {
   requestAnimationFrame(frame);
-  if (now - lastRender < minFrameMs) return;
-  lastRender = now;
+  if (!limiter.shouldRender(now)) return;
   renderRate.tick(now);
 
   const d = decoder?.takeLatest();
@@ -140,9 +139,9 @@ function updateHud(now: number): void {
   const rfps = renderRate.rate(now);
   const lines = [
     `vr-monitor · ${status}${permissions ? ' · ' + permissions : ''}`,
-    `render ${fmt(rfps, 0)} fps (alvo ${cfg.renderFps})  ·  rtt ${fmt(control.clock.rttMs)} ms`,
+    `render ${fmt(rfps, 0)} fps (alvo ${cfg.renderFps > 0 ? cfg.renderFps : 'livre'})  ·  rtt ${fmt(control.clock.rttMs)} ms`,
   ];
-  let warn = renderDrop.update(now, rfps, cfg.renderFps * 0.9);
+  let warn = cfg.renderFps > 0 && renderDrop.update(now, rfps, cfg.renderFps * 0.9);
   if (decoder) {
     const s = decoder.stats(now);
     lines.push(

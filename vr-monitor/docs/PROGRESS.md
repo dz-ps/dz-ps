@@ -52,8 +52,15 @@ na hora do relatório; a sondagem rodou depois, então ele já foi instalado. 2 
 - **Não validado:** `HostMac` (ScreenCaptureKit/VideoToolbox) não compila no Linux. Foi escrito com
   atenção às assinaturas, mas é o primeiro ponto a checar no Mac.
 
+## Fase 1 — validado no Mac (simulador, Chrome do Mac)
+- `HostMac` compilou sem ajustes; captura + encode HW funcionando.
+- e2e 8–9 ms (p95 22), host 0.9–1.9 ms, decode 1.5 ms (o `auto` escolheu software no Chrome do Mac).
+- Bug corrigido: o limitador de fps pulava um frame sim, um não em displays que não são múltiplos
+  de 60 (75 Hz → 37.5 fps). Agora usa um acumulador (`FrameLimiter`, com testes).
+- O "espelho infinito" ao ver no Mac o mesmo display capturado é esperado.
+
 ## Fase 1 — falta
-- Você rodar no Mac + celular e me mandar o HUD (principalmente e2e e decoder escolhido).
+- Teste no celular via USB (`./run.sh`).
 
 ## Decisões que divergem do pedido (detalhes no ARCHITECTURE.md)
 - Token de sessão obrigatório **também no USB** (CSWSH a partir do navegador do Mac e outros apps do celular conseguem alcançar o localhost do adb reverse).
