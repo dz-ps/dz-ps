@@ -1,0 +1,23 @@
+# Tarifas e regras de integração. Fonte única de verdade: o código só lê daqui.
+# Tudo o que não foi confirmado em fonte oficial está marcado TODO(VERIFICAR).
+moeda: BRL
+tarifa_unica:
+  valor: 5.10
+  vigente_desde: 2026-01-11
+  fonte: "informado na SPEC; TODO(VERIFICAR) link do ato oficial (Ceturb/Semobi)"
+  inclui_aquaviario: true   # SPEC §2; TODO(VERIFICAR) ato oficial
+
+integracao_terminal:
+  gratuita: true            # TODO(VERIFICAR) se vale para todos os terminais
+  terminais: []             # preenchido pelo ETL a partir dos dados; não listar à mão
+
+# Janelas temporais: já existiram de 30 min, 1 h e 1 h 30 (SPEC §2).
+# Regiões, linhas e valores vigentes NÃO estão confirmados: lista vazia até verificar.
+integracoes_temporais: []   # TODO(VERIFICAR)
+#  exemplo do formato (não é dado real):
+#  - id: exemplo
+#    janela_min: 60
+#    aplica_a: { linhas: [], regiao: null }
+#    custo_extra: 0.0
+
+gratuidades_e_meias: []     # TODO(VERIFICAR) estudante, idoso, PcD etc.

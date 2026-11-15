@@ -1,0 +1,69 @@
+# RotaVix: serviços de desenvolvimento.
+#
+#   docker compose -f infra/docker-compose.yml up -d                  # leve: Postgres/PostGIS + Redis
+#   docker compose -f infra/docker-compose.yml --profile roteamento up -d   # + Valhalla
+#   docker compose -f infra/docker-compose.yml --profile busca up -d        # + Photon
+#   docker compose -f infra/docker-compose.yml --profile pesado up -d       # tudo
+#
+# Todas as imagens abaixo têm build linux/arm64 e linux/amd64 (verificado com
+# `docker manifest inspect` em 2026-11-15). A imagem oficial postgis/postgis só
+# publica amd64; por isso usamos imresamu/postgis (multi-arch, mesmo conteúdo).
+# TODO: fixar por digest antes do primeiro deploy (ver ADR 0002).
+
+name: rotavix
+
+services:
+  db:
+    image: imresamu/postgis:17-3.5
+    environment:
+      POSTGRES_USER: rotavix
+      POSTGRES_PASSWORD: rotavix_dev   # só dev local; nunca usar fora daqui
+      POSTGRES_DB: rotavix
+    ports: ["127.0.0.1:5432:5432"]
+    volumes: [db:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rotavix"]
+      interval: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    ports: ["127.0.0.1:6379:6379"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 20
+
+  valhalla:
+    profiles: [roteamento, pesado]
+    image: ghcr.io/valhalla/valhalla-scripted:latest
+    environment:
+      # Extrato do Sudeste (Geofabrik), recortado pelo bbox da Grande Vitória.
+      # TODO(VERIFICAR): nomes das variáveis conforme o README da valhalla-scripted.
+      tile_urls: https://download.geofabrik.de/south-america/brazil/sudeste-latest.osm.pbf
+      min_x: "-40.75"
+      min_y: "-20.85"
+      max_x: "-39.95"
+      max_y: "-19.80"
+      use_tiles_ignore_pbf: "True"
+      build_elevation: "False"
+      build_admins: "True"
+      server_threads: "2"
+    ports: ["127.0.0.1:8002:8002"]
+    volumes: [valhalla:/custom_files]
+
+  photon:
+    profiles: [busca, pesado]
+    image: ghcr.io/rtuszik/photon-docker:latest
+    environment:
+      # TODO(VERIFICAR): conferir no README da imagem o código de região aceito
+      # (Brasil inteiro é grande; preferir extrato menor quando existir).
+      REGION: br
+      UPDATE_STRATEGY: SEQUENTIAL
+    ports: ["127.0.0.1:2322:2322"]
+    volumes: [photon:/photon/data]
+
+volumes:
+  db:
+  valhalla:
+  photon:
