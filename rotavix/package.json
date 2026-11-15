@@ -1,0 +1,18 @@
+{
+  "name": "rotavix",
+  "private": true,
+  "packageManager": "pnpm@10.28.0",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "doctor": "./scripts/doctor.sh",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck",
+    "infra:up": "docker compose -f infra/docker-compose.yml up -d",
+    "infra:pesado": "docker compose -f infra/docker-compose.yml --profile pesado up -d",
+    "infra:down": "docker compose -f infra/docker-compose.yml --profile pesado down"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.0"
+  }
+}
