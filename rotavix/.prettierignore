@@ -1,0 +1,9 @@
+**/dist
+**/android
+**/.venv
+pnpm-lock.yaml
+uv.lock
+apps/app/public
+pipeline/fixtures
+docs/SPEC.md
+**/test-results

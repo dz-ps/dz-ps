@@ -1,6 +1,7 @@
 {
   "name": "rotavix",
   "private": true,
+  "type": "module",
   "packageManager": "pnpm@10.28.0",
   "engines": {
     "node": ">=22"
@@ -14,11 +15,24 @@
     "infra:down": "docker compose -f infra/docker-compose.yml --profile pesado down",
     "fixtures": "SOURCE_DATE_EPOCH=1767225600 uv run rotavix-pipeline rede --gtfs pipeline/fixtures/sintetico/gtfs --saida packages/data-format/fixtures/sintetico.rvx --sintetica --fonte 'rede sintética de teste' --sem-manifest",
     "data": "uv run rotavix-pipeline dev",
-    "data:sem-mapa": "uv run rotavix-pipeline dev --sem-mapa"
+    "data:sem-mapa": "uv run rotavix-pipeline dev --sem-mapa",
+    "lint": "eslint . && prettier --check .",
+    "format": "prettier --write .",
+    "build": "pnpm --filter @rotavix/app build",
+    "e2e": "pnpm --filter @rotavix/app e2e",
+    "gtfs:validar": "./scripts/gtfs-validator.sh pipeline/fixtures/sintetico/gtfs",
+    "android:apk": "pnpm build && pnpm --filter @rotavix/app android:apk",
+    "android:instalar": "./scripts/android-instalar.sh"
   },
   "devDependencies": {
     "typescript": "~6.0.3",
     "vitest": "^5.1.0",
-    "@types/node": "^22.19.0"
+    "@types/node": "^22.19.0",
+    "eslint": "^10.15.0",
+    "@eslint/js": "^10.0.1",
+    "typescript-eslint": "^8.72.2",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.14.0",
+    "prettier": "^3.10.1"
   }
 }

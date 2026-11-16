@@ -1,0 +1,90 @@
+# CI do RotaVix. Este arquivo fica em rotavix/.github e passa a valer quando
+# a pasta rotavix/ virar a raiz do repositório próprio (ver docs/adr/0001).
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --all-packages --frozen
+      - run: uv run ruff check . && uv run ruff format --check .
+      - run: uv run pyright
+      - run: uv run pytest -q pipeline apps/api
+
+  gtfs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '21' }
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --all-packages --frozen
+      - name: GTFS sintético regenerado é idêntico ao versionado
+        run: uv run rotavix-pipeline sintetico && git diff --exit-code pipeline/fixtures
+      - name: GTFS Validator (erro bloqueia)
+        run: ./scripts/gtfs-validator.sh pipeline/fixtures/sintetico/gtfs relatorio-gtfs
+        env: { GH_TOKEN: '${{ github.token }}' }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: relatorio-gtfs, path: relatorio-gtfs }
+
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm }
+      - uses: astral-sh/setup-uv@v6
+      - run: pnpm install --frozen-lockfile
+      - run: uv sync --all-packages --frozen
+      - name: Contrato .rvx (fixture regenerada é idêntica)
+        run: pnpm fixtures && git diff --exit-code packages/data-format/fixtures
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - name: Cache do mapa
+        uses: actions/cache@v4
+        with:
+          path: apps/app/public/pacotes/mapa-basico.pmtiles
+          key: mapa-${{ hashFiles('pipeline/fixtures/sintetico/rede.yaml') }}
+      - name: Dados (rede sintética + mapa + fontes)
+        run: uv run rotavix-pipeline dev
+      - run: pnpm build
+      - run: pnpm --filter @rotavix/app orcamento
+      - run: pnpm --filter @rotavix/app exec playwright install --with-deps chromium
+      - run: pnpm e2e
+      - uses: actions/upload-artifact@v4
+        with: { name: pwa-dist, path: apps/app/dist, retention-days: 7 }
+
+  android:
+    needs: web
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm }
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '21' }
+      - uses: astral-sh/setup-uv@v6
+      - run: pnpm install --frozen-lockfile && uv sync --all-packages --frozen
+      - uses: actions/cache@v4
+        with:
+          path: apps/app/public/pacotes/mapa-basico.pmtiles
+          key: mapa-${{ hashFiles('pipeline/fixtures/sintetico/rede.yaml') }}
+      - run: uv run rotavix-pipeline dev
+      - run: pnpm android:apk
+      - uses: actions/upload-artifact@v4
+        with: { name: rotavix-debug-apk, path: apps/app/android/app/build/outputs/apk/debug/app-debug.apk }
