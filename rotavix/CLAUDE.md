@@ -7,6 +7,8 @@ Requisitos: `docs/SPEC.md`. Plano e fases: `docs/PLANO.md`. Decisões: `docs/adr
 
 - Ambiente: `./scripts/doctor.sh` · instalar: `pnpm install && uv sync --all-packages`
 - Dados de dev: `pnpm data` (rede sintética + mapa PMTiles + fontes em `apps/app/public`) · sem mapa: `pnpm data:sem-mapa`
+- Rede real: `node pipeline/coletores/ceturb_transcol.mjs` (horários, ~30 min) → baixar `data/osm/espirito-santo.osm.pbf` → `uv run python -c "from pathlib import Path; from rotavix_pipeline import osm_pbf; osm_pbf.extrair(Path('data/osm/espirito-santo.osm.pbf'), Path('data/osm/transcol.json'))"` → `uv run rotavix-pipeline real` → `uv run rotavix-pipeline mapa --saida apps/app/public/pacotes/mapa-basico.pmtiles`
+- e2e usa a rede sintética: rode `pnpm data` antes de `pnpm e2e`
 - Dev: `pnpm --filter @rotavix/app dev` · build: `pnpm build` · preview: `pnpm --filter @rotavix/app preview`
 - Testes: `pnpm test` (vitest) · `pnpm e2e` (Playwright, precisa de build) · `uv run pytest -q pipeline apps/api`
 - Lint/tipos: `pnpm lint` · `pnpm typecheck` · `uv run ruff check . && uv run pyright`
