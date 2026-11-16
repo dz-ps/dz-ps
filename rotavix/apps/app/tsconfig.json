@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "types": ["vite/client", "node", "geojson"],
+    "lib": ["ES2023", "DOM", "DOM.Iterable", "WebWorker"]
+  },
+  "include": ["src", "e2e", "vite.config.ts", "capacitor.config.ts", "playwright.config.ts", "pwa-assets.config.ts"]
+}

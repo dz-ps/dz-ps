@@ -1,0 +1,40 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-fundo: var(--rv-fundo);
+  --color-superficie: var(--rv-superficie);
+  --color-superficie2: var(--rv-superficie2);
+  --color-borda: var(--rv-borda);
+  --color-texto: var(--rv-texto);
+  --color-suave: var(--rv-texto-suave);
+  --color-primaria: var(--rv-primaria);
+  --color-sobre-primaria: var(--rv-sobre-primaria);
+  --color-destaque: var(--rv-destaque);
+  --color-sobre-destaque: var(--rv-sobre-destaque);
+  --color-no-horario: var(--rv-no-horario);
+  --color-atrasado: var(--rv-atrasado);
+  --color-incidente: var(--rv-incidente);
+  --color-lotacao: var(--rv-lotacao);
+  --color-estimativa: var(--rv-estimativa);
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --radius-cartao: 1rem;
+  --shadow-cartao: 0 1px 2px rgb(0 0 0 / 0.06), 0 4px 16px rgb(0 0 0 / 0.08);
+}
+
+@layer base {
+  html, body, #app { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--rv-fundo);
+    color: var(--rv-texto);
+    font-family: var(--font-sans);
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
+  }
+  :focus-visible { outline: 3px solid var(--rv-foco); outline-offset: 2px; }
+  .num { font-variant-numeric: tabular-nums; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

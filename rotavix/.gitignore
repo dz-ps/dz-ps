@@ -18,3 +18,5 @@ android/app/build/
 .DS_Store
 apps/app/public/pacotes/
 apps/app/public/map-assets/
+apps/app/test-results/
+apps/app/playwright-report/
