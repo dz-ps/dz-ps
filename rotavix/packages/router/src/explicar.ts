@@ -19,6 +19,8 @@ export function explicar(m: Motivo): string {
         : `Baldeação em ${m.ponto} com ${m.folgaMin} min de folga`;
     case 'pela_tabela':
       return 'Pela tabela: horários programados, sem trânsito ao vivo';
+    case 'horario_estimado':
+      return 'Horário no ponto estimado a partir da saída oficial do terminal';
     case 'caminhada_estimada':
       return 'Caminhada estimada em linha reta';
     case 'rede_sintetica':

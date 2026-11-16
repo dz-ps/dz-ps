@@ -6,7 +6,11 @@ import type { LinhaMeta, Rede } from '@rotavix/data-format';
 import { distanciaM } from './geo';
 import { type Acesso, type Etiqueta, mcRaptor, type Resultado } from './raptor';
 
-export type Lugar = { tipo: 'ponto'; ponto: number } | { tipo: 'coord'; lat: number; lon: number; nome?: string };
+export type Lugar =
+  | { tipo: 'ponto'; ponto: number }
+  /** Grupo de plataformas (ex.: um terminal): qualquer uma serve, sem caminhada. */
+  | { tipo: 'pontos'; pontos: number[]; nome: string }
+  | { tipo: 'coord'; lat: number; lon: number; nome?: string };
 
 export type Pedido = {
   origem: Lugar;
@@ -29,8 +33,9 @@ export type Trecho =
       linha: LinhaMeta & { indice: number };
       padrao: number;
       destino: string;
-      embarque: Ponto & { hora: number };
-      desembarque: Ponto & { hora: number };
+      /** `estimado`: passagem no ponto calculada (só a partida do ponto inicial é oficial). */
+      embarque: Ponto & { hora: number; estimado: boolean };
+      desembarque: Ponto & { hora: number; estimado: boolean };
       paradas: number;
       /** Pontos do padrão do embarque ao desembarque (para desenhar no mapa). */
       pontos: number[];
@@ -48,6 +53,7 @@ export type Motivo =
   | { tipo: 'usa_aquaviario'; de: string; para: string }
   | { tipo: 'baldeacao'; ponto: string; folgaMin: number }
   | { tipo: 'pela_tabela' }
+  | { tipo: 'horario_estimado' }
   | { tipo: 'caminhada_estimada' }
   | { tipo: 'rede_sintetica' };
 
@@ -75,11 +81,17 @@ export function ponto(rede: Rede, i: number): Ponto {
 }
 
 function coordenada(rede: Rede, l: Lugar): { lat: number; lon: number } {
-  return l.tipo === 'ponto' ? { lat: rede.pontoLat[l.ponto]!, lon: rede.pontoLon[l.ponto]! } : l;
+  if (l.tipo === 'ponto') return { lat: rede.pontoLat[l.ponto]!, lon: rede.pontoLon[l.ponto]! };
+  if (l.tipo === 'pontos') {
+    const n = l.pontos.length;
+    return { lat: l.pontos.reduce((s, p) => s + rede.pontoLat[p]!, 0) / n, lon: l.pontos.reduce((s, p) => s + rede.pontoLon[p]!, 0) / n };
+  }
+  return l;
 }
 
 function nomeLugar(rede: Rede, l: Lugar, padrao: string): string {
-  return l.tipo === 'ponto' ? rede.cab.pontos.nomes[l.ponto]! : (l.nome ?? padrao);
+  if (l.tipo === 'ponto') return rede.cab.pontos.nomes[l.ponto]!;
+  return l.nome ?? padrao;
 }
 
 /** Tempo a pé estimado (linha reta × fator ÷ velocidade), como o pipeline faz offline. */
@@ -90,6 +102,7 @@ export function caminhadaS(rede: Rede, metros: number): number {
 
 export function acessos(rede: Rede, l: Lugar, maxM: number): Acesso[] {
   if (l.tipo === 'ponto') return [{ ponto: l.ponto, caminhadaS: 0 }];
+  if (l.tipo === 'pontos') return l.pontos.map((ponto) => ({ ponto, caminhadaS: 0 }));
   const res: Acesso[] = [];
   for (let i = 0; i < rede.nPontos; i++) {
     const d = distanciaM(l.lat, l.lon, rede.pontoLat[i]!, rede.pontoLon[i]!);
@@ -157,8 +170,8 @@ function montar(rede: Rede, r: Resultado, pedido: Pedido): Opcao {
         linha: { ...linha, indice: li },
         padrao: p,
         destino: rede.cab.padroes[p]!.destino,
-        embarque: { ...ponto(rede, pts[0]!), hora: hEmb },
-        desembarque: { ...ponto(rede, pts.at(-1)!), hora: hDes },
+        embarque: { ...ponto(rede, pts[0]!), hora: hEmb, estimado: e.posEmbarque! > 0 },
+        desembarque: { ...ponto(rede, pts.at(-1)!), hora: hDes, estimado: true },
         paradas: pts.length - 1,
         pontos: pts,
         modo: linha.tipo === 4 ? 'barca' : 'onibus',
@@ -227,9 +240,11 @@ export function planejar(rede: Rede, pedido: Pedido): Opcao[] {
   const opcoes = new Map<string, Opcao>();
 
   let t = pedido.horaS;
-  for (let i = 0; i < 8 && t <= pedido.horaS + janela; i++) {
+  // 4 buscas cobrem a janela (as opções equivalentes viram "próximas partidas" no cartão).
+  for (let i = 0; i < 4 && t <= pedido.horaS + janela; i++) {
     const res = mcRaptor(rede, pedido.data, t, origem, destino, {
       transferenciaMinimaS: 60 * (scoring.transferencia_minima_min ?? 2),
+      maxViagens: 4, // até 3 baldeações
     });
     if (res.length === 0) break;
     let proxima = Infinity;
@@ -334,6 +349,7 @@ function rotular(rede: Rede, lista: Opcao[]): void {
       o.motivos.push({ tipo: 'baldeacao', ponto: prox.embarque.nome, folgaMin: Math.round((prox.embarque.hora - anteriorFim) / 60) });
     }
     o.motivos.push({ tipo: 'pela_tabela' });
+    if (veic.some((v) => v.embarque.estimado)) o.motivos.push({ tipo: 'horario_estimado' });
     if (o.trechos.some((t) => t.tipo === 'a_pe')) o.motivos.push({ tipo: 'caminhada_estimada' });
     if (rede.cab.rede.sintetica) o.motivos.push({ tipo: 'rede_sintetica' });
   }

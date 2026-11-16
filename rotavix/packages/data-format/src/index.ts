@@ -18,6 +18,8 @@ export type Cabecalho = {
   servicos: ServicoMeta[];
   caminhada: { metodo: string; fator: number; velocidade_ms: number; raio_transferencia_m: number; estimativa: boolean };
   scoring: Record<string, unknown>;
+  /** Lugares só para a busca (opcional; ausente na rede sintética antiga). */
+  lugares?: { nomes: string[]; tipos: string[]; lat: number[]; lon: number[] };
   secoes: Record<string, SecaoMeta>;
 };
 
