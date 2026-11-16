@@ -20,16 +20,17 @@ class OpfsStore implements DataStore {
     }
   }
   async gravar(nome: string, dados: ArrayBuffer): Promise<void> {
-    // Escreve em arquivo temporário e só depois troca: o pacote anterior nunca fica pela metade.
-    const tmp = await this.raiz.getFileHandle(`${nome}.tmp`, { create: true });
-    const w = await tmp.createWritable();
-    await w.write(dados);
-    await w.close();
-    const final = await this.raiz.getFileHandle(nome, { create: true });
-    const w2 = await final.createWritable();
-    await w2.write(await tmp.getFile());
-    await w2.close();
-    await this.raiz.removeEntry(`${nome}.tmp`);
+    // createWritable grava num arquivo de troca e só substitui o original no close():
+    // se o app for fechado no meio, a versão anterior continua intacta.
+    const h = await this.raiz.getFileHandle(nome, { create: true });
+    const w = await h.createWritable({ keepExistingData: false });
+    try {
+      await w.write(dados);
+      await w.close();
+    } catch (e) {
+      await w.abort().catch(() => undefined);
+      throw e;
+    }
   }
   async apagar(nome: string): Promise<void> {
     await this.raiz.removeEntry(nome).catch(() => undefined);

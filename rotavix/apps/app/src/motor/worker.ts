@@ -4,7 +4,15 @@ import { lerRede, type Rede } from '@rotavix/data-format';
 import { agoraNoFuso, criarBusca, planejar, type ItemBusca, type Opcao, type Pedido } from '@rotavix/router';
 import { expose } from 'comlink';
 
-export type InfoRede = { nome: string; sintetica: boolean; fonte: string; geradoEm: string; nPontos: number; nLinhas: number; fuso: string };
+export type InfoRede = {
+  nome: string;
+  sintetica: boolean;
+  fonte: string;
+  geradoEm: string;
+  nPontos: number;
+  nLinhas: number;
+  fuso: string;
+};
 export type ResultadoBusca =
   | { tipo: 'ponto'; ponto: number; nome: string; lat: number; lon: number; linhas: string[] }
   | { tipo: 'linha'; linha: number; nome: string; curta: string; servico: string };
@@ -28,12 +36,18 @@ const api = {
     linhasDoPonto = Array.from({ length: r.nPontos }, () => [] as string[]);
     for (let s = 0; s < r.nPontos; s++) {
       const set = new Set<string>();
-      for (let i = r.pontoPadroesIni[s]!; i < r.pontoPadroesIni[s + 1]!; i++) set.add(r.cab.linhas[r.padraoLinha[r.pontoPadroes[i]!]!]!.curta);
+      for (let i = r.pontoPadroesIni[s]!; i < r.pontoPadroesIni[s + 1]!; i++)
+        set.add(r.cab.linhas[r.padraoLinha[r.pontoPadroes[i]!]!]!.curta);
       linhasDoPonto[s] = [...set].sort();
     }
     return {
-      nome: r.cab.rede.nome, sintetica: r.cab.rede.sintetica, fonte: r.cab.rede.fonte, geradoEm: r.cab.gerado_em,
-      nPontos: r.nPontos, nLinhas: r.cab.linhas.length, fuso: r.cab.fuso,
+      nome: r.cab.rede.nome,
+      sintetica: r.cab.rede.sintetica,
+      fonte: r.cab.rede.fonte,
+      geradoEm: r.cab.gerado_em,
+      nPontos: r.nPontos,
+      nLinhas: r.cab.linhas.length,
+      fuso: r.cab.fuso,
     };
   },
 
@@ -78,7 +92,8 @@ const api = {
     return {
       type: 'FeatureCollection',
       features: r.cab.pontos.nomes.map((nome, i) => ({
-        type: 'Feature', id: i,
+        type: 'Feature',
+        id: i,
         properties: { nome, aquaviario: nome.startsWith('Estação Aquaviária') ? 1 : 0 },
         geometry: { type: 'Point', coordinates: [r.pontoLon[i]!, r.pontoLat[i]!] },
       })),

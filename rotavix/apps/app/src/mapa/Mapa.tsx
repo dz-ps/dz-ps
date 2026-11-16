@@ -32,8 +32,10 @@ function estilo(arquivo: File | null, escuro: boolean): StyleSpecification {
     sprite: `${base}/sprites/v4/${escuro ? 'dark' : 'light'}`,
     sources: {
       protomaps: {
-        type: 'vector', url: `pmtiles://${p.source.getKey()}`,
-        attribution: '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap</a> · <a href="https://protomaps.com">Protomaps</a>',
+        type: 'vector',
+        url: `pmtiles://${p.source.getKey()}`,
+        attribution:
+          '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap</a> · <a href="https://protomaps.com">Protomaps</a>',
       },
     },
     layers: layers('protomaps', namedFlavor(escuro ? 'dark' : 'light'), { lang: 'pt' }),
@@ -45,8 +47,12 @@ function rotaGeoJSON(o: OpcaoMapa | undefined): GeoJSON.FeatureCollection {
   return {
     type: 'FeatureCollection',
     features: o.desenho.map((d, i) => ({
-      type: 'Feature', id: i,
-      properties: { modo: d.modo, cor: d.servico ? CORES_SERVICO[d.servico as keyof typeof CORES_SERVICO] ?? CORES_SERVICO.outro : '#5A6A76' },
+      type: 'Feature',
+      id: i,
+      properties: {
+        modo: d.modo,
+        cor: d.servico ? (CORES_SERVICO[d.servico as keyof typeof CORES_SERVICO] ?? CORES_SERVICO.outro) : '#5A6A76',
+      },
       geometry: { type: 'LineString', coordinates: d.coords },
     })),
   };
@@ -56,21 +62,56 @@ function camadas(mapa: MapaGL, pontos: GeoJSON.FeatureCollection, escuro: boolea
   const t = escuro ? criarTemas(brand.paleta).escuro : criarTemas(brand.paleta).claro;
   mapa.addSource('rota', { type: 'geojson', data: VAZIO });
   mapa.addSource('pontos', { type: 'geojson', data: pontos });
-  mapa.addLayer({ id: 'rota-borda', type: 'line', source: 'rota', filter: ['!=', ['get', 'modo'], 'a_pe'],
-    layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': escuro ? t.texto : '#FFFFFF', 'line-width': 9 } });
-  mapa.addLayer({ id: 'rota', type: 'line', source: 'rota', filter: ['!=', ['get', 'modo'], 'a_pe'],
-    layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': ['get', 'cor'], 'line-width': 5 } });
-  mapa.addLayer({ id: 'rota-pe', type: 'line', source: 'rota', filter: ['==', ['get', 'modo'], 'a_pe'],
-    layout: { 'line-cap': 'round' }, paint: { 'line-color': t.estimativa, 'line-width': 3, 'line-dasharray': [0.5, 2] } });
-  mapa.addLayer({ id: 'pontos', type: 'circle', source: 'pontos',
+  mapa.addLayer({
+    id: 'rota-borda',
+    type: 'line',
+    source: 'rota',
+    filter: ['!=', ['get', 'modo'], 'a_pe'],
+    layout: { 'line-cap': 'round', 'line-join': 'round' },
+    paint: { 'line-color': escuro ? t.texto : '#FFFFFF', 'line-width': 9 },
+  });
+  mapa.addLayer({
+    id: 'rota',
+    type: 'line',
+    source: 'rota',
+    filter: ['!=', ['get', 'modo'], 'a_pe'],
+    layout: { 'line-cap': 'round', 'line-join': 'round' },
+    paint: { 'line-color': ['get', 'cor'], 'line-width': 5 },
+  });
+  mapa.addLayer({
+    id: 'rota-pe',
+    type: 'line',
+    source: 'rota',
+    filter: ['==', ['get', 'modo'], 'a_pe'],
+    layout: { 'line-cap': 'round' },
+    paint: { 'line-color': t.estimativa, 'line-width': 3, 'line-dasharray': [0.5, 2] },
+  });
+  mapa.addLayer({
+    id: 'pontos',
+    type: 'circle',
+    source: 'pontos',
     paint: {
       'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 3, 15, 7],
       'circle-color': ['case', ['==', ['get', 'aquaviario'], 1], CORES_SERVICO.aquaviario, t.superficie],
-      'circle-stroke-color': t.mapaPonto, 'circle-stroke-width': 1.5,
-    } });
-  mapa.addLayer({ id: 'pontos-nome', type: 'symbol', source: 'pontos', minzoom: 13,
-    layout: { 'text-field': ['get', 'nome'], 'text-font': ['Noto Sans Medium'], 'text-size': 12, 'text-offset': [0, 1.1], 'text-anchor': 'top', 'text-optional': true },
-    paint: { 'text-color': t.texto, 'text-halo-color': t.superficie, 'text-halo-width': 1.5 } });
+      'circle-stroke-color': t.mapaPonto,
+      'circle-stroke-width': 1.5,
+    },
+  });
+  mapa.addLayer({
+    id: 'pontos-nome',
+    type: 'symbol',
+    source: 'pontos',
+    minzoom: 13,
+    layout: {
+      'text-field': ['get', 'nome'],
+      'text-font': ['Noto Sans Medium'],
+      'text-size': 12,
+      'text-offset': [0, 1.1],
+      'text-anchor': 'top',
+      'text-optional': true,
+    },
+    paint: { 'text-color': t.texto, 'text-halo-color': t.superficie, 'text-halo-width': 1.5 },
+  });
 }
 
 export default function Mapa() {
@@ -87,8 +128,14 @@ export default function Mapa() {
     if (!div.current || !rede) return;
     let cancelado = false;
     const m = new MapaGL({
-      container: div.current, style: estilo(arquivo, escuro), center: CENTRO, zoom: 11,
-      attributionControl: { compact: true }, maxPitch: 0, dragRotate: false, pitchWithRotate: false,
+      container: div.current,
+      style: estilo(arquivo, escuro),
+      center: CENTRO,
+      zoom: 11,
+      attributionControl: { compact: true },
+      maxPitch: 0,
+      dragRotate: false,
+      pitchWithRotate: false,
     });
     m.touchZoomRotate.disableRotation();
     mapa.current = m;

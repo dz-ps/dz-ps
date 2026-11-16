@@ -24,7 +24,12 @@ function lembrar(l: LugarEscolhido) {
   }
 }
 
-export function Busca({ titulo, permitirLocalizacao, aoEscolher, aoFechar }: {
+export function Busca({
+  titulo,
+  permitirLocalizacao,
+  aoEscolher,
+  aoFechar,
+}: {
   titulo: string;
   permitirLocalizacao: boolean;
   aoEscolher: (l: LugarEscolhido) => void;
@@ -36,9 +41,13 @@ export function Busca({ titulo, permitirLocalizacao, aoEscolher, aoFechar }: {
 
   useEffect(() => {
     let vivo = true;
-    if (!q.trim()) return setRes([]);
-    obterMotor().buscar(q, 10).then((r) => vivo && setRes(r.filter((x) => x.tipo === 'ponto')));
-    return () => { vivo = false; };
+    if (!q.trim()) return;
+    obterMotor()
+      .buscar(q, 10)
+      .then((r) => vivo && setRes(r.filter((x) => x.tipo === 'ponto')));
+    return () => {
+      vivo = false;
+    };
   }, [q]);
 
   const escolher = (l: LugarEscolhido) => {
@@ -49,18 +58,30 @@ export function Busca({ titulo, permitirLocalizacao, aoEscolher, aoFechar }: {
   const usarGps = () => {
     setErroGps(null);
     navigator.geolocation.getCurrentPosition(
-      (p) => escolher({ rotulo: 'Minha localização', lugar: { tipo: 'coord', lat: p.coords.latitude, lon: p.coords.longitude, nome: 'Minha localização' }, lat: p.coords.latitude, lon: p.coords.longitude }),
+      (p) =>
+        escolher({
+          rotulo: 'Minha localização',
+          lugar: { tipo: 'coord', lat: p.coords.latitude, lon: p.coords.longitude, nome: 'Minha localização' },
+          lat: p.coords.latitude,
+          lon: p.coords.longitude,
+        }),
       () => setErroGps('Não foi possível obter sua localização. Escolha um ponto na busca.'),
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 },
     );
   };
 
   const lista = q.trim() ? null : recentes();
+  const resultados = q.trim() ? res : [];
 
   return (
     <div className="flex flex-col gap-2 p-3">
       <div className="flex items-center gap-2">
-        <button type="button" onClick={aoFechar} className="grid size-12 place-items-center rounded-full hover:bg-superficie2" aria-label="Voltar">
+        <button
+          type="button"
+          onClick={aoFechar}
+          className="grid size-12 place-items-center rounded-full hover:bg-superficie2"
+          aria-label="Voltar"
+        >
           <IconeVoltar />
         </button>
         <label className="flex flex-1 items-center gap-2 rounded-xl bg-superficie2 px-3">
@@ -87,12 +108,16 @@ export function Busca({ titulo, permitirLocalizacao, aoEscolher, aoFechar }: {
       <ul className="flex flex-col" data-testid="resultados-busca">
         {(lista ?? []).map((l) => (
           <li key={`r-${l.rotulo}`}>
-            <button type="button" onClick={() => escolher(l)} className="flex min-h-12 w-full items-center gap-3 rounded-xl px-3 py-2 text-left hover:bg-superficie2">
+            <button
+              type="button"
+              onClick={() => escolher(l)}
+              className="flex min-h-12 w-full items-center gap-3 rounded-xl px-3 py-2 text-left hover:bg-superficie2"
+            >
               <IconePino className="shrink-0 text-suave" /> {l.rotulo}
             </button>
           </li>
         ))}
-        {res.map((r) =>
+        {resultados.map((r) =>
           r.tipo === 'ponto' ? (
             <li key={`p-${r.ponto}`}>
               <button
@@ -109,7 +134,7 @@ export function Busca({ titulo, permitirLocalizacao, aoEscolher, aoFechar }: {
             </li>
           ) : null,
         )}
-        {q.trim() && res.length === 0 && <li className="px-3 py-2 text-sm text-suave">Nenhum ponto encontrado.</li>}
+        {q.trim() && resultados.length === 0 && <li className="px-3 py-2 text-sm text-suave">Nenhum ponto encontrado.</li>}
       </ul>
     </div>
   );

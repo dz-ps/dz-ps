@@ -30,20 +30,35 @@ export function Rotas() {
       setQuandoUsado(q);
       definir({ opcoes: ops, selecionada: 0, planejando: false });
     })();
-    return () => { vivo = false; };
+    return () => {
+      vivo = false;
+    };
   }, [origem, destino, quando, fase, definir, navegar]);
 
   return (
     <div className="flex flex-col gap-3 px-4 pb-6">
       <div className="flex items-center gap-2 pt-1">
-        <button type="button" onClick={() => { definir({ opcoes: [] }); navegar({ to: '/' }); }} className="grid size-12 place-items-center rounded-full hover:bg-superficie2" aria-label="Voltar">
+        <button
+          type="button"
+          onClick={() => {
+            definir({ opcoes: [] });
+            navegar({ to: '/' });
+          }}
+          className="grid size-12 place-items-center rounded-full hover:bg-superficie2"
+          aria-label="Voltar"
+        >
           <IconeVoltar />
         </button>
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm text-suave">{origem?.rotulo}</p>
           <p className="truncate font-semibold">{destino?.rotulo}</p>
         </div>
-        <button type="button" aria-label="Inverter origem e destino" onClick={() => definir({ origem: destino, destino: origem })} className="grid size-12 place-items-center rounded-full hover:bg-superficie2">
+        <button
+          type="button"
+          aria-label="Inverter origem e destino"
+          onClick={() => definir({ origem: destino, destino: origem })}
+          className="grid size-12 place-items-center rounded-full hover:bg-superficie2"
+        >
           <IconeTrocar />
         </button>
       </div>
@@ -53,7 +68,11 @@ export function Rotas() {
           Saindo {quando.tipo === 'agora' ? 'agora' : 'às'} {hora(quandoUsado.horaS)} · {online ? 'pela tabela' : 'offline, pela tabela'}
         </p>
       )}
-      {planejando && <p role="status" className="text-sm text-suave">Calculando rotas…</p>}
+      {planejando && (
+        <p role="status" className="text-sm text-suave">
+          Calculando rotas…
+        </p>
+      )}
       {!planejando && opcoes.length === 0 && quandoUsado && (
         <p role="status" className="rounded-xl bg-superficie2 p-3 text-sm">
           Nenhuma opção na próxima hora. Tente outro horário ou um ponto mais perto (até 1 km a pé).

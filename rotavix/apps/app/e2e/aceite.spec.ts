@@ -15,6 +15,22 @@ test('modo avião: abrir, buscar ponto e planejar rota', async ({ page, context 
   await page.evaluate(async () => {
     await navigator.serviceWorker.ready;
   });
+  // O mapa baixa em segundo plano: espera ele estar no OPFS antes de desligar a rede.
+  await expect
+    .poll(
+      () =>
+        page.evaluate(async () => {
+          try {
+            const dir = await (await navigator.storage.getDirectory()).getDirectoryHandle('pacotes');
+            const m = JSON.parse(await (await (await dir.getFileHandle('manifest.json')).getFile()).text());
+            return m.pacotes.some((p: { id: string }) => p.id === 'mapa-basico');
+          } catch {
+            return false; // manifest ainda não existe
+          }
+        }),
+      { timeout: 60_000 },
+    )
+    .toBe(true);
   await page.reload();
   await expect(page.getByText('Rede sintética de teste.')).toBeVisible();
 
@@ -24,6 +40,8 @@ test('modo avião: abrir, buscar ponto e planejar rota', async ({ page, context 
   await expect(page.getByTestId('selo-offline')).toBeVisible();
   await expect(page.getByText('Rede sintética de teste.')).toBeVisible({ timeout: 15_000 });
   await expect(page.locator('.maplibregl-canvas')).toBeVisible();
+  // Base do mapa (OSM via PMTiles) carregada do aparelho: a atribuição só aparece com a fonte vetorial.
+  await expect(page.locator('.maplibregl-ctrl-attrib')).toContainText('OpenStreetMap', { timeout: 20_000 });
 
   // 3) Horário fixo (terça, 07:00) para o teste não depender do relógio.
   await page.getByRole('button', { name: 'Escolher horário' }).click();
@@ -32,10 +50,16 @@ test('modo avião: abrir, buscar ponto e planejar rota', async ({ page, context 
   // 4) Buscar pontos (sem acento e com sinônimo) e planejar.
   await page.getByTestId('campo-origem').click();
   await page.getByTestId('campo-busca').fill('jacaraipe');
-  await page.getByTestId('resultados-busca').getByRole('button', { name: /Jacaraípe/ }).click();
+  await page
+    .getByTestId('resultados-busca')
+    .getByRole('button', { name: /Jacaraípe/ })
+    .click();
   await page.getByTestId('campo-destino').click();
   await page.getByTestId('campo-busca').fill('ufes');
-  await page.getByTestId('resultados-busca').getByRole('button', { name: /UFES Goiabeiras/ }).click();
+  await page
+    .getByTestId('resultados-busca')
+    .getByRole('button', { name: /UFES Goiabeiras/ })
+    .click();
 
   await expect(page).toHaveURL(/\/rotas$/);
   const opcoes = page.getByTestId('opcao-rota');

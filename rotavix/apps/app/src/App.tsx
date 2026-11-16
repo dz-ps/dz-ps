@@ -2,7 +2,7 @@ import { createRootRoute, createRoute, createRouter, Outlet, RouterProvider, use
 import { lazy, Suspense, useEffect } from 'react';
 import { Painel } from './componentes/Painel';
 import { useEstado } from './estado';
-import { lerPacote, sincronizar } from './dados/pacotes';
+import { lerPacote, type Progresso, sincronizar } from './dados/pacotes';
 import { carregarRede } from './motor/cliente';
 import { Inicio } from './telas/Inicio';
 import { Rotas } from './telas/Rotas';
@@ -11,18 +11,24 @@ const Mapa = lazy(() => import('./mapa/Mapa'));
 
 async function iniciar() {
   const { definir } = useEstado.getState();
-  const r = await sincronizar((p) => definir({ fase: 'baixando', progresso: p }));
-  const m = r.manifest;
-  const rede = m?.pacotes.find((p) => p.id === 'rede');
-  const arqRede = rede ? await lerPacote(rede.arquivo) : null;
+  const progresso = (p: Progresso) => definir({ fase: useEstado.getState().rede ? 'pronto' : 'baixando', progresso: p });
+  // 1) Rede primeiro (dezenas de KB): libera busca e rotas antes do mapa.
+  const r = await sincronizar(progresso, ['rede']);
+  const rede = r.manifest?.pacotes.find((p) => p.id === 'rede');
+  const arqRede = rede ? await lerPacote(rede) : null;
   if (!arqRede) {
     definir({ fase: 'erro', erro: r.erro ?? 'Pacote da rede indisponível', progresso: null });
     return;
   }
   const info = await carregarRede(await arqRede.arrayBuffer());
-  const mapa = m?.pacotes.find((p) => p.id === 'mapa-basico');
-  const arqMapa = mapa ? await lerPacote(mapa.arquivo) : null;
-  definir({ fase: 'pronto', rede: info, mapaArquivo: arqMapa, progresso: null, erro: null });
+  const mapaLocal = r.manifest?.pacotes.find((p) => p.id === 'mapa-basico');
+  definir({ fase: 'pronto', rede: info, mapaArquivo: mapaLocal ? await lerPacote(mapaLocal) : null, progresso: null, erro: null });
+  // 2) Demais pacotes (mapa) em segundo plano.
+  const r2 = await sincronizar(progresso);
+  const mapa = r2.manifest?.pacotes.find((p) => p.id === 'mapa-basico');
+  const arqMapa = mapa ? await lerPacote(mapa) : null;
+  if (arqMapa && (r2.atualizou || !useEstado.getState().mapaArquivo)) definir({ mapaArquivo: arqMapa });
+  definir({ progresso: null });
 }
 
 function Layout() {
@@ -51,7 +57,7 @@ function Layout() {
           <p className="text-sm text-suave">Conecte-se à internet uma vez para baixar a rede. Detalhe: {erro}</p>
         </div>
       )}
-      <Painel snapInicial={local.pathname === '/rotas' ? 1 : 1}>
+      <Painel key={local.pathname}>
         <Outlet />
       </Painel>
     </main>

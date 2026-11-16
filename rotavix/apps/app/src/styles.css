@@ -22,7 +22,11 @@
 }
 
 @layer base {
-  html, body, #app { height: 100%; }
+  html,
+  body,
+  #app {
+    height: 100%;
+  }
   body {
     margin: 0;
     background: var(--rv-fundo);
@@ -31,10 +35,20 @@
     -webkit-tap-highlight-color: transparent;
     overscroll-behavior: none;
   }
-  :focus-visible { outline: 3px solid var(--rv-foco); outline-offset: 2px; }
-  .num { font-variant-numeric: tabular-nums; }
+  :focus-visible {
+    outline: 3px solid var(--rv-foco);
+    outline-offset: 2px;
+  }
+  .num {
+    font-variant-numeric: tabular-nums;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

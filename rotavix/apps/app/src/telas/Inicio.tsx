@@ -40,8 +40,23 @@ export function Inicio() {
       <AvisoSintetico />
       <div className="flex items-stretch gap-2">
         <div className="flex flex-1 flex-col gap-2">
-          <CampoLugar rotulo="De" valor={origem?.rotulo} vazio="Escolha a origem" icone={<IconeAlvo className="text-primaria" />} aoClicar={() => setBuscando('origem')} testid="campo-origem" />
-          <CampoLugar rotulo="Para" valor={destino?.rotulo} vazio="Para onde?" icone={<IconePino className="text-destaque" />} aoClicar={() => setBuscando('destino')} destaque testid="campo-destino" />
+          <CampoLugar
+            rotulo="De"
+            valor={origem?.rotulo}
+            vazio="Escolha a origem"
+            icone={<IconeAlvo className="text-primaria" />}
+            aoClicar={() => setBuscando('origem')}
+            testid="campo-origem"
+          />
+          <CampoLugar
+            rotulo="Para"
+            valor={destino?.rotulo}
+            vazio="Para onde?"
+            icone={<IconePino className="text-destaque" />}
+            aoClicar={() => setBuscando('destino')}
+            destaque
+            testid="campo-destino"
+          />
         </div>
         <button
           type="button"
@@ -88,12 +103,18 @@ export function Inicio() {
         className="min-h-12 rounded-xl bg-primaria font-semibold text-sobre-primaria disabled:opacity-50"
         data-testid="ver-rotas"
       >
-        <span className="inline-flex items-center gap-2"><IconeBusca /> Ver rotas</span>
+        <span className="inline-flex items-center gap-2">
+          <IconeBusca /> Ver rotas
+        </span>
       </button>
 
       <section aria-label="Atalhos" className="flex gap-2">
         {['Casa', 'Trabalho', 'Faculdade'].map((a) => (
-          <span key={a} className="flex-1 rounded-xl border border-dashed border-borda px-3 py-2 text-center text-sm text-suave" title="Favoritos chegam na Fase 1">
+          <span
+            key={a}
+            className="flex-1 rounded-xl border border-dashed border-borda px-3 py-2 text-center text-sm text-suave"
+            title="Favoritos chegam na Fase 1"
+          >
             {a}
           </span>
         ))}
@@ -103,8 +124,22 @@ export function Inicio() {
   );
 }
 
-function CampoLugar({ rotulo, valor, vazio, icone, aoClicar, destaque, testid }: {
-  rotulo: string; valor?: string | undefined; vazio: string; icone: React.ReactNode; aoClicar: () => void; destaque?: boolean; testid: string;
+function CampoLugar({
+  rotulo,
+  valor,
+  vazio,
+  icone,
+  aoClicar,
+  destaque,
+  testid,
+}: {
+  rotulo: string;
+  valor?: string | undefined;
+  vazio: string;
+  icone: React.ReactNode;
+  aoClicar: () => void;
+  destaque?: boolean;
+  testid: string;
 }) {
   return (
     <button

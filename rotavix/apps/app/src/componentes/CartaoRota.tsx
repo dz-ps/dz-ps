@@ -14,13 +14,19 @@ export function CartaoRota({ o, selecionada, aoSelecionar }: { o: OpcaoMapa; sel
     >
       <button type="button" className="w-full text-left" onClick={aoSelecionar} aria-pressed={selecionada}>
         <div className="flex items-baseline justify-between gap-2">
-          <span className="num text-lg font-semibold">{hora(o.partida)} → {hora(o.chegada)}</span>
+          <span className="num text-lg font-semibold">
+            {hora(o.partida)} → {hora(o.chegada)}
+          </span>
           <span className="num text-sm text-suave">{duracao(o.duracaoS)}</span>
         </div>
         <div className="mt-2 flex flex-wrap items-center gap-1.5" aria-label="Trechos">
           {o.trechos.map((t, i) => (
             <Fragment key={i}>
-              {i > 0 && <span className="text-suave" aria-hidden="true">›</span>}
+              {i > 0 && (
+                <span className="text-suave" aria-hidden="true">
+                  ›
+                </span>
+              )}
               {t.tipo === 'veiculo' ? (
                 <SeloLinha curta={t.linha.curta} servico={t.linha.servico} barca={t.modo === 'barca'} />
               ) : (
@@ -35,10 +41,21 @@ export function CartaoRota({ o, selecionada, aoSelecionar }: { o: OpcaoMapa; sel
         </div>
         <div className="mt-2 flex flex-wrap gap-1.5 text-xs">
           {o.rotulos.map((r) => (
-            <span key={r} className={`rounded-full px-2 py-0.5 font-medium ${r === 'Mais rápida' ? 'bg-primaria text-sobre-primaria' : 'bg-superficie2'}`}>{r}</span>
+            <span
+              key={r}
+              className={`rounded-full px-2 py-0.5 font-medium ${r === 'Mais rápida' ? 'bg-primaria text-sobre-primaria' : 'bg-superficie2'}`}
+            >
+              {r}
+            </span>
           ))}
-          {o.id !== 'a_pe' && <span className="rounded-full border border-dashed border-estimativa px-2 py-0.5 text-estimativa">Pela tabela</span>}
-          {o.baldeacoes > 0 && <span className="rounded-full bg-superficie2 px-2 py-0.5">{o.baldeacoes} baldeação{o.baldeacoes > 1 ? 'ões' : ''}</span>}
+          {o.id !== 'a_pe' && (
+            <span className="rounded-full border border-dashed border-estimativa px-2 py-0.5 text-estimativa">Pela tabela</span>
+          )}
+          {o.baldeacoes > 0 && (
+            <span className="rounded-full bg-superficie2 px-2 py-0.5">
+              {o.baldeacoes} baldeação{o.baldeacoes > 1 ? 'ões' : ''}
+            </span>
+          )}
         </div>
         {o.proximasPartidas.length > 0 && (
           <p className="num mt-2 text-sm text-suave">Próximas: {o.proximasPartidas.map(hora).join(' · ')}</p>
@@ -47,12 +64,19 @@ export function CartaoRota({ o, selecionada, aoSelecionar }: { o: OpcaoMapa; sel
 
       {selecionada && <PassoAPasso o={o} />}
 
-      <button type="button" className="mt-2 text-sm font-medium text-primaria underline-offset-2 hover:underline" aria-expanded={porque} onClick={() => setPorque((v) => !v)}>
+      <button
+        type="button"
+        className="mt-2 text-sm font-medium text-primaria underline-offset-2 hover:underline"
+        aria-expanded={porque}
+        onClick={() => setPorque((v) => !v)}
+      >
         Por que esta rota?
       </button>
       {porque && (
         <ul className="mt-1 list-disc space-y-0.5 pl-5 text-sm" data-testid="motivos">
-          {o.motivos.map((m, i) => <li key={i}>{explicar(m)}</li>)}
+          {o.motivos.map((m, i) => (
+            <li key={i}>{explicar(m)}</li>
+          ))}
         </ul>
       )}
     </article>
@@ -76,7 +100,9 @@ function PassoAPasso({ o }: { o: OpcaoMapa }) {
             <p className="num mt-1">
               <strong>{hora(t.embarque.hora)}</strong> embarque em {t.embarque.nome}
             </p>
-            <p className="num text-suave">{t.paradas} parada{t.paradas > 1 ? 's' : ''} · {duracao(t.desembarque.hora - t.embarque.hora)}</p>
+            <p className="num text-suave">
+              {t.paradas} parada{t.paradas > 1 ? 's' : ''} · {duracao(t.desembarque.hora - t.embarque.hora)}
+            </p>
             <p className="num">
               <strong>{hora(t.desembarque.hora)}</strong> desça em {t.desembarque.nome}
             </p>

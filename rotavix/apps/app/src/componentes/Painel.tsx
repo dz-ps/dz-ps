@@ -20,8 +20,6 @@ export function Painel({ children, snapInicial = 1 }: { children: ReactNode; sna
   const [arrasto, setArrasto] = useState<number | null>(null);
   const inicio = useRef<{ y: number; altura: number } | null>(null);
 
-  useEffect(() => setSnap(snapInicial), [snapInicial]);
-
   if (desktop) {
     return (
       <aside className="absolute left-4 top-4 bottom-4 z-10 flex w-[400px] flex-col overflow-hidden rounded-[var(--radius-cartao)] bg-superficie shadow-[var(--shadow-cartao)]">
@@ -35,7 +33,9 @@ export function Painel({ children, snapInicial = 1 }: { children: ReactNode; sna
     if (inicio.current && arrasto !== null) {
       const frac = arrasto / innerHeight;
       let melhor = 0;
-      SNAPS.forEach((s, i) => { if (Math.abs(s - frac) < Math.abs(SNAPS[melhor]! - frac)) melhor = i; });
+      SNAPS.forEach((s, i) => {
+        if (Math.abs(s - frac) < Math.abs(SNAPS[melhor]! - frac)) melhor = i;
+      });
       setSnap(melhor);
     }
     inicio.current = null;
@@ -45,7 +45,11 @@ export function Painel({ children, snapInicial = 1 }: { children: ReactNode; sna
   return (
     <section
       className="absolute inset-x-0 bottom-0 z-10 flex flex-col rounded-t-[1.25rem] bg-superficie shadow-[0_-4px_24px_rgb(0_0_0/0.12)]"
-      style={{ height: altura, transition: arrasto === null ? 'height 220ms cubic-bezier(.2,.8,.2,1)' : 'none', paddingBottom: 'env(safe-area-inset-bottom)' }}
+      style={{
+        height: altura,
+        transition: arrasto === null ? 'height 220ms cubic-bezier(.2,.8,.2,1)' : 'none',
+        paddingBottom: 'env(safe-area-inset-bottom)',
+      }}
       aria-label="Painel"
     >
       <button
