@@ -113,7 +113,14 @@ def _agora() -> str:
     return dt.replace(microsecond=0).isoformat()
 
 
-def construir(feed: Feed, *, sintetica: bool, fonte: str, scoring: dict[str, Any] | None = None) -> bytes:
+def construir(
+    feed: Feed,
+    *,
+    sintetica: bool,
+    fonte: str,
+    scoring: dict[str, Any] | None = None,
+    lugares: list[dict[str, Any]] | None = None,
+) -> bytes:
     pontos = sorted(feed.stops, key=lambda s: s["stop_id"])
     idx_ponto = {s["stop_id"]: i for i, s in enumerate(pontos)}
     nome_ponto = {s["stop_id"]: s["stop_name"] for s in pontos}
@@ -229,6 +236,13 @@ def construir(feed: Feed, *, sintetica: bool, fonte: str, scoring: dict[str, Any
             "estimativa": True,
         },
         "scoring": scoring or {},
+        # Lugares para a busca offline (bairros, universidades, hospitais...). Só busca, não roteamento.
+        "lugares": {
+            "nomes": [x["nome"] for x in lugares or []],
+            "tipos": [x["tipo"] for x in lugares or []],
+            "lat": [round(x["lat"], 5) for x in lugares or []],
+            "lon": [round(x["lon"], 5) for x in lugares or []],
+        },
         "secoes": secoes_meta,
     }
     cab_bytes = json.dumps(cab, ensure_ascii=False, separators=(",", ":")).encode("utf-8")

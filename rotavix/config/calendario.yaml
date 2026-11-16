@@ -1,0 +1,15 @@
+feriados:
+  # Quadro usado em feriados nacionais e estaduais (biblioteca holidays, BR-ES).
+  # Evidência: em 16/11/2026 o portal da Ceturb mostrava a sexta 20/11 (Consciência Negra) com o quadro de domingo.
+  quadro: DOM
+  # TODO(VERIFICAR): feriados municipais (cada cidade tem os seus) e pontos facultativos.
+  municipais: []
+cruzamento:
+  # Semelhança mínima (Jaccard de palavras) entre o nome da linha na Ceturb e a relação do OSM
+  # com o mesmo número. Abaixo disso a linha fica fora do roteamento e vai para o relatório.
+  semelhanca_minima: 0.2
+  # Soma das distâncias entre pontos consecutivos dividida pela maior distância ao primeiro ponto.
+  # Ida simples ~1,2-1,8; circular ~2-3. Acima disso a ordem dos pontos no OSM é inconsistente.
+  razao_maxima_cadeia: 3.5
+  # Viagem estimada (às 10h) acima disso indica traçado ou paradas errados no OSM: linha fica de fora.
+  duracao_maxima_min: 150

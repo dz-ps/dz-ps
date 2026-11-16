@@ -1,0 +1,18 @@
+# Velocidade comercial média dos ônibus por faixa horária, usada SÓ para estimar a passagem nos pontos
+# intermediários (os horários de partida são os oficiais da Ceturb). Inclui paradas e semáforos.
+# TODO(CALIBRAR): valores iniciais de referência; recalibrar com a sonda colaborativa (Fase 3) e,
+# se houver, dados oficiais de GPS. Na UI, horários intermediários aparecem como estimativa.
+padrao_kmh: 20
+parada_s: 15
+faixas:
+  - { inicio: 0, fim: 5.5, kmh: 26 }
+  - { inicio: 5.5, fim: 6.5, kmh: 21 }
+  - { inicio: 6.5, fim: 8.5, kmh: 16 } # pico da manhã
+  - { inicio: 8.5, fim: 16.5, kmh: 19 }
+  - { inicio: 16.5, fim: 19.5, kmh: 15 } # pico da tarde
+  - { inicio: 19.5, fim: 22, kmh: 21 }
+  - { inicio: 22, fim: 24, kmh: 24 }
+fator_servico:
+  troncal: 1.05 # trechos de corredor e faixas exclusivas
+  alimentadora: 1.0
+  municipal: 0.95

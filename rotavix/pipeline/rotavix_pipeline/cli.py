@@ -64,6 +64,49 @@ def cmd_mapa(a: argparse.Namespace) -> None:
     print(f"{saida.name}: {info['tiles']} tiles, {e['bytes'] / 1e6:.1f} MB (build {info['build']})")
 
 
+def _lugares(osm_json: Path) -> list[dict]:
+    import json
+
+    from .geo import distancia_m
+
+    vistos: list[dict] = []
+    for x in json.loads(osm_json.read_text(encoding="utf-8")).get("lugares", []):
+        if any(
+            v["nome"].lower() == x["nome"].lower() and distancia_m(v["lat"], v["lon"], x["lat"], x["lon"]) < 500
+            for v in vistos
+        ):
+            continue
+        vistos.append(x)
+    return vistos
+
+
+def cmd_real(a: argparse.Namespace) -> None:
+    """Rede real: horários da Ceturb (coletados) + pontos e traçados do OSM."""
+    from . import gtfs_real
+
+    ceturb = Path(a.ceturb) if a.ceturb else sorted((RAIZ / "data/brutos/ceturb").iterdir())[-1]
+    osm_json = RAIZ / "data/osm/transcol.json"
+    gtfs_dir = RAIZ / "data/build/gtfs-real"
+    r = gtfs_real.construir(ceturb, osm_json, RAIZ / "config", gtfs_dir)
+    print(
+        f"Ceturb {ceturb.name}: {r.linhas_portal} linhas no portal, {len(r.linhas_roteaveis)} roteáveis, "
+        f"{len(r.sem_osm)} sem rota no OSM, {len(r.ordem_inconsistente)} com pontos fora de ordem, "
+        f"{len(r.duracao_implausivel)} com duração implausível; {r.viagens} viagens, {r.pontos} pontos"
+    )
+    feed = gtfs.carregar(gtfs_dir)
+    dados = rvx.construir(
+        feed,
+        sintetica=False,
+        fonte=f"Ceturb-ES (horários, {ceturb.name}) + OpenStreetMap (pontos e traçados)",
+        scoring=_scoring(),
+        lugares=_lugares(osm_json),
+    )
+    saida = PUBLICO / "pacotes/rede.rvx"
+    rvx.salvar(dados, saida)
+    e = manifest.registrar(saida.parent, "rede", saida, "Linhas, pontos e horários", True, {"sintetica": False})
+    print(f"{saida.name}: {e['bytes'] / 1e6:.1f} MB")
+
+
 def cmd_assets(a: argparse.Namespace) -> None:
     total = mapa.baixar_assets(Path(a.saida))
     print(f"assets do mapa: {total / 1024:.0f} KB em {a.saida}")
@@ -125,6 +168,10 @@ def main() -> None:
     s.add_argument("--id", default="mapa-basico")
     s.add_argument("--descricao", default="Mapa básico (até zoom 14)")
     s.set_defaults(f=cmd_mapa)
+
+    s = sub.add_parser("real", help="rede real: Ceturb + OSM -> GTFS -> .rvx em apps/app/public/pacotes")
+    s.add_argument("--ceturb", help="pasta da coleta (padrão: a mais recente em data/brutos/ceturb)")
+    s.set_defaults(f=cmd_real)
 
     s = sub.add_parser("assets", help="fontes e sprites do mapa")
     s.add_argument("--saida", default=str(PUBLICO / "map-assets"))

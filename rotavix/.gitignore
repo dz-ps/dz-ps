@@ -20,3 +20,5 @@ apps/app/public/pacotes/
 apps/app/public/map-assets/
 apps/app/test-results/
 apps/app/playwright-report/
+data/brutos/
+data/osm/
