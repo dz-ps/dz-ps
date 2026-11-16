@@ -1,0 +1,1691 @@
+route_id,service_id,trip_id,trip_headsign,direction_id
+S1,UTIL,S1-0-UTIL-0500,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-0515,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-0530,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-0545,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-0600,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-0615,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-0630,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-0645,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-0700,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-0715,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-0730,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-0745,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-0800,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-0815,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-0830,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-0845,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-0900,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-0915,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-0930,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-0945,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1000,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1015,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1030,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1045,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1100,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1115,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1130,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1145,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1200,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1215,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1230,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1245,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1300,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1315,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1330,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1345,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1400,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1415,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1430,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1445,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1500,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1515,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1530,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1545,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1600,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1615,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1630,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1645,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1700,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1715,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1730,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1745,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1800,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1815,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1830,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1845,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1900,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1915,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1930,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-1945,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-2000,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-2015,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-2030,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-2045,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-2100,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-2115,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-2130,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-2145,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-2200,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-2215,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-2230,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-2245,Praia do Canto,0
+S1,UTIL,S1-0-UTIL-2300,Praia do Canto,0
+S1,SAB,S1-0-SAB-0500,Praia do Canto,0
+S1,SAB,S1-0-SAB-0522,Praia do Canto,0
+S1,SAB,S1-0-SAB-0544,Praia do Canto,0
+S1,SAB,S1-0-SAB-0606,Praia do Canto,0
+S1,SAB,S1-0-SAB-0628,Praia do Canto,0
+S1,SAB,S1-0-SAB-0650,Praia do Canto,0
+S1,SAB,S1-0-SAB-0712,Praia do Canto,0
+S1,SAB,S1-0-SAB-0734,Praia do Canto,0
+S1,SAB,S1-0-SAB-0756,Praia do Canto,0
+S1,SAB,S1-0-SAB-0818,Praia do Canto,0
+S1,SAB,S1-0-SAB-0840,Praia do Canto,0
+S1,SAB,S1-0-SAB-0902,Praia do Canto,0
+S1,SAB,S1-0-SAB-0924,Praia do Canto,0
+S1,SAB,S1-0-SAB-0946,Praia do Canto,0
+S1,SAB,S1-0-SAB-1008,Praia do Canto,0
+S1,SAB,S1-0-SAB-1030,Praia do Canto,0
+S1,SAB,S1-0-SAB-1052,Praia do Canto,0
+S1,SAB,S1-0-SAB-1114,Praia do Canto,0
+S1,SAB,S1-0-SAB-1136,Praia do Canto,0
+S1,SAB,S1-0-SAB-1158,Praia do Canto,0
+S1,SAB,S1-0-SAB-1220,Praia do Canto,0
+S1,SAB,S1-0-SAB-1242,Praia do Canto,0
+S1,SAB,S1-0-SAB-1304,Praia do Canto,0
+S1,SAB,S1-0-SAB-1326,Praia do Canto,0
+S1,SAB,S1-0-SAB-1348,Praia do Canto,0
+S1,SAB,S1-0-SAB-1410,Praia do Canto,0
+S1,SAB,S1-0-SAB-1432,Praia do Canto,0
+S1,SAB,S1-0-SAB-1454,Praia do Canto,0
+S1,SAB,S1-0-SAB-1516,Praia do Canto,0
+S1,SAB,S1-0-SAB-1538,Praia do Canto,0
+S1,SAB,S1-0-SAB-1600,Praia do Canto,0
+S1,SAB,S1-0-SAB-1622,Praia do Canto,0
+S1,SAB,S1-0-SAB-1644,Praia do Canto,0
+S1,SAB,S1-0-SAB-1706,Praia do Canto,0
+S1,SAB,S1-0-SAB-1728,Praia do Canto,0
+S1,SAB,S1-0-SAB-1750,Praia do Canto,0
+S1,SAB,S1-0-SAB-1812,Praia do Canto,0
+S1,SAB,S1-0-SAB-1834,Praia do Canto,0
+S1,SAB,S1-0-SAB-1856,Praia do Canto,0
+S1,SAB,S1-0-SAB-1918,Praia do Canto,0
+S1,SAB,S1-0-SAB-1940,Praia do Canto,0
+S1,SAB,S1-0-SAB-2002,Praia do Canto,0
+S1,SAB,S1-0-SAB-2024,Praia do Canto,0
+S1,SAB,S1-0-SAB-2046,Praia do Canto,0
+S1,SAB,S1-0-SAB-2108,Praia do Canto,0
+S1,SAB,S1-0-SAB-2130,Praia do Canto,0
+S1,SAB,S1-0-SAB-2152,Praia do Canto,0
+S1,SAB,S1-0-SAB-2214,Praia do Canto,0
+S1,SAB,S1-0-SAB-2236,Praia do Canto,0
+S1,SAB,S1-0-SAB-2258,Praia do Canto,0
+S1,DOM,S1-0-DOM-0500,Praia do Canto,0
+S1,DOM,S1-0-DOM-0530,Praia do Canto,0
+S1,DOM,S1-0-DOM-0600,Praia do Canto,0
+S1,DOM,S1-0-DOM-0630,Praia do Canto,0
+S1,DOM,S1-0-DOM-0700,Praia do Canto,0
+S1,DOM,S1-0-DOM-0730,Praia do Canto,0
+S1,DOM,S1-0-DOM-0800,Praia do Canto,0
+S1,DOM,S1-0-DOM-0830,Praia do Canto,0
+S1,DOM,S1-0-DOM-0900,Praia do Canto,0
+S1,DOM,S1-0-DOM-0930,Praia do Canto,0
+S1,DOM,S1-0-DOM-1000,Praia do Canto,0
+S1,DOM,S1-0-DOM-1030,Praia do Canto,0
+S1,DOM,S1-0-DOM-1100,Praia do Canto,0
+S1,DOM,S1-0-DOM-1130,Praia do Canto,0
+S1,DOM,S1-0-DOM-1200,Praia do Canto,0
+S1,DOM,S1-0-DOM-1230,Praia do Canto,0
+S1,DOM,S1-0-DOM-1300,Praia do Canto,0
+S1,DOM,S1-0-DOM-1330,Praia do Canto,0
+S1,DOM,S1-0-DOM-1400,Praia do Canto,0
+S1,DOM,S1-0-DOM-1430,Praia do Canto,0
+S1,DOM,S1-0-DOM-1500,Praia do Canto,0
+S1,DOM,S1-0-DOM-1530,Praia do Canto,0
+S1,DOM,S1-0-DOM-1600,Praia do Canto,0
+S1,DOM,S1-0-DOM-1630,Praia do Canto,0
+S1,DOM,S1-0-DOM-1700,Praia do Canto,0
+S1,DOM,S1-0-DOM-1730,Praia do Canto,0
+S1,DOM,S1-0-DOM-1800,Praia do Canto,0
+S1,DOM,S1-0-DOM-1830,Praia do Canto,0
+S1,DOM,S1-0-DOM-1900,Praia do Canto,0
+S1,DOM,S1-0-DOM-1930,Praia do Canto,0
+S1,DOM,S1-0-DOM-2000,Praia do Canto,0
+S1,DOM,S1-0-DOM-2030,Praia do Canto,0
+S1,DOM,S1-0-DOM-2100,Praia do Canto,0
+S1,DOM,S1-0-DOM-2130,Praia do Canto,0
+S1,DOM,S1-0-DOM-2200,Praia do Canto,0
+S1,DOM,S1-0-DOM-2230,Praia do Canto,0
+S1,DOM,S1-0-DOM-2300,Praia do Canto,0
+S1,UTIL,S1-1-UTIL-0500,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-0515,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-0530,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-0545,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-0600,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-0615,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-0630,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-0645,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-0700,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-0715,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-0730,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-0745,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-0800,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-0815,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-0830,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-0845,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-0900,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-0915,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-0930,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-0945,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1000,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1015,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1030,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1045,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1100,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1115,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1130,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1145,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1200,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1215,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1230,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1245,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1300,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1315,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1330,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1345,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1400,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1415,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1430,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1445,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1500,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1515,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1530,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1545,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1600,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1615,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1630,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1645,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1700,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1715,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1730,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1745,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1800,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1815,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1830,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1845,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1900,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1915,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1930,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-1945,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-2000,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-2015,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-2030,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-2045,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-2100,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-2115,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-2130,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-2145,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-2200,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-2215,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-2230,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-2245,Terminal Vila Velha,1
+S1,UTIL,S1-1-UTIL-2300,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-0500,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-0522,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-0544,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-0606,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-0628,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-0650,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-0712,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-0734,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-0756,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-0818,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-0840,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-0902,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-0924,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-0946,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1008,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1030,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1052,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1114,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1136,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1158,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1220,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1242,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1304,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1326,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1348,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1410,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1432,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1454,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1516,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1538,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1600,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1622,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1644,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1706,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1728,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1750,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1812,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1834,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1856,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1918,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-1940,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-2002,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-2024,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-2046,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-2108,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-2130,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-2152,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-2214,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-2236,Terminal Vila Velha,1
+S1,SAB,S1-1-SAB-2258,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-0500,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-0530,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-0600,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-0630,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-0700,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-0730,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-0800,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-0830,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-0900,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-0930,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-1000,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-1030,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-1100,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-1130,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-1200,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-1230,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-1300,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-1330,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-1400,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-1430,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-1500,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-1530,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-1600,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-1630,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-1700,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-1730,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-1800,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-1830,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-1900,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-1930,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-2000,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-2030,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-2100,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-2130,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-2200,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-2230,Terminal Vila Velha,1
+S1,DOM,S1-1-DOM-2300,Terminal Vila Velha,1
+S2,UTIL,S2-0-UTIL-0510,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-0530,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-0550,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-0610,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-0630,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-0650,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-0710,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-0730,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-0750,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-0810,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-0830,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-0850,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-0910,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-0930,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-0950,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1010,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1030,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1050,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1110,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1130,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1150,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1210,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1230,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1250,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1310,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1330,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1350,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1410,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1430,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1450,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1510,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1530,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1550,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1610,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1630,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1650,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1710,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1730,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1750,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1810,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1830,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1850,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1910,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1930,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-1950,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-2010,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-2030,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-2050,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-2110,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-2130,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-2150,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-2210,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-2230,Centro de Vitória,0
+S2,UTIL,S2-0-UTIL-2250,Centro de Vitória,0
+S2,SAB,S2-0-SAB-0510,Centro de Vitória,0
+S2,SAB,S2-0-SAB-0540,Centro de Vitória,0
+S2,SAB,S2-0-SAB-0610,Centro de Vitória,0
+S2,SAB,S2-0-SAB-0640,Centro de Vitória,0
+S2,SAB,S2-0-SAB-0710,Centro de Vitória,0
+S2,SAB,S2-0-SAB-0740,Centro de Vitória,0
+S2,SAB,S2-0-SAB-0810,Centro de Vitória,0
+S2,SAB,S2-0-SAB-0840,Centro de Vitória,0
+S2,SAB,S2-0-SAB-0910,Centro de Vitória,0
+S2,SAB,S2-0-SAB-0940,Centro de Vitória,0
+S2,SAB,S2-0-SAB-1010,Centro de Vitória,0
+S2,SAB,S2-0-SAB-1040,Centro de Vitória,0
+S2,SAB,S2-0-SAB-1110,Centro de Vitória,0
+S2,SAB,S2-0-SAB-1140,Centro de Vitória,0
+S2,SAB,S2-0-SAB-1210,Centro de Vitória,0
+S2,SAB,S2-0-SAB-1240,Centro de Vitória,0
+S2,SAB,S2-0-SAB-1310,Centro de Vitória,0
+S2,SAB,S2-0-SAB-1340,Centro de Vitória,0
+S2,SAB,S2-0-SAB-1410,Centro de Vitória,0
+S2,SAB,S2-0-SAB-1440,Centro de Vitória,0
+S2,SAB,S2-0-SAB-1510,Centro de Vitória,0
+S2,SAB,S2-0-SAB-1540,Centro de Vitória,0
+S2,SAB,S2-0-SAB-1610,Centro de Vitória,0
+S2,SAB,S2-0-SAB-1640,Centro de Vitória,0
+S2,SAB,S2-0-SAB-1710,Centro de Vitória,0
+S2,SAB,S2-0-SAB-1740,Centro de Vitória,0
+S2,SAB,S2-0-SAB-1810,Centro de Vitória,0
+S2,SAB,S2-0-SAB-1840,Centro de Vitória,0
+S2,SAB,S2-0-SAB-1910,Centro de Vitória,0
+S2,SAB,S2-0-SAB-1940,Centro de Vitória,0
+S2,SAB,S2-0-SAB-2010,Centro de Vitória,0
+S2,SAB,S2-0-SAB-2040,Centro de Vitória,0
+S2,SAB,S2-0-SAB-2110,Centro de Vitória,0
+S2,SAB,S2-0-SAB-2140,Centro de Vitória,0
+S2,SAB,S2-0-SAB-2210,Centro de Vitória,0
+S2,SAB,S2-0-SAB-2240,Centro de Vitória,0
+S2,DOM,S2-0-DOM-0510,Centro de Vitória,0
+S2,DOM,S2-0-DOM-0550,Centro de Vitória,0
+S2,DOM,S2-0-DOM-0630,Centro de Vitória,0
+S2,DOM,S2-0-DOM-0710,Centro de Vitória,0
+S2,DOM,S2-0-DOM-0750,Centro de Vitória,0
+S2,DOM,S2-0-DOM-0830,Centro de Vitória,0
+S2,DOM,S2-0-DOM-0910,Centro de Vitória,0
+S2,DOM,S2-0-DOM-0950,Centro de Vitória,0
+S2,DOM,S2-0-DOM-1030,Centro de Vitória,0
+S2,DOM,S2-0-DOM-1110,Centro de Vitória,0
+S2,DOM,S2-0-DOM-1150,Centro de Vitória,0
+S2,DOM,S2-0-DOM-1230,Centro de Vitória,0
+S2,DOM,S2-0-DOM-1310,Centro de Vitória,0
+S2,DOM,S2-0-DOM-1350,Centro de Vitória,0
+S2,DOM,S2-0-DOM-1430,Centro de Vitória,0
+S2,DOM,S2-0-DOM-1510,Centro de Vitória,0
+S2,DOM,S2-0-DOM-1550,Centro de Vitória,0
+S2,DOM,S2-0-DOM-1630,Centro de Vitória,0
+S2,DOM,S2-0-DOM-1710,Centro de Vitória,0
+S2,DOM,S2-0-DOM-1750,Centro de Vitória,0
+S2,DOM,S2-0-DOM-1830,Centro de Vitória,0
+S2,DOM,S2-0-DOM-1910,Centro de Vitória,0
+S2,DOM,S2-0-DOM-1950,Centro de Vitória,0
+S2,DOM,S2-0-DOM-2030,Centro de Vitória,0
+S2,DOM,S2-0-DOM-2110,Centro de Vitória,0
+S2,DOM,S2-0-DOM-2150,Centro de Vitória,0
+S2,DOM,S2-0-DOM-2230,Centro de Vitória,0
+S2,UTIL,S2-1-UTIL-0510,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-0530,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-0550,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-0610,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-0630,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-0650,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-0710,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-0730,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-0750,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-0810,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-0830,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-0850,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-0910,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-0930,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-0950,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1010,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1030,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1050,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1110,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1130,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1150,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1210,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1230,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1250,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1310,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1330,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1350,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1410,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1430,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1450,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1510,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1530,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1550,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1610,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1630,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1650,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1710,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1730,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1750,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1810,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1830,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1850,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1910,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1930,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-1950,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-2010,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-2030,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-2050,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-2110,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-2130,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-2150,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-2210,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-2230,Terminal Vila Velha,1
+S2,UTIL,S2-1-UTIL-2250,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-0510,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-0540,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-0610,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-0640,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-0710,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-0740,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-0810,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-0840,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-0910,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-0940,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-1010,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-1040,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-1110,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-1140,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-1210,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-1240,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-1310,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-1340,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-1410,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-1440,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-1510,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-1540,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-1610,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-1640,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-1710,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-1740,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-1810,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-1840,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-1910,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-1940,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-2010,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-2040,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-2110,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-2140,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-2210,Terminal Vila Velha,1
+S2,SAB,S2-1-SAB-2240,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-0510,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-0550,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-0630,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-0710,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-0750,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-0830,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-0910,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-0950,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-1030,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-1110,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-1150,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-1230,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-1310,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-1350,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-1430,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-1510,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-1550,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-1630,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-1710,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-1750,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-1830,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-1910,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-1950,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-2030,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-2110,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-2150,Terminal Vila Velha,1
+S2,DOM,S2-1-DOM-2230,Terminal Vila Velha,1
+S3,UTIL,S3-0-UTIL-0500,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-0515,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-0530,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-0545,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-0600,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-0615,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-0630,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-0645,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-0700,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-0715,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-0730,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-0745,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-0800,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-0815,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-0830,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-0845,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-0900,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-0915,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-0930,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-0945,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1000,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1015,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1030,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1045,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1100,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1115,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1130,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1145,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1200,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1215,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1230,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1245,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1300,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1315,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1330,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1345,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1400,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1415,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1430,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1445,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1500,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1515,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1530,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1545,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1600,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1615,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1630,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1645,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1700,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1715,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1730,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1745,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1800,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1815,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1830,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1845,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1900,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1915,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1930,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-1945,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-2000,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-2015,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-2030,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-2045,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-2100,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-2115,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-2130,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-2145,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-2200,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-2215,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-2230,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-2245,UFES Goiabeiras,0
+S3,UTIL,S3-0-UTIL-2300,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-0500,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-0522,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-0544,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-0606,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-0628,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-0650,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-0712,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-0734,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-0756,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-0818,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-0840,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-0902,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-0924,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-0946,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1008,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1030,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1052,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1114,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1136,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1158,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1220,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1242,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1304,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1326,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1348,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1410,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1432,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1454,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1516,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1538,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1600,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1622,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1644,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1706,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1728,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1750,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1812,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1834,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1856,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1918,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-1940,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-2002,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-2024,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-2046,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-2108,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-2130,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-2152,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-2214,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-2236,UFES Goiabeiras,0
+S3,SAB,S3-0-SAB-2258,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-0500,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-0530,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-0600,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-0630,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-0700,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-0730,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-0800,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-0830,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-0900,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-0930,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-1000,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-1030,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-1100,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-1130,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-1200,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-1230,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-1300,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-1330,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-1400,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-1430,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-1500,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-1530,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-1600,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-1630,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-1700,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-1730,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-1800,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-1830,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-1900,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-1930,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-2000,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-2030,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-2100,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-2130,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-2200,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-2230,UFES Goiabeiras,0
+S3,DOM,S3-0-DOM-2300,UFES Goiabeiras,0
+S3,UTIL,S3-1-UTIL-0500,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-0515,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-0530,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-0545,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-0600,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-0615,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-0630,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-0645,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-0700,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-0715,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-0730,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-0745,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-0800,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-0815,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-0830,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-0845,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-0900,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-0915,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-0930,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-0945,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1000,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1015,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1030,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1045,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1100,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1115,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1130,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1145,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1200,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1215,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1230,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1245,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1300,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1315,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1330,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1345,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1400,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1415,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1430,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1445,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1500,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1515,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1530,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1545,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1600,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1615,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1630,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1645,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1700,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1715,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1730,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1745,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1800,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1815,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1830,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1845,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1900,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1915,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1930,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-1945,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-2000,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-2015,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-2030,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-2045,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-2100,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-2115,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-2130,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-2145,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-2200,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-2215,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-2230,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-2245,Terminal Campo Grande,1
+S3,UTIL,S3-1-UTIL-2300,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-0500,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-0522,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-0544,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-0606,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-0628,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-0650,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-0712,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-0734,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-0756,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-0818,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-0840,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-0902,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-0924,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-0946,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1008,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1030,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1052,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1114,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1136,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1158,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1220,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1242,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1304,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1326,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1348,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1410,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1432,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1454,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1516,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1538,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1600,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1622,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1644,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1706,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1728,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1750,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1812,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1834,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1856,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1918,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-1940,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-2002,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-2024,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-2046,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-2108,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-2130,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-2152,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-2214,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-2236,Terminal Campo Grande,1
+S3,SAB,S3-1-SAB-2258,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-0500,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-0530,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-0600,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-0630,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-0700,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-0730,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-0800,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-0830,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-0900,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-0930,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-1000,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-1030,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-1100,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-1130,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-1200,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-1230,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-1300,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-1330,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-1400,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-1430,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-1500,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-1530,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-1600,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-1630,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-1700,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-1730,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-1800,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-1830,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-1900,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-1930,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-2000,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-2030,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-2100,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-2130,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-2200,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-2230,Terminal Campo Grande,1
+S3,DOM,S3-1-DOM-2300,Terminal Campo Grande,1
+S4,UTIL,S4-0-UTIL-0500,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-0515,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-0530,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-0545,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-0600,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-0615,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-0630,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-0645,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-0700,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-0715,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-0730,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-0745,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-0800,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-0815,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-0830,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-0845,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-0900,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-0915,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-0930,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-0945,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1000,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1015,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1030,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1045,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1100,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1115,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1130,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1145,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1200,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1215,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1230,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1245,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1300,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1315,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1330,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1345,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1400,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1415,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1430,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1445,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1500,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1515,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1530,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1545,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1600,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1615,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1630,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1645,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1700,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1715,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1730,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1745,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1800,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1815,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1830,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1845,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1900,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1915,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1930,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-1945,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-2000,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-2015,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-2030,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-2045,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-2100,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-2115,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-2130,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-2145,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-2200,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-2215,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-2230,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-2245,Enseada do Suá,0
+S4,UTIL,S4-0-UTIL-2300,Enseada do Suá,0
+S4,SAB,S4-0-SAB-0500,Enseada do Suá,0
+S4,SAB,S4-0-SAB-0522,Enseada do Suá,0
+S4,SAB,S4-0-SAB-0544,Enseada do Suá,0
+S4,SAB,S4-0-SAB-0606,Enseada do Suá,0
+S4,SAB,S4-0-SAB-0628,Enseada do Suá,0
+S4,SAB,S4-0-SAB-0650,Enseada do Suá,0
+S4,SAB,S4-0-SAB-0712,Enseada do Suá,0
+S4,SAB,S4-0-SAB-0734,Enseada do Suá,0
+S4,SAB,S4-0-SAB-0756,Enseada do Suá,0
+S4,SAB,S4-0-SAB-0818,Enseada do Suá,0
+S4,SAB,S4-0-SAB-0840,Enseada do Suá,0
+S4,SAB,S4-0-SAB-0902,Enseada do Suá,0
+S4,SAB,S4-0-SAB-0924,Enseada do Suá,0
+S4,SAB,S4-0-SAB-0946,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1008,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1030,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1052,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1114,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1136,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1158,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1220,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1242,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1304,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1326,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1348,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1410,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1432,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1454,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1516,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1538,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1600,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1622,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1644,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1706,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1728,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1750,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1812,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1834,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1856,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1918,Enseada do Suá,0
+S4,SAB,S4-0-SAB-1940,Enseada do Suá,0
+S4,SAB,S4-0-SAB-2002,Enseada do Suá,0
+S4,SAB,S4-0-SAB-2024,Enseada do Suá,0
+S4,SAB,S4-0-SAB-2046,Enseada do Suá,0
+S4,SAB,S4-0-SAB-2108,Enseada do Suá,0
+S4,SAB,S4-0-SAB-2130,Enseada do Suá,0
+S4,SAB,S4-0-SAB-2152,Enseada do Suá,0
+S4,SAB,S4-0-SAB-2214,Enseada do Suá,0
+S4,SAB,S4-0-SAB-2236,Enseada do Suá,0
+S4,SAB,S4-0-SAB-2258,Enseada do Suá,0
+S4,DOM,S4-0-DOM-0500,Enseada do Suá,0
+S4,DOM,S4-0-DOM-0530,Enseada do Suá,0
+S4,DOM,S4-0-DOM-0600,Enseada do Suá,0
+S4,DOM,S4-0-DOM-0630,Enseada do Suá,0
+S4,DOM,S4-0-DOM-0700,Enseada do Suá,0
+S4,DOM,S4-0-DOM-0730,Enseada do Suá,0
+S4,DOM,S4-0-DOM-0800,Enseada do Suá,0
+S4,DOM,S4-0-DOM-0830,Enseada do Suá,0
+S4,DOM,S4-0-DOM-0900,Enseada do Suá,0
+S4,DOM,S4-0-DOM-0930,Enseada do Suá,0
+S4,DOM,S4-0-DOM-1000,Enseada do Suá,0
+S4,DOM,S4-0-DOM-1030,Enseada do Suá,0
+S4,DOM,S4-0-DOM-1100,Enseada do Suá,0
+S4,DOM,S4-0-DOM-1130,Enseada do Suá,0
+S4,DOM,S4-0-DOM-1200,Enseada do Suá,0
+S4,DOM,S4-0-DOM-1230,Enseada do Suá,0
+S4,DOM,S4-0-DOM-1300,Enseada do Suá,0
+S4,DOM,S4-0-DOM-1330,Enseada do Suá,0
+S4,DOM,S4-0-DOM-1400,Enseada do Suá,0
+S4,DOM,S4-0-DOM-1430,Enseada do Suá,0
+S4,DOM,S4-0-DOM-1500,Enseada do Suá,0
+S4,DOM,S4-0-DOM-1530,Enseada do Suá,0
+S4,DOM,S4-0-DOM-1600,Enseada do Suá,0
+S4,DOM,S4-0-DOM-1630,Enseada do Suá,0
+S4,DOM,S4-0-DOM-1700,Enseada do Suá,0
+S4,DOM,S4-0-DOM-1730,Enseada do Suá,0
+S4,DOM,S4-0-DOM-1800,Enseada do Suá,0
+S4,DOM,S4-0-DOM-1830,Enseada do Suá,0
+S4,DOM,S4-0-DOM-1900,Enseada do Suá,0
+S4,DOM,S4-0-DOM-1930,Enseada do Suá,0
+S4,DOM,S4-0-DOM-2000,Enseada do Suá,0
+S4,DOM,S4-0-DOM-2030,Enseada do Suá,0
+S4,DOM,S4-0-DOM-2100,Enseada do Suá,0
+S4,DOM,S4-0-DOM-2130,Enseada do Suá,0
+S4,DOM,S4-0-DOM-2200,Enseada do Suá,0
+S4,DOM,S4-0-DOM-2230,Enseada do Suá,0
+S4,DOM,S4-0-DOM-2300,Enseada do Suá,0
+S4,UTIL,S4-1-UTIL-0500,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-0515,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-0530,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-0545,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-0600,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-0615,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-0630,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-0645,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-0700,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-0715,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-0730,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-0745,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-0800,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-0815,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-0830,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-0845,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-0900,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-0915,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-0930,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-0945,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1000,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1015,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1030,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1045,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1100,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1115,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1130,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1145,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1200,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1215,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1230,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1245,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1300,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1315,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1330,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1345,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1400,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1415,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1430,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1445,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1500,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1515,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1530,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1545,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1600,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1615,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1630,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1645,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1700,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1715,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1730,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1745,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1800,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1815,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1830,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1845,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1900,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1915,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1930,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-1945,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-2000,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-2015,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-2030,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-2045,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-2100,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-2115,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-2130,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-2145,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-2200,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-2215,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-2230,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-2245,Terminal Laranjeiras,1
+S4,UTIL,S4-1-UTIL-2300,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-0500,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-0522,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-0544,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-0606,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-0628,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-0650,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-0712,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-0734,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-0756,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-0818,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-0840,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-0902,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-0924,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-0946,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1008,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1030,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1052,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1114,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1136,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1158,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1220,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1242,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1304,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1326,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1348,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1410,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1432,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1454,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1516,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1538,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1600,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1622,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1644,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1706,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1728,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1750,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1812,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1834,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1856,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1918,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-1940,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-2002,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-2024,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-2046,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-2108,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-2130,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-2152,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-2214,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-2236,Terminal Laranjeiras,1
+S4,SAB,S4-1-SAB-2258,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-0500,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-0530,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-0600,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-0630,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-0700,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-0730,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-0800,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-0830,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-0900,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-0930,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-1000,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-1030,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-1100,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-1130,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-1200,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-1230,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-1300,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-1330,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-1400,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-1430,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-1500,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-1530,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-1600,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-1630,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-1700,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-1730,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-1800,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-1830,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-1900,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-1930,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-2000,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-2030,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-2100,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-2130,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-2200,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-2230,Terminal Laranjeiras,1
+S4,DOM,S4-1-DOM-2300,Terminal Laranjeiras,1
+S5,UTIL,S5-0-UTIL-0500,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-0520,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-0540,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-0600,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-0620,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-0640,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-0700,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-0720,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-0740,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-0800,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-0820,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-0840,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-0900,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-0920,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-0940,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1000,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1020,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1040,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1100,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1120,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1140,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1200,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1220,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1240,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1300,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1320,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1340,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1400,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1420,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1440,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1500,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1520,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1540,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1600,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1620,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1640,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1700,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1720,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1740,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1800,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1820,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1840,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1900,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1920,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-1940,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-2000,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-2020,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-2040,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-2100,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-2120,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-2140,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-2200,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-2220,Terminal Laranjeiras,0
+S5,UTIL,S5-0-UTIL-2240,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-0500,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-0530,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-0600,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-0630,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-0700,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-0730,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-0800,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-0830,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-0900,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-0930,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-1000,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-1030,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-1100,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-1130,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-1200,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-1230,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-1300,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-1330,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-1400,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-1430,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-1500,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-1530,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-1600,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-1630,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-1700,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-1730,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-1800,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-1830,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-1900,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-1930,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-2000,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-2030,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-2100,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-2130,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-2200,Terminal Laranjeiras,0
+S5,SAB,S5-0-SAB-2230,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-0500,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-0540,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-0620,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-0700,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-0740,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-0820,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-0900,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-0940,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-1020,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-1100,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-1140,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-1220,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-1300,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-1340,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-1420,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-1500,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-1540,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-1620,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-1700,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-1740,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-1820,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-1900,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-1940,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-2020,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-2100,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-2140,Terminal Laranjeiras,0
+S5,DOM,S5-0-DOM-2220,Terminal Laranjeiras,0
+S5,UTIL,S5-1-UTIL-0500,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-0520,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-0540,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-0600,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-0620,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-0640,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-0700,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-0720,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-0740,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-0800,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-0820,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-0840,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-0900,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-0920,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-0940,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1000,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1020,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1040,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1100,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1120,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1140,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1200,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1220,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1240,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1300,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1320,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1340,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1400,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1420,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1440,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1500,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1520,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1540,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1600,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1620,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1640,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1700,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1720,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1740,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1800,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1820,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1840,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1900,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1920,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-1940,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-2000,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-2020,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-2040,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-2100,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-2120,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-2140,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-2200,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-2220,Jacaraípe,1
+S5,UTIL,S5-1-UTIL-2240,Jacaraípe,1
+S5,SAB,S5-1-SAB-0500,Jacaraípe,1
+S5,SAB,S5-1-SAB-0530,Jacaraípe,1
+S5,SAB,S5-1-SAB-0600,Jacaraípe,1
+S5,SAB,S5-1-SAB-0630,Jacaraípe,1
+S5,SAB,S5-1-SAB-0700,Jacaraípe,1
+S5,SAB,S5-1-SAB-0730,Jacaraípe,1
+S5,SAB,S5-1-SAB-0800,Jacaraípe,1
+S5,SAB,S5-1-SAB-0830,Jacaraípe,1
+S5,SAB,S5-1-SAB-0900,Jacaraípe,1
+S5,SAB,S5-1-SAB-0930,Jacaraípe,1
+S5,SAB,S5-1-SAB-1000,Jacaraípe,1
+S5,SAB,S5-1-SAB-1030,Jacaraípe,1
+S5,SAB,S5-1-SAB-1100,Jacaraípe,1
+S5,SAB,S5-1-SAB-1130,Jacaraípe,1
+S5,SAB,S5-1-SAB-1200,Jacaraípe,1
+S5,SAB,S5-1-SAB-1230,Jacaraípe,1
+S5,SAB,S5-1-SAB-1300,Jacaraípe,1
+S5,SAB,S5-1-SAB-1330,Jacaraípe,1
+S5,SAB,S5-1-SAB-1400,Jacaraípe,1
+S5,SAB,S5-1-SAB-1430,Jacaraípe,1
+S5,SAB,S5-1-SAB-1500,Jacaraípe,1
+S5,SAB,S5-1-SAB-1530,Jacaraípe,1
+S5,SAB,S5-1-SAB-1600,Jacaraípe,1
+S5,SAB,S5-1-SAB-1630,Jacaraípe,1
+S5,SAB,S5-1-SAB-1700,Jacaraípe,1
+S5,SAB,S5-1-SAB-1730,Jacaraípe,1
+S5,SAB,S5-1-SAB-1800,Jacaraípe,1
+S5,SAB,S5-1-SAB-1830,Jacaraípe,1
+S5,SAB,S5-1-SAB-1900,Jacaraípe,1
+S5,SAB,S5-1-SAB-1930,Jacaraípe,1
+S5,SAB,S5-1-SAB-2000,Jacaraípe,1
+S5,SAB,S5-1-SAB-2030,Jacaraípe,1
+S5,SAB,S5-1-SAB-2100,Jacaraípe,1
+S5,SAB,S5-1-SAB-2130,Jacaraípe,1
+S5,SAB,S5-1-SAB-2200,Jacaraípe,1
+S5,SAB,S5-1-SAB-2230,Jacaraípe,1
+S5,DOM,S5-1-DOM-0500,Jacaraípe,1
+S5,DOM,S5-1-DOM-0540,Jacaraípe,1
+S5,DOM,S5-1-DOM-0620,Jacaraípe,1
+S5,DOM,S5-1-DOM-0700,Jacaraípe,1
+S5,DOM,S5-1-DOM-0740,Jacaraípe,1
+S5,DOM,S5-1-DOM-0820,Jacaraípe,1
+S5,DOM,S5-1-DOM-0900,Jacaraípe,1
+S5,DOM,S5-1-DOM-0940,Jacaraípe,1
+S5,DOM,S5-1-DOM-1020,Jacaraípe,1
+S5,DOM,S5-1-DOM-1100,Jacaraípe,1
+S5,DOM,S5-1-DOM-1140,Jacaraípe,1
+S5,DOM,S5-1-DOM-1220,Jacaraípe,1
+S5,DOM,S5-1-DOM-1300,Jacaraípe,1
+S5,DOM,S5-1-DOM-1340,Jacaraípe,1
+S5,DOM,S5-1-DOM-1420,Jacaraípe,1
+S5,DOM,S5-1-DOM-1500,Jacaraípe,1
+S5,DOM,S5-1-DOM-1540,Jacaraípe,1
+S5,DOM,S5-1-DOM-1620,Jacaraípe,1
+S5,DOM,S5-1-DOM-1700,Jacaraípe,1
+S5,DOM,S5-1-DOM-1740,Jacaraípe,1
+S5,DOM,S5-1-DOM-1820,Jacaraípe,1
+S5,DOM,S5-1-DOM-1900,Jacaraípe,1
+S5,DOM,S5-1-DOM-1940,Jacaraípe,1
+S5,DOM,S5-1-DOM-2020,Jacaraípe,1
+S5,DOM,S5-1-DOM-2100,Jacaraípe,1
+S5,DOM,S5-1-DOM-2140,Jacaraípe,1
+S5,DOM,S5-1-DOM-2220,Jacaraípe,1
+S6,UTIL,S6-0-UTIL-0600,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-0630,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-0700,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-0730,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-0800,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-0830,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-0900,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-0930,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-1000,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-1030,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-1100,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-1130,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-1200,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-1230,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-1300,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-1330,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-1400,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-1430,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-1500,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-1530,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-1600,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-1630,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-1700,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-1730,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-1800,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-1830,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-1900,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-1930,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-2000,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-2030,Praia do Canto,0
+S6,UTIL,S6-0-UTIL-2100,Praia do Canto,0
+S6,SAB,S6-0-SAB-0600,Praia do Canto,0
+S6,SAB,S6-0-SAB-0645,Praia do Canto,0
+S6,SAB,S6-0-SAB-0730,Praia do Canto,0
+S6,SAB,S6-0-SAB-0815,Praia do Canto,0
+S6,SAB,S6-0-SAB-0900,Praia do Canto,0
+S6,SAB,S6-0-SAB-0945,Praia do Canto,0
+S6,SAB,S6-0-SAB-1030,Praia do Canto,0
+S6,SAB,S6-0-SAB-1115,Praia do Canto,0
+S6,SAB,S6-0-SAB-1200,Praia do Canto,0
+S6,SAB,S6-0-SAB-1245,Praia do Canto,0
+S6,SAB,S6-0-SAB-1330,Praia do Canto,0
+S6,SAB,S6-0-SAB-1415,Praia do Canto,0
+S6,SAB,S6-0-SAB-1500,Praia do Canto,0
+S6,SAB,S6-0-SAB-1545,Praia do Canto,0
+S6,SAB,S6-0-SAB-1630,Praia do Canto,0
+S6,SAB,S6-0-SAB-1715,Praia do Canto,0
+S6,SAB,S6-0-SAB-1800,Praia do Canto,0
+S6,SAB,S6-0-SAB-1845,Praia do Canto,0
+S6,SAB,S6-0-SAB-1930,Praia do Canto,0
+S6,SAB,S6-0-SAB-2015,Praia do Canto,0
+S6,SAB,S6-0-SAB-2100,Praia do Canto,0
+S6,DOM,S6-0-DOM-0600,Praia do Canto,0
+S6,DOM,S6-0-DOM-0700,Praia do Canto,0
+S6,DOM,S6-0-DOM-0800,Praia do Canto,0
+S6,DOM,S6-0-DOM-0900,Praia do Canto,0
+S6,DOM,S6-0-DOM-1000,Praia do Canto,0
+S6,DOM,S6-0-DOM-1100,Praia do Canto,0
+S6,DOM,S6-0-DOM-1200,Praia do Canto,0
+S6,DOM,S6-0-DOM-1300,Praia do Canto,0
+S6,DOM,S6-0-DOM-1400,Praia do Canto,0
+S6,DOM,S6-0-DOM-1500,Praia do Canto,0
+S6,DOM,S6-0-DOM-1600,Praia do Canto,0
+S6,DOM,S6-0-DOM-1700,Praia do Canto,0
+S6,DOM,S6-0-DOM-1800,Praia do Canto,0
+S6,DOM,S6-0-DOM-1900,Praia do Canto,0
+S6,DOM,S6-0-DOM-2000,Praia do Canto,0
+S6,DOM,S6-0-DOM-2100,Praia do Canto,0
+S6,UTIL,S6-1-UTIL-0600,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-0630,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-0700,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-0730,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-0800,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-0830,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-0900,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-0930,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-1000,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-1030,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-1100,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-1130,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-1200,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-1230,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-1300,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-1330,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-1400,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-1430,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-1500,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-1530,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-1600,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-1630,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-1700,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-1730,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-1800,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-1830,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-1900,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-1930,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-2000,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-2030,Praça do Papa,1
+S6,UTIL,S6-1-UTIL-2100,Praça do Papa,1
+S6,SAB,S6-1-SAB-0600,Praça do Papa,1
+S6,SAB,S6-1-SAB-0645,Praça do Papa,1
+S6,SAB,S6-1-SAB-0730,Praça do Papa,1
+S6,SAB,S6-1-SAB-0815,Praça do Papa,1
+S6,SAB,S6-1-SAB-0900,Praça do Papa,1
+S6,SAB,S6-1-SAB-0945,Praça do Papa,1
+S6,SAB,S6-1-SAB-1030,Praça do Papa,1
+S6,SAB,S6-1-SAB-1115,Praça do Papa,1
+S6,SAB,S6-1-SAB-1200,Praça do Papa,1
+S6,SAB,S6-1-SAB-1245,Praça do Papa,1
+S6,SAB,S6-1-SAB-1330,Praça do Papa,1
+S6,SAB,S6-1-SAB-1415,Praça do Papa,1
+S6,SAB,S6-1-SAB-1500,Praça do Papa,1
+S6,SAB,S6-1-SAB-1545,Praça do Papa,1
+S6,SAB,S6-1-SAB-1630,Praça do Papa,1
+S6,SAB,S6-1-SAB-1715,Praça do Papa,1
+S6,SAB,S6-1-SAB-1800,Praça do Papa,1
+S6,SAB,S6-1-SAB-1845,Praça do Papa,1
+S6,SAB,S6-1-SAB-1930,Praça do Papa,1
+S6,SAB,S6-1-SAB-2015,Praça do Papa,1
+S6,SAB,S6-1-SAB-2100,Praça do Papa,1
+S6,DOM,S6-1-DOM-0600,Praça do Papa,1
+S6,DOM,S6-1-DOM-0700,Praça do Papa,1
+S6,DOM,S6-1-DOM-0800,Praça do Papa,1
+S6,DOM,S6-1-DOM-0900,Praça do Papa,1
+S6,DOM,S6-1-DOM-1000,Praça do Papa,1
+S6,DOM,S6-1-DOM-1100,Praça do Papa,1
+S6,DOM,S6-1-DOM-1200,Praça do Papa,1
+S6,DOM,S6-1-DOM-1300,Praça do Papa,1
+S6,DOM,S6-1-DOM-1400,Praça do Papa,1
+S6,DOM,S6-1-DOM-1500,Praça do Papa,1
+S6,DOM,S6-1-DOM-1600,Praça do Papa,1
+S6,DOM,S6-1-DOM-1700,Praça do Papa,1
+S6,DOM,S6-1-DOM-1800,Praça do Papa,1
+S6,DOM,S6-1-DOM-1900,Praça do Papa,1
+S6,DOM,S6-1-DOM-2000,Praça do Papa,1
+S6,DOM,S6-1-DOM-2100,Praça do Papa,1
+SA1,UTIL,SA1-0-UTIL-0600,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-0630,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-0700,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-0730,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-0800,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-0830,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-0900,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-0930,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-1000,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-1030,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-1100,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-1130,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-1200,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-1230,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-1300,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-1330,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-1400,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-1430,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-1500,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-1530,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-1600,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-1630,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-1700,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-1730,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-1800,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-1830,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-1900,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-1930,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-0-UTIL-2000,Estação Aquaviária Praça do Papa,0
+SA1,SAB,SA1-0-SAB-0600,Estação Aquaviária Praça do Papa,0
+SA1,SAB,SA1-0-SAB-0645,Estação Aquaviária Praça do Papa,0
+SA1,SAB,SA1-0-SAB-0730,Estação Aquaviária Praça do Papa,0
+SA1,SAB,SA1-0-SAB-0815,Estação Aquaviária Praça do Papa,0
+SA1,SAB,SA1-0-SAB-0900,Estação Aquaviária Praça do Papa,0
+SA1,SAB,SA1-0-SAB-0945,Estação Aquaviária Praça do Papa,0
+SA1,SAB,SA1-0-SAB-1030,Estação Aquaviária Praça do Papa,0
+SA1,SAB,SA1-0-SAB-1115,Estação Aquaviária Praça do Papa,0
+SA1,SAB,SA1-0-SAB-1200,Estação Aquaviária Praça do Papa,0
+SA1,SAB,SA1-0-SAB-1245,Estação Aquaviária Praça do Papa,0
+SA1,SAB,SA1-0-SAB-1330,Estação Aquaviária Praça do Papa,0
+SA1,SAB,SA1-0-SAB-1415,Estação Aquaviária Praça do Papa,0
+SA1,SAB,SA1-0-SAB-1500,Estação Aquaviária Praça do Papa,0
+SA1,SAB,SA1-0-SAB-1545,Estação Aquaviária Praça do Papa,0
+SA1,SAB,SA1-0-SAB-1630,Estação Aquaviária Praça do Papa,0
+SA1,SAB,SA1-0-SAB-1715,Estação Aquaviária Praça do Papa,0
+SA1,SAB,SA1-0-SAB-1800,Estação Aquaviária Praça do Papa,0
+SA1,SAB,SA1-0-SAB-1845,Estação Aquaviária Praça do Papa,0
+SA1,SAB,SA1-0-SAB-1930,Estação Aquaviária Praça do Papa,0
+SA1,DOM,SA1-0-DOM-0600,Estação Aquaviária Praça do Papa,0
+SA1,DOM,SA1-0-DOM-0700,Estação Aquaviária Praça do Papa,0
+SA1,DOM,SA1-0-DOM-0800,Estação Aquaviária Praça do Papa,0
+SA1,DOM,SA1-0-DOM-0900,Estação Aquaviária Praça do Papa,0
+SA1,DOM,SA1-0-DOM-1000,Estação Aquaviária Praça do Papa,0
+SA1,DOM,SA1-0-DOM-1100,Estação Aquaviária Praça do Papa,0
+SA1,DOM,SA1-0-DOM-1200,Estação Aquaviária Praça do Papa,0
+SA1,DOM,SA1-0-DOM-1300,Estação Aquaviária Praça do Papa,0
+SA1,DOM,SA1-0-DOM-1400,Estação Aquaviária Praça do Papa,0
+SA1,DOM,SA1-0-DOM-1500,Estação Aquaviária Praça do Papa,0
+SA1,DOM,SA1-0-DOM-1600,Estação Aquaviária Praça do Papa,0
+SA1,DOM,SA1-0-DOM-1700,Estação Aquaviária Praça do Papa,0
+SA1,DOM,SA1-0-DOM-1800,Estação Aquaviária Praça do Papa,0
+SA1,DOM,SA1-0-DOM-1900,Estação Aquaviária Praça do Papa,0
+SA1,DOM,SA1-0-DOM-2000,Estação Aquaviária Praça do Papa,0
+SA1,UTIL,SA1-1-UTIL-0600,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-0630,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-0700,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-0730,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-0800,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-0830,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-0900,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-0930,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-1000,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-1030,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-1100,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-1130,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-1200,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-1230,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-1300,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-1330,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-1400,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-1430,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-1500,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-1530,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-1600,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-1630,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-1700,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-1730,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-1800,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-1830,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-1900,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-1930,Estação Aquaviária Porto de Santana,1
+SA1,UTIL,SA1-1-UTIL-2000,Estação Aquaviária Porto de Santana,1
+SA1,SAB,SA1-1-SAB-0600,Estação Aquaviária Porto de Santana,1
+SA1,SAB,SA1-1-SAB-0645,Estação Aquaviária Porto de Santana,1
+SA1,SAB,SA1-1-SAB-0730,Estação Aquaviária Porto de Santana,1
+SA1,SAB,SA1-1-SAB-0815,Estação Aquaviária Porto de Santana,1
+SA1,SAB,SA1-1-SAB-0900,Estação Aquaviária Porto de Santana,1
+SA1,SAB,SA1-1-SAB-0945,Estação Aquaviária Porto de Santana,1
+SA1,SAB,SA1-1-SAB-1030,Estação Aquaviária Porto de Santana,1
+SA1,SAB,SA1-1-SAB-1115,Estação Aquaviária Porto de Santana,1
+SA1,SAB,SA1-1-SAB-1200,Estação Aquaviária Porto de Santana,1
+SA1,SAB,SA1-1-SAB-1245,Estação Aquaviária Porto de Santana,1
+SA1,SAB,SA1-1-SAB-1330,Estação Aquaviária Porto de Santana,1
+SA1,SAB,SA1-1-SAB-1415,Estação Aquaviária Porto de Santana,1
+SA1,SAB,SA1-1-SAB-1500,Estação Aquaviária Porto de Santana,1
+SA1,SAB,SA1-1-SAB-1545,Estação Aquaviária Porto de Santana,1
+SA1,SAB,SA1-1-SAB-1630,Estação Aquaviária Porto de Santana,1
+SA1,SAB,SA1-1-SAB-1715,Estação Aquaviária Porto de Santana,1
+SA1,SAB,SA1-1-SAB-1800,Estação Aquaviária Porto de Santana,1
+SA1,SAB,SA1-1-SAB-1845,Estação Aquaviária Porto de Santana,1
+SA1,SAB,SA1-1-SAB-1930,Estação Aquaviária Porto de Santana,1
+SA1,DOM,SA1-1-DOM-0600,Estação Aquaviária Porto de Santana,1
+SA1,DOM,SA1-1-DOM-0700,Estação Aquaviária Porto de Santana,1
+SA1,DOM,SA1-1-DOM-0800,Estação Aquaviária Porto de Santana,1
+SA1,DOM,SA1-1-DOM-0900,Estação Aquaviária Porto de Santana,1
+SA1,DOM,SA1-1-DOM-1000,Estação Aquaviária Porto de Santana,1
+SA1,DOM,SA1-1-DOM-1100,Estação Aquaviária Porto de Santana,1
+SA1,DOM,SA1-1-DOM-1200,Estação Aquaviária Porto de Santana,1
+SA1,DOM,SA1-1-DOM-1300,Estação Aquaviária Porto de Santana,1
+SA1,DOM,SA1-1-DOM-1400,Estação Aquaviária Porto de Santana,1
+SA1,DOM,SA1-1-DOM-1500,Estação Aquaviária Porto de Santana,1
+SA1,DOM,SA1-1-DOM-1600,Estação Aquaviária Porto de Santana,1
+SA1,DOM,SA1-1-DOM-1700,Estação Aquaviária Porto de Santana,1
+SA1,DOM,SA1-1-DOM-1800,Estação Aquaviária Porto de Santana,1
+SA1,DOM,SA1-1-DOM-1900,Estação Aquaviária Porto de Santana,1
+SA1,DOM,SA1-1-DOM-2000,Estação Aquaviária Porto de Santana,1

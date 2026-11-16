@@ -1,0 +1,66 @@
+# REDE SINTÉTICA DE TESTE. NADA AQUI É DADO REAL.
+#
+# Linhas, horários, frequências e tempos são fictícios e servem só para desenvolver e
+# testar o app (Fase 0). Os nomes de lugares existem para a busca e o mapa fazerem sentido;
+# as coordenadas são aproximadas. Números de linha usam o prefixo "S" para nunca
+# coincidirem com linhas reais. O app mostra o aviso "Rede sintética de teste" sempre
+# que este pacote estiver carregado.
+#
+# Gerar o GTFS: uv run rotavix-pipeline sintetico
+
+rede:
+  nome: "Rede sintética de teste"
+  agencia: "RotaVix (dados fictícios)"
+  fuso: America/Sao_Paulo
+  vigencia: { inicio: "2026-01-01", fim: "2027-12-31" }
+
+pontos:
+  # id: [nome, lat, lon]
+  TVV:   ["Terminal Vila Velha",                 -20.3405, -40.3010]
+  PRA:   ["Prainha",                             -20.3292, -40.2878]
+  PRAA:  ["Estação Aquaviária Prainha",          -20.3283, -40.2862]
+  ENS:   ["Enseada do Suá",                      -20.3150, -40.2925]
+  PAPA:  ["Praça do Papa",                       -20.3170, -40.2950]
+  PAPAA: ["Estação Aquaviária Praça do Papa",    -20.3180, -40.2962]
+  CANTO: ["Praia do Canto",                      -20.2965, -40.2935]
+  PENHA: ["Reta da Penha",                       -20.3030, -40.3000]
+  UFES:  ["UFES Goiabeiras",                     -20.2780, -40.3040]
+  GOIA:  ["Goiabeiras",                          -20.2700, -40.3000]
+  JCAM:  ["Jardim Camburi",                      -20.2650, -40.2650]
+  CENT:  ["Centro de Vitória",                   -20.3195, -40.3410]
+  ROD:   ["Rodoviária de Vitória",               -20.3190, -40.3505]
+  RODA:  ["Estação Aquaviária Rodoviária",       -20.3207, -40.3488]
+  STNA:  ["Estação Aquaviária Porto de Santana", -20.3262, -40.3720]
+  TJA:   ["Terminal Jardim América",             -20.3290, -40.3630]
+  TCG:   ["Terminal Campo Grande",               -20.3370, -40.3790]
+  TCAR:  ["Terminal Carapina",                   -20.2290, -40.2690]
+  TLAR:  ["Terminal Laranjeiras",                -20.1960, -40.2560]
+  JAC:   ["Jacaraípe",                           -20.1530, -40.1880]
+
+# velocidade_kmh e parada_s são fictícias; o tempo de cada trecho sai da distância em linha reta × 1,3.
+linhas:
+  - { id: S1, longa: "Sintética: T. Vila Velha ↔ Praia do Canto (Terceira Ponte)", servico: troncal, tipo: 3,
+      pontos: [TVV, PRA, ENS, CANTO], intervalo_min: 15, inicio: "05:00", fim: "23:00", velocidade_kmh: 22 }
+  - { id: S2, longa: "Sintética: T. Vila Velha ↔ Centro (Segunda Ponte)", servico: troncal, tipo: 3,
+      pontos: [TVV, ROD, CENT], intervalo_min: 20, inicio: "05:10", fim: "22:50", velocidade_kmh: 20 }
+  - { id: S3, longa: "Sintética: T. Campo Grande ↔ UFES", servico: troncal, tipo: 3,
+      pontos: [TCG, TJA, ROD, CENT, PENHA, UFES], intervalo_min: 15, inicio: "05:00", fim: "23:00", velocidade_kmh: 20 }
+  - { id: S4, longa: "Sintética: T. Laranjeiras ↔ Enseada do Suá", servico: troncal, tipo: 3,
+      pontos: [TLAR, TCAR, JCAM, GOIA, UFES, PENHA, ENS], intervalo_min: 15, inicio: "05:00", fim: "23:00", velocidade_kmh: 24 }
+  - { id: S5, longa: "Sintética: Jacaraípe ↔ T. Laranjeiras", servico: alimentadora, tipo: 3,
+      pontos: [JAC, TLAR], intervalo_min: 20, inicio: "05:00", fim: "22:40", velocidade_kmh: 25 }
+  - { id: S6, longa: "Sintética: Praça do Papa ↔ Praia do Canto", servico: alimentadora, tipo: 3,
+      pontos: [PAPA, ENS, CANTO], intervalo_min: 30, inicio: "06:00", fim: "21:00", velocidade_kmh: 18 }
+  - { id: SA1, longa: "Sintética: Aquaviário Porto de Santana ↔ Praça do Papa", servico: aquaviario, tipo: 4,
+      pontos: [STNA, RODA, PRAA, PAPAA], intervalo_min: 30, inicio: "06:00", fim: "20:00", velocidade_kmh: 16 }
+
+calendario:
+  # Multiplicador do intervalo por tipo de dia (fictício).
+  UTIL: { dias: [seg, ter, qua, qui, sex], fator_intervalo: 1.0 }
+  SAB:  { dias: [sab], fator_intervalo: 1.5 }
+  DOM:  { dias: [dom], fator_intervalo: 2.0 }
+  excecoes:
+    # Natal: dia útil vira domingo (exemplo de calendar_dates).
+    - { data: "2026-12-25", remove: UTIL, adiciona: DOM }
+
+parada_s: 20

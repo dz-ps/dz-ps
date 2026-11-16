@@ -16,3 +16,5 @@ data/cache/
 android/app/build/
 .gradle/
 .DS_Store
+apps/app/public/pacotes/
+apps/app/public/map-assets/

@@ -1,0 +1,21 @@
+stop_id,stop_name,stop_desc,stop_lat,stop_lon,location_type
+TVV,Terminal Vila Velha,Ponto fictício (rede sintética de teste),-20.340500,-40.301000,0
+PRA,Prainha,Ponto fictício (rede sintética de teste),-20.329200,-40.287800,0
+PRAA,Estação Aquaviária Prainha,Ponto fictício (rede sintética de teste),-20.328300,-40.286200,0
+ENS,Enseada do Suá,Ponto fictício (rede sintética de teste),-20.315000,-40.292500,0
+PAPA,Praça do Papa,Ponto fictício (rede sintética de teste),-20.317000,-40.295000,0
+PAPAA,Estação Aquaviária Praça do Papa,Ponto fictício (rede sintética de teste),-20.318000,-40.296200,0
+CANTO,Praia do Canto,Ponto fictício (rede sintética de teste),-20.296500,-40.293500,0
+PENHA,Reta da Penha,Ponto fictício (rede sintética de teste),-20.303000,-40.300000,0
+UFES,UFES Goiabeiras,Ponto fictício (rede sintética de teste),-20.278000,-40.304000,0
+GOIA,Goiabeiras,Ponto fictício (rede sintética de teste),-20.270000,-40.300000,0
+JCAM,Jardim Camburi,Ponto fictício (rede sintética de teste),-20.265000,-40.265000,0
+CENT,Centro de Vitória,Ponto fictício (rede sintética de teste),-20.319500,-40.341000,0
+ROD,Rodoviária de Vitória,Ponto fictício (rede sintética de teste),-20.319000,-40.350500,0
+RODA,Estação Aquaviária Rodoviária,Ponto fictício (rede sintética de teste),-20.320700,-40.348800,0
+STNA,Estação Aquaviária Porto de Santana,Ponto fictício (rede sintética de teste),-20.326200,-40.372000,0
+TJA,Terminal Jardim América,Ponto fictício (rede sintética de teste),-20.329000,-40.363000,0
+TCG,Terminal Campo Grande,Ponto fictício (rede sintética de teste),-20.337000,-40.379000,0
+TCAR,Terminal Carapina,Ponto fictício (rede sintética de teste),-20.229000,-40.269000,0
+TLAR,Terminal Laranjeiras,Ponto fictício (rede sintética de teste),-20.196000,-40.256000,0
+JAC,Jacaraípe,Ponto fictício (rede sintética de teste),-20.153000,-40.188000,0

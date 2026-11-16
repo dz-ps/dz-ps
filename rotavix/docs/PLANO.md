@@ -1,121 +1,105 @@
 # Plano do RotaVix
 
-> **Status: provisório.** A SPEC chegou truncada na seção 6; as seções 7 a 13 (incluindo as fases da seção 11) estão faltando. As fases abaixo são minha proposta a partir das seções 0 a 6 e das prioridades que você deu (1. rotas que fogem do trânsito, 2. offline de verdade, 3. interface). Reajusto quando a seção 11 chegar.
+Base: `docs/SPEC.md` (completa). Fases e critérios de aceite seguem a seção 11.
 
 ## 1. Arquitetura
 
 ```
            ┌────────────── Cliente (PWA e Android, mesmo código) ───────────────┐
-           │ React + Vite ─ MapLibre + PMTiles ─ busca MiniSearch (offline)      │
+           │ React + Vite ─ MapLibre + PMTiles ─ busca local (offline)           │
            │        │                                                            │
            │        └─ Web Worker (Comlink): packages/router                     │
-           │             timetable (typed arrays, assinado Ed25519)              │
-           │             + overlay de fatores por trecho → McRAPTOR → ranking    │
-           │ DataStore / TileStore: OPFS+IndexedDB (PWA) | Filesystem (Capacitor)│
+           │             timetable .rvx (typed arrays) + overlay de fatores      │
+           │             por trecho → McRAPTOR → ranking → motivos               │
+           │ DataStore / TileStore: OPFS (PWA e WebView) | Filesystem (Capacitor)│
            └──────────────▲───────────────────────────▲────────────────────────┘
-               pacotes    │ (R2 + manifest)           │ SSE: deltas de fator/trecho, veículos
+               pacotes    │ (R2 + manifest assinado)  │ SSE: deltas de fator/trecho, veículos
                           │                           │
    pipeline/ (ETL Python) ┘          apps/api (FastAPI) ─ Postgres/PostGIS, Redis
-   GTFS → validador → hops →         provedores: tabela, simulador, colaborativo, gtfs_rt,
-   perfis → índice → PMTiles         [oficial], trânsito (proxy + ProviderBudget), clima
+   GTFS → validador → .rvx →         provedores: tabela, simulador, colaborativo, gtfs_rt,
+   hops → perfis → índice → PMTiles  [oficial], trânsito (proxy + ProviderBudget), clima
 ```
 
 Princípios:
-- **Um motor só**, no cliente. Online ele recebe fatores mais frescos; offline usa perfis históricos. Mesmo resultado, mesma explicação.
-- **Tudo atrás de adaptadores**: tempo real, lotação, trânsito, incidentes, clima, geocodificação.
+- **Um motor só**, no cliente, igual online e offline. Online ele só recebe fatores mais frescos.
+- **Tudo atrás de adaptadores**: tempo real, lotação, trânsito, incidentes, clima, geocodificação, armazenamento.
 - **Dado da rede é dado, não código**: tarifas, aliases, feriados e overrides em YAML versionado.
-- **Toda rota explica o porquê**: o ranking produz uma lista estruturada de motivos (`Motivo[]`), e a UI só formata.
+- **Toda rota explica o porquê**: o motor devolve motivos estruturados (`Motivo[]`); a UI só formata o texto.
+- **Python escreve, TS lê**: o pipeline é o único escritor do formato `.rvx`; `packages/data-format` documenta e lê.
 
 ## 2. Árvore de pastas
 
 ```
 rotavix/
-  apps/app/          React + TS + Vite; Capacitor em apps/app/android
-  apps/api/          FastAPI (uv), provedores em apps/api/rotavix_api/providers/
-  packages/router/   McRAPTOR, overlay, ranking, explicações (TS puro, vitest)
-  packages/data-format/  formato binário dos pacotes + leitor/escritor + spec em docs/
-  packages/ui/       design system (Tailwind + Radix)
-  pipeline/          ETL Python (uv): fontes → GTFS → validação → pacotes
-  infra/             docker-compose.yml (profiles: roteamento, busca, pesado)
-  config/            tarifas.yaml, scoring.yaml, flags.yaml
-  data/overrides/    correções manuais e aliases
-  scripts/           doctor.sh, dev.sh, adb helpers
-  docs/              SPEC, PLANO, ADRs, FONTES_DE_DADOS, SETUP, DEMO-faseN
+  apps/app/            React + TS + Vite; PWA (injectManifest) e Android (Capacitor, apps/app/android)
+  apps/api/            FastAPI (uv); provedores em rotavix_api/providers/
+  packages/router/     McRAPTOR, overlay, ranking, motivos (TS puro, vitest)
+  packages/data-format/ formato .rvx (spec em FORMATO.md) + leitor TS
+  packages/ui/         design tokens (claro/escuro, semânticos, cores de linha) + testes de contraste
+  pipeline/            ETL Python (uv): GTFS → .rvx, índice, extrato PMTiles; fixtures/sintetico
+  infra/               docker-compose.yml (profiles: roteamento, busca, pesado)
+  config/              tarifas.yaml, scoring.yaml, flags.yaml
+  data/overrides/      correções manuais e aliases
+  scripts/             doctor.sh, gtfs-validator.sh, android helpers
+  docs/                SPEC, PLANO, adr/, FONTES_DE_DADOS, DEMO-faseN
+  .github/workflows/   CI (vira a raiz quando o projeto for para o repositório próprio)
 ```
 
-## 3. Fases e tarefas
+## 3. Fases
 
 ### Fase 0: Fundação (em andamento)
-- [x] SPEC salva em `docs/SPEC.md`
-- [x] `scripts/doctor.sh` (macOS/Linux) com lista do que falta e como instalar
-- [x] `infra/docker-compose.yml` com imagens arm64 verificadas e serviços pesados em profiles
-- [x] `config/` com tarifas (TODO(VERIFICAR)), scoring, flags; `data/overrides/aliases.yaml`
-- [x] `apps/app/src/brand.ts`
-- [x] ADRs 0001 (monorepo e local do código) e 0002 (imagens Docker)
-- [ ] Workspace pnpm + tsconfig base + ESLint/Prettier; workspace uv para api e pipeline + Ruff/pyright
-- [ ] Esqueletos: `packages/router` (vitest), `apps/api` (FastAPI `/health`, pytest), `pipeline` (CLI vazia, pytest)
-- [ ] Esqueleto do app (Vite + React + PWA) com o aviso de app independente
-- [ ] CI GitHub Actions (lint, tipos, testes); GTFS Validator entra na Fase 1
-- [ ] `docs/DEMO-fase0.md`
+*Aceite: em modo avião, abrir o app, buscar um ponto e planejar uma rota no GTFS sintético.*
 
-### Fase 1: Dados estáticos
-- Pesquisa e registro de fontes em `FONTES_DE_DADOS.md` (licença, robots.txt, frequência)
-- Coletor do site da Ceturb (respeitando robots/termos, User-Agent com contato, cache) e importador de relações OSM
-- Pontos (cluster < 15 m), shapes (OSM ou Valhalla), stop_times estimados (`timepoint=0`)
-- Calendário (`holidays` ES + municipais em YAML + férias)
-- GTFS Validator no CI bloqueando erro; detector de mudanças diário + aliases
-- Aquaviário como `route_type=4`
+- [x] SPEC, PLANO, CLAUDE.md, ADRs 0001 e 0002, doctor.sh, compose multi-arch com profiles, configs
+- [ ] Monorepo: pnpm (TS 6.0, ESLint, Prettier) + uv (Ruff, pyright, pytest)
+- [ ] GTFS sintético pequeno em `pipeline/fixtures/sintetico/`, **marcado como fictício** em todos os nomes e no app
+- [ ] Pipeline: GTFS → pacote `.rvx` (timetable em typed arrays + transferências a pé estimadas) + manifest com sha256
+- [ ] `packages/data-format`: especificação do `.rvx` + leitor TS + teste de contrato com o arquivo gerado pelo Python
+- [ ] `packages/router`: McRAPTOR (chegada, baldeações, caminhada) com acesso a pé, motivos básicos, testes com resposta conhecida
+- [ ] Extrato PMTiles do mapa (Protomaps, bbox da região, até z14) + fontes e sprites locais
+- [ ] `packages/ui`: tokens (azul-oceano + coral, claro/escuro, semânticos, cores por tipo de serviço) com teste de contraste WCAG
+- [ ] App: shell React, mapa como protagonista, bottom sheet no celular e painel lateral no desktop, busca de pontos, planejador e cartões de rota
+- [ ] Worker com Comlink rodando o roteador; DataStore/TileStore em OPFS; download inicial dos pacotes
+- [ ] PWA instalável (manifest, ícones maskable, service worker injectManifest), orçamento de 170 KB gzip no shell
+- [ ] E2E Playwright com `setOffline(true)` cobrindo o critério de aceite
+- [ ] Capacitor Android + APK de debug
+- [ ] CI: lint, tipos, testes, build, orçamento de tamanho, GTFS Validator (sintético), e2e, APK como artefato
+- [ ] `docs/DEMO-fase0.md` (roteiro no Poco via adb e no navegador)
 
-### Fase 2: Motor de rotas (prioridade 1)
-- Formato binário do timetable + hops + perfis, hash, compressão, assinatura Ed25519
-- McRAPTOR com Pareto (chegada, baldeações, caminhada), janela de 60 min
-- Overlay de fatores por trecho (faixa exclusiva, chuva, incidente, via bloqueada), FIFO
-- Diversidade por penalização de corredor; integração tarifária vinda de `tarifas.yaml`
-- Ranking p50/p90 + risco de baldeação; rótulos; motivos estruturados
-- Cenários de ouro (§4.7) como testes, primeiro sobre uma **rede de teste sintética marcada como fictícia** (só em `fixtures/`, nunca empacotada), depois sobre o GTFS real
-- Benchmarks com 400 linhas
+### Fase 1: Rede real offline
+Pipeline com GTFS validado da Grande Vitória (site da Ceturb respeitando robots.txt e termos, OSM, overrides), telas de linha, ponto e quadro de horários, busca com sinônimos e aliases, pacotes assinados (Ed25519) e Central Offline, `TileStore`/`DataStore` com Capacitor Filesystem, detector de mudanças.
+*Aceite: cenários 4 e 5; GTFS sem erros; relatório de mudanças funcionando.*
 
-### Fase 3: App PWA offline (prioridade 2 e 3)
-- Mapa MapLibre + PMTiles (básico ≤ z14 e detalhado z15–16, tamanhos medidos)
-- Busca offline (MiniSearch, sem acento, sinônimos, aliases de linha)
-- Planejador, resultado com explicações, horários e itinerários
-- Central Offline, `storage.persist()`, OPFS, verificação de assinatura
-- Metas de desempenho medidas também com CPU 4x e perfil de aparelho de entrada (Lighthouse CI)
+### Fase 2: Trânsito inteligente
+Proxy TomTom com `ProviderBudget` (**[PERGUNTAR]** conta e chave), incidentes, Open-Meteo, PRF, hops com faixa exclusiva, overlay dinâmico, ranking p50/p90, diversidade, explicações, "Trânsito agora".
+*Aceite: cenários 1 a 3 com trânsito simulado e real; cota dentro do orçamento.*
 
-### Fase 4: Android (Capacitor)
-- Build Android, plugins oficiais, `TileStore`/`DataStore` com Filesystem
-- Modo viagem com serviço em primeiro plano, alerta de desembarque (geofence + vibração)
-- **Validação no Poco X7 Pro (HyperOS) via adb**: viagem ativa e alerta com a tela desligada e o app em segundo plano
-- Tela que orienta a liberar a otimização de bateria / início automático no HyperOS
-- APK de debug como artefato do CI
+### Fase 3: Tempo real
+Provedores (simulador, tabela, GTFS-RT, colaborativo), fusão, SSE, previsão, viagem ativa com foreground service (sem localização em segundo plano), alerta de desembarque, "saia agora", re-roteamento. **Validação no Poco X7 Pro (HyperOS)** e tela de orientação de bateria.
+*Aceite: ônibus simulados suaves; origem e idade do dado sempre visíveis; bateria e dados medidos.*
 
-### Fase 5: Backend de tempo real
-- Provedores `tabela`, `simulador`, `colaborativo` (token efêmero, map matching, apagar brutos em 24 h), `gtfs_rt` (sem feed), stub `oficial` desligado
-- Fusão com prioridade, suavização e confiança; SSE de deltas a cada 60 s
-- UI mostrando fonte e idade do dado
+### Fase 4: Comunidade, lotação e lançamento
+Relatos com anti-abuso, lotação, câmeras da Terceira Ponte (link), acessibilidade, widget, release e checklist da Play Store (**[PERGUNTAR]** antes de conta/publicação).
+*Aceite: Lighthouse ≥ 90; acessibilidade ok; AAB assinado para teste interno.*
 
-### Fase 6: Trânsito, incidentes e clima
-- Open-Meteo (atribuição CC BY 4.0)
-- Relatos de usuários com expiração e peso por confirmação
-- PRF (histórico de acidentes, informativo)
-- TomTom/HERE com `ProviderBudget` **somente após sua autorização e chave**
-- Re-roteamento e "Saia agora"; planejar para depois
+### Fase 5: Integração oficial
+Depende de autorização por escrito (**[PERGUNTAR]**).
 
-### Fase 7: Lotação, polimento e publicação
-- Lotação por relatos + histórico (3 níveis); câmeras da Terceira Ponte como link com atribuição
-- Acessibilidade, animações, tablet/desktop
-- Deploy (Cloudflare Pages/R2, VPS/Fly) e Play Store: **[PERGUNTAR]** antes de criar qualquer conta ou recurso
+## 4. Metas de desempenho e como medir
+- Shell + UI inicial < 170 KB gzip (checado no CI); MapLibre e roteador em chunks separados.
+- Rota offline < 700 ms p95: benchmark do roteador no Node e no navegador com **CPU throttling 4x** (CDP) e perfil de aparelho de entrada (Moto G4/Lighthouse mobile).
+- Medição também no Poco X7 Pro via `chrome://inspect`.
 
-## 4. Riscos principais
+## 5. Riscos principais
 
 | Risco | Impacto | Mitigação |
 |---|---|---|
-| Sem GTFS oficial; site da Ceturb pode mudar ou proibir coleta | Alto | Coletor isolado atrás de adaptador, cache, OSM como segunda fonte, overrides manuais; validar termos antes de coletar |
+| Sem GTFS oficial; site da Ceturb pode mudar | Alto | Coletor isolado, cache, OSM como 2ª fonte, overrides manuais |
 | Tempos intermediários estimados divergirem da operação | Alto | `timepoint=0`, rótulo "estimado", recalibrar com sonda colaborativa |
 | Rede mudando (renumeração de Vila Velha) | Médio | Detector de mudanças diário + aliases versionados |
-| HyperOS matando o serviço da viagem ativa | Alto | Foreground service, teste no aparelho real, tela de orientação de bateria |
-| MapLibre GL JS pesado no WebView em aparelho de entrada | Médio | Medir com throttling; plano B documentado (MapLibre Native) |
-| Cotas/termos de TomTom/HERE (armazenamento) | Médio | Ler termos antes; histórico só da sonda e relatos se proibido |
-| Open-Meteo grátis é não comercial | Baixo | Registrar no ADR de fontes; trocar se monetizar |
-| Tamanho dos pacotes offline | Médio | PMTiles em dois níveis, timetable compacto, medir e exibir tamanho |
-| Container de nuvem efêmero (commits só locais se perdem) | Médio | Ver pergunta sobre push no branch de trabalho |
+| HyperOS matando o serviço da viagem ativa | Alto | Foreground service tipo location, teste no aparelho, tela de bateria |
+| MapLibre GL JS pesado no WebView de entrada | Médio | Medir com throttling; plano B MapLibre Native documentado |
+| Cotas e termos de TomTom/HERE | Médio | Ler termos antes; histórico só da sonda e relatos se proibido |
+| Open-Meteo grátis é não comercial | Baixo | Registrado em FONTES_DE_DADOS; trocar se monetizar |
+| Tamanho dos pacotes offline | Médio | PMTiles em dois níveis, timetable compacto, tamanho exibido |
+| Ferramentas de lint ainda sem suporte a TS 7 | Baixo | TS 6.0 até o typescript-eslint suportar o 7 |

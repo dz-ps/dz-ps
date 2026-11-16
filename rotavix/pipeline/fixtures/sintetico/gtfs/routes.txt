@@ -1,0 +1,8 @@
+route_id,agency_id,route_short_name,route_long_name,route_desc,route_type
+S1,SINT,S1,Sintética: T. Vila Velha ↔ Praia do Canto (Terceira Ponte),troncal,3
+S2,SINT,S2,Sintética: T. Vila Velha ↔ Centro (Segunda Ponte),troncal,3
+S3,SINT,S3,Sintética: T. Campo Grande ↔ UFES,troncal,3
+S4,SINT,S4,Sintética: T. Laranjeiras ↔ Enseada do Suá,troncal,3
+S5,SINT,S5,Sintética: Jacaraípe ↔ T. Laranjeiras,alimentadora,3
+S6,SINT,S6,Sintética: Praça do Papa ↔ Praia do Canto,alimentadora,3
+SA1,SINT,SA1,Sintética: Aquaviário Porto de Santana ↔ Praça do Papa,aquaviario,4
