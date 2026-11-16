@@ -2,17 +2,23 @@
   "name": "rotavix",
   "private": true,
   "packageManager": "pnpm@10.28.0",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "doctor": "./scripts/doctor.sh",
     "test": "pnpm -r test",
     "typecheck": "pnpm -r typecheck",
     "infra:up": "docker compose -f infra/docker-compose.yml up -d",
     "infra:pesado": "docker compose -f infra/docker-compose.yml --profile pesado up -d",
-    "infra:down": "docker compose -f infra/docker-compose.yml --profile pesado down"
+    "infra:down": "docker compose -f infra/docker-compose.yml --profile pesado down",
+    "fixtures": "SOURCE_DATE_EPOCH=1767225600 uv run rotavix-pipeline rede --gtfs pipeline/fixtures/sintetico/gtfs --saida packages/data-format/fixtures/sintetico.rvx --sintetica --fonte 'rede sintética de teste' --sem-manifest",
+    "data": "uv run rotavix-pipeline dev",
+    "data:sem-mapa": "uv run rotavix-pipeline dev --sem-mapa"
   },
   "devDependencies": {
-    "typescript": "^5.9.0",
-    "vitest": "^3.2.0"
+    "typescript": "~6.0.3",
+    "vitest": "^5.1.0",
+    "@types/node": "^22.19.0"
   }
 }

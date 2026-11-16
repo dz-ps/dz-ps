@@ -29,6 +29,9 @@ def cmd_rede(a: argparse.Namespace) -> None:
     dados = rvx.construir(feed, sintetica=a.sintetica, fonte=a.fonte, scoring=_scoring())
     saida = Path(a.saida)
     rvx.salvar(dados, saida)
+    if getattr(a, "sem_manifest", False):
+        print(f"{saida.name}: {len(dados) / 1024:.1f} KB")
+        return
     e = manifest.registrar(saida.parent, "rede", saida, "Linhas, pontos e horários", True, {"sintetica": a.sintetica})
     print(f"{saida.name}: {e['bytes'] / 1024:.1f} KB  sha256={e['sha256'][:12]}…")
 
@@ -110,6 +113,7 @@ def main() -> None:
     s.add_argument("--saida", required=True)
     s.add_argument("--sintetica", action="store_true")
     s.add_argument("--fonte", default="")
+    s.add_argument("--sem-manifest", action="store_true")
     s.set_defaults(f=cmd_rede)
 
     s = sub.add_parser("mapa", help="recorte PMTiles da Protomaps")
