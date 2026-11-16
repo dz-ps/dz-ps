@@ -91,7 +91,7 @@ export function Busca({
             autoFocus
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder={titulo}
+            placeholder={`${titulo} Bairro, terminal, lugar…`}
             className="h-12 w-full bg-transparent text-base outline-none placeholder:text-suave"
             enterKeyHint="search"
             data-testid="campo-busca"
@@ -122,19 +122,49 @@ export function Busca({
             <li key={`p-${r.ponto}`}>
               <button
                 type="button"
-                onClick={() => escolher({ rotulo: r.nome, lugar: { tipo: 'ponto', ponto: r.ponto }, lat: r.lat, lon: r.lon })}
+                onClick={() =>
+                  escolher({
+                    rotulo: r.nome,
+                    lugar: r.pontos.length > 1 ? { tipo: 'pontos', pontos: r.pontos, nome: r.nome } : { tipo: 'ponto', ponto: r.ponto },
+                    lat: r.lat,
+                    lon: r.lon,
+                  })
+                }
                 className="flex min-h-12 w-full items-center gap-3 rounded-xl px-3 py-2 text-left hover:bg-superficie2"
               >
                 <IconePino className="shrink-0 text-suave" />
                 <span className="flex flex-col">
                   <span>{r.nome}</span>
-                  <span className="text-xs text-suave">Linhas {r.linhas.join(', ')}</span>
+                  <span className="text-xs text-suave">
+                    {r.pontos.length > 1 ? `${r.pontos.length} plataformas · ` : ''}
+                    {r.linhas.length > 8 ? `${r.linhas.length} linhas` : `Linhas ${r.linhas.join(', ')}`}
+                  </span>
+                </span>
+              </button>
+            </li>
+          ) : r.tipo === 'lugar' ? (
+            <li key={`l-${r.lugar}`}>
+              <button
+                type="button"
+                onClick={() =>
+                  escolher({ rotulo: r.nome, lugar: { tipo: 'coord', lat: r.lat, lon: r.lon, nome: r.nome }, lat: r.lat, lon: r.lon })
+                }
+                className="flex min-h-12 w-full items-center gap-3 rounded-xl px-3 py-2 text-left hover:bg-superficie2"
+              >
+                <IconeAlvo className="shrink-0 text-suave" />
+                <span className="flex flex-col">
+                  <span>{r.nome}</span>
+                  <span className="text-xs text-suave">{r.categoria}</span>
                 </span>
               </button>
             </li>
           ) : null,
         )}
-        {q.trim() && resultados.length === 0 && <li className="px-3 py-2 text-sm text-suave">Nenhum ponto encontrado.</li>}
+        {q.trim() && resultados.length === 0 && (
+          <li className="px-3 py-2 text-sm text-suave">
+            Nada encontrado. Tente o nome do bairro, de um terminal ou de um lugar conhecido.
+          </li>
+        )}
       </ul>
     </div>
   );

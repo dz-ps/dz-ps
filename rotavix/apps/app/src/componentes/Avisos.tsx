@@ -12,5 +12,16 @@ export function AvisoSintetico() {
 }
 
 export function AvisoIndependente() {
-  return <p className="text-xs text-suave">{brand.aviso}</p>;
+  const rede = useEstado((s) => s.rede);
+  return (
+    <div className="space-y-1 text-xs text-suave">
+      <p>{brand.aviso}</p>
+      {rede && !rede.sintetica && (
+        <p>
+          Horários de partida: portal público da Ceturb-ES ({rede.versaoFeed.replace('ceturb-', '').replace('+osm', '')}). Pontos, trajetos
+          e mapa: © colaboradores do OpenStreetMap. A passagem em cada ponto é estimada (≈). {rede.nLinhas} linhas com trajeto conhecido.
+        </p>
+      )}
+    </div>
+  );
 }

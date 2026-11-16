@@ -15,7 +15,8 @@ export function CartaoRota({ o, selecionada, aoSelecionar }: { o: OpcaoMapa; sel
       <button type="button" className="w-full text-left" onClick={aoSelecionar} aria-pressed={selecionada}>
         <div className="flex items-baseline justify-between gap-2">
           <span className="num text-lg font-semibold">
-            {hora(o.partida)} → {hora(o.chegada)}
+            {hora(o.partida)} → {o.id === 'a_pe' ? '' : '≈ '}
+            {hora(o.chegada)}
           </span>
           <span className="num text-sm text-suave">{duracao(o.duracaoS)}</span>
         </div>
@@ -98,13 +99,17 @@ function PassoAPasso({ o }: { o: OpcaoMapa }) {
               <span className="text-suave">sentido {t.destino}</span>
             </div>
             <p className="num mt-1">
-              <strong>{hora(t.embarque.hora)}</strong> embarque em {t.embarque.nome}
+              <strong>
+                {t.embarque.estimado ? '≈ ' : ''}
+                {hora(t.embarque.hora)}
+              </strong>{' '}
+              embarque em {t.embarque.nome}
             </p>
             <p className="num text-suave">
               {t.paradas} parada{t.paradas > 1 ? 's' : ''} · {duracao(t.desembarque.hora - t.embarque.hora)}
             </p>
             <p className="num">
-              <strong>{hora(t.desembarque.hora)}</strong> desça em {t.desembarque.nome}
+              <strong>≈ {hora(t.desembarque.hora)}</strong> desça em {t.desembarque.nome}
             </p>
           </li>
         ),

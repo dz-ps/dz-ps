@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">RotaVix</string>
     <string name="title_activity_main">RotaVix</string>
-    <string name="package_name">app.rotavix.dev</string>
-    <string name="custom_url_scheme">app.rotavix.dev</string>
+    <string name="package_name">app.rotavix</string>
+    <string name="custom_url_scheme">app.rotavix</string>
 </resources>

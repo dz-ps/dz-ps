@@ -24,7 +24,7 @@ export function Rotas() {
       const m = obterMotor();
       const q = quando.tipo === 'agora' ? await m.agora() : quando;
       const t0 = performance.now();
-      const ops = await m.planejar({ origem: origem.lugar, destino: destino.lugar, data: q.data, horaS: q.horaS });
+      const ops = await m.planejar({ origem: origem.lugar, destino: destino.lugar, data: q.data, horaS: q.horaS, maxCaminhadaM: 1200 });
       if (!vivo) return;
       performance.measure?.('rotavix:planejar', { start: t0, end: performance.now() });
       setQuandoUsado(q);
@@ -75,7 +75,8 @@ export function Rotas() {
       )}
       {!planejando && opcoes.length === 0 && quandoUsado && (
         <p role="status" className="rounded-xl bg-superficie2 p-3 text-sm">
-          Nenhuma opção na próxima hora. Tente outro horário ou um ponto mais perto (até 1 km a pé).
+          Nenhuma opção na próxima hora. Tente outro horário ou um ponto mais perto (até 1,2 km a pé). Algumas linhas ainda não têm trajeto
+          conhecido no app.
         </p>
       )}
       <ul className="flex flex-col gap-2" aria-label="Opções de rota">

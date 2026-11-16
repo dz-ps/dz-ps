@@ -8,13 +8,15 @@ export type InfoRede = {
   nome: string;
   sintetica: boolean;
   fonte: string;
+  versaoFeed: string;
   geradoEm: string;
   nPontos: number;
   nLinhas: number;
   fuso: string;
 };
 export type ResultadoBusca =
-  | { tipo: 'ponto'; ponto: number; nome: string; lat: number; lon: number; linhas: string[] }
+  | { tipo: 'ponto'; ponto: number; pontos: number[]; nome: string; lat: number; lon: number; linhas: string[] }
+  | { tipo: 'lugar'; lugar: number; nome: string; categoria: string; lat: number; lon: number }
   | { tipo: 'linha'; linha: number; nome: string; curta: string; servico: string };
 export type Desenho = { modo: 'a_pe' | 'onibus' | 'barca'; servico?: string; coords: [number, number][] };
 export type OpcaoMapa = Opcao & { desenho: Desenho[] };
@@ -44,6 +46,7 @@ const api = {
       nome: r.cab.rede.nome,
       sintetica: r.cab.rede.sintetica,
       fonte: r.cab.rede.fonte,
+      versaoFeed: r.cab.rede.versao_feed,
       geradoEm: r.cab.gerado_em,
       nPontos: r.nPontos,
       nLinhas: r.cab.linhas.length,
@@ -58,17 +61,24 @@ const api = {
 
   buscar(q: string, limite = 8): ResultadoBusca[] {
     const r = exigir();
-    return (buscar?.(q, limite) ?? []).map((it): ResultadoBusca =>
-      it.tipo === 'ponto'
-        ? { ...it, lat: r.pontoLat[it.ponto]!, lon: r.pontoLon[it.ponto]!, linhas: linhasDoPonto[it.ponto]! }
-        : { ...it, servico: r.cab.linhas[it.linha]!.servico },
-    );
+    return (buscar?.(q, limite) ?? []).map((it): ResultadoBusca => {
+      if (it.tipo === 'ponto') {
+        const linhas = [...new Set(it.pontos.flatMap((p) => linhasDoPonto[p]!))].sort();
+        return { ...it, lat: r.pontoLat[it.ponto]!, lon: r.pontoLon[it.ponto]!, linhas };
+      }
+      if (it.tipo === 'lugar') return it;
+      return { ...it, servico: r.cab.linhas[it.linha]!.servico };
+    });
   },
 
   planejar(pedido: Pedido): OpcaoMapa[] {
     const r = exigir();
     const pos = (i: number): [number, number] => [r.pontoLon[i]!, r.pontoLat[i]!];
-    const coordLugar = (l: Pedido['origem']): [number, number] => (l.tipo === 'ponto' ? pos(l.ponto) : [l.lon, l.lat]);
+    const coordLugar = (l: Pedido['origem']): [number, number] => {
+      if (l.tipo === 'ponto') return pos(l.ponto);
+      if (l.tipo === 'pontos') return pos(l.pontos[0]!);
+      return [l.lon, l.lat];
+    };
     return planejar(r, pedido).map((o) => {
       const desenho: Desenho[] = [];
       let ultimo = coordLugar(pedido.origem);
@@ -94,7 +104,7 @@ const api = {
       features: r.cab.pontos.nomes.map((nome, i) => ({
         type: 'Feature',
         id: i,
-        properties: { nome, aquaviario: nome.startsWith('Estação Aquaviária') ? 1 : 0 },
+        properties: { nome, aquaviario: /aquavi[aá]ri/i.test(nome) ? 1 : 0, terminal: /^terminal/i.test(nome) ? 1 : 0 },
         geometry: { type: 'Point', coordinates: [r.pontoLon[i]!, r.pontoLat[i]!] },
       })),
     };

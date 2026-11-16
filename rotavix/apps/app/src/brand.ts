@@ -6,8 +6,8 @@ export const brand = {
   nome: 'RotaVix',
   nomeCurto: 'RotaVix',
   descricao: 'Rotas de ônibus e Aquaviário na Grande Vitória que desviam do trânsito, inclusive offline.',
-  /** ID do app Android. TODO: trocar por um domínio seu antes de publicar na Play Store. */
-  appId: 'app.rotavix.dev',
+  /** ID do app Android (applicationId). TODO: trocar por um domínio seu antes de publicar na Play Store. */
+  appId: 'app.rotavix',
   icone: '/icons/icon.svg',
   aviso: 'App independente. Horários e posições podem divergir; confira os canais oficiais.',
   /** Litoral capixaba: azul-oceano profundo (primária) e coral de pôr do sol (destaque). */

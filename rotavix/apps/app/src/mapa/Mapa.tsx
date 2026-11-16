@@ -90,8 +90,39 @@ function camadas(mapa: MapaGL, pontos: GeoJSON.FeatureCollection, escuro: boolea
     id: 'pontos',
     type: 'circle',
     source: 'pontos',
+    // Pontos comuns só a partir do zoom 14 (são ~3 mil); terminais e Aquaviário na camada 'pontos-destaque'.
+    filter: ['all', ['==', ['get', 'terminal'], 0], ['==', ['get', 'aquaviario'], 0]],
+    minzoom: 14,
     paint: {
-      'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 3, 15, 7],
+      'circle-radius': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        10,
+        ['case', ['==', ['get', 'terminal'], 1], 5, 2],
+        15,
+        ['case', ['==', ['get', 'terminal'], 1], 10, 6],
+      ],
+      'circle-color': ['case', ['==', ['get', 'aquaviario'], 1], CORES_SERVICO.aquaviario, t.superficie],
+      'circle-stroke-color': t.mapaPonto,
+      'circle-stroke-width': 1.5,
+    },
+  });
+  mapa.addLayer({
+    id: 'pontos-destaque',
+    type: 'circle',
+    source: 'pontos',
+    filter: ['any', ['==', ['get', 'terminal'], 1], ['==', ['get', 'aquaviario'], 1]],
+    paint: {
+      'circle-radius': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        10,
+        ['case', ['==', ['get', 'terminal'], 1], 5, 2],
+        15,
+        ['case', ['==', ['get', 'terminal'], 1], 10, 6],
+      ],
       'circle-color': ['case', ['==', ['get', 'aquaviario'], 1], CORES_SERVICO.aquaviario, t.superficie],
       'circle-stroke-color': t.mapaPonto,
       'circle-stroke-width': 1.5,
@@ -101,7 +132,7 @@ function camadas(mapa: MapaGL, pontos: GeoJSON.FeatureCollection, escuro: boolea
     id: 'pontos-nome',
     type: 'symbol',
     source: 'pontos',
-    minzoom: 13,
+    minzoom: 15,
     layout: {
       'text-field': ['get', 'nome'],
       'text-font': ['Noto Sans Medium'],
@@ -144,7 +175,9 @@ export default function Mapa() {
       if (cancelado) return;
       camadas(m, pontos, escuro);
       const b = new LngLatBounds();
-      for (const f of pontos.features) b.extend(f.geometry.coordinates as [number, number]);
+      // Enquadra pelos terminais (centro da rede); sem terminais, por todos os pontos.
+      const terminais = pontos.features.filter((f) => f.properties?.terminal === 1);
+      for (const f of terminais.length >= 3 ? terminais : pontos.features) b.extend(f.geometry.coordinates as [number, number]);
       if (!b.isEmpty()) m.fitBounds(b, { padding: margens(), duration: 0 });
       atualizarRota(m, useEstado.getState().opcoes[useEstado.getState().selecionada]);
     });

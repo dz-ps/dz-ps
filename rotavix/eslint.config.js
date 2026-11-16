@@ -18,4 +18,6 @@ export default tseslint.config(
     },
   },
   { files: ['**/*.mjs', '**/*.js'], languageOptions: { globals: globals.node } },
+  // Coletores rodam funções dentro da página (page.evaluate): também têm globais de navegador.
+  { files: ['pipeline/coletores/**/*.mjs'], languageOptions: { globals: { ...globals.node, ...globals.browser } } },
 );
