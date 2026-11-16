@@ -257,10 +257,123 @@ type VehicleState = {
 - **Pacotes:** app shell (precache), timetable + hops + perfis, índice de busca, mapa básico; mapa detalhado opcional.
 - **Central Offline:** tamanho de cada pacote, data da última atualização, "atualizar só no Wi-Fi", baixar de novo, apagar.
 - **PWA:** Workbox, `navigator.storage.persist()`, arquivos grandes no OPFS, fila de relatos com reenvio ao reconectar (Background Sync quando existir).
-- **Android:** mesmos pacotes no armazenamento do app via Capacitor Filesystem. Abstraia com `TileStore` e `DataStore` para os dois
+- **Android:** mesmos pacotes no armazenamento do app via Capacitor Filesystem. Abstraia com `TileStore` e `DataStore` para os dois alvos.
+- **Atualização:** download em segundo plano, verificação de sha256 e assinatura, troca atômica e rollback se falhar.
+- **Sem rede**, tudo indica o que é estimativa: "Offline: horários da tabela + trânsito típico deste horário". Fatores de trânsito e incidentes em cache expiram.
+- **Modo economia de dados:** tempo real a cada 30 s, sem camada de tráfego, imagens desligadas.
 
-<!--
-NOTA DO ENGENHEIRO (2026-11-15): o texto recebido termina exatamente aqui, no meio da seção 6.
-As seções 7 em diante (incluindo a 11, com as fases, e a 13, com o formato de resposta)
-não chegaram. Cole o restante abaixo desta nota para completar a SPEC.
--->
+---
+
+## 7. Interface e experiência
+
+**Direção visual:** o mapa é o protagonista. No celular, bottom sheet arrastável com pontos de parada (snap points); no desktop (≥ 1024 px), painel lateral. Visual limpo e confiante: cantos suaves, sombras discretas, números com dígitos tabulares, animações curtas e com propósito. Paleta inspirada no litoral capixaba (azul-oceano profundo como cor primária, coral de pôr do sol como destaque), com modo claro e escuro (automático + manual). Cores semânticas fixas: no horário, atrasado, incidente, lotação, estimativa. Cores de linha determinísticas por tipo de serviço (ex.: troncal, alimentadora, aquaviário), com contraste verificado. Documente os tokens em `packages/ui`.
+
+**Telas:**
+
+1. **Início/mapa:** "Para onde?", atalhos (Casa, Trabalho, Faculdade), pontos próximos com próximas partidas, ônibus ao vivo com movimento suave (interpolação), banner de alertas.
+2. **Busca:** recentes, favoritos e resultados offline instantâneos.
+3. **Opções de rota:** cartões com linha do tempo (a pé → linha → baldeação no terminal → linha → a pé), chegada p50, "chega até 08:12 em 9 de cada 10 dias", selos de trânsito, lotação e integração, e o botão "Por que esta rota?".
+4. **Viagem ativa:** passo a passo, ônibus ao vivo, alerta de desembarque, re-roteamento e compartilhar previsão de chegada (link que expira na chegada, sem localização precisa por padrão).
+5. **Linha:** mapa do itinerário, lista de pontos, quadro de horários (útil, sábado, domingo/feriado), veículos ao vivo, alertas e número antigo, se houver.
+6. **Ponto:** próximas chegadas (ao vivo e pela tabela bem diferenciados), linhas, acessibilidade, favoritar com apelido.
+7. **Trânsito agora:** camada de tráfego, incidentes, relatos, cartão "Pontes agora" (fluindo, lento ou parado, com minutos de atraso por sentido) e link das câmeras da Terceira Ponte.
+8. **Relatar (2 toques):** lotado, não passou, acidente, trânsito parado, alagamento, ônibus quebrado.
+9. **Offline:** pacotes e atualizações.
+10. **Ajustes:** caminhada máxima, evitar baldeação, evitar lotação, preferir ônibus acessível, notificações, tema, economia de dados, privacidade (opt-in colaborativo, apagar meus dados).
+
+**Pagamento:** só um atalho para o app oficial de pagamento do GVBus (QR Code/Pix). Não integre pagamento.
+
+**Acessibilidade (WCAG 2.2 AA):** contraste, alvos de toque ≥ 48 dp, fonte dinâmica, rótulos de leitor de tela em PT-BR, nada que dependa só de cor, respeito a "reduzir movimento".
+
+**Desempenho:**
+- Shell + UI inicial < 170 KB gzip; MapLibre e roteador carregados em paralelo e cacheados pelo service worker.
+- Favoritos e próximas partidas aparecem antes de o mapa terminar de carregar.
+- Mapa fluido (60 fps) e rota offline em < 700 ms (p95) num Android de entrada (2 a 3 GB de RAM).
+- Tempo real pausado quando o app vai para segundo plano.
+
+**Microcopy** em PT-BR, direta e amigável: "Ao vivo há 20 s", "Pela tabela", "Sem sinal há 3 min", "Trânsito pesado na Terceira Ponte", "Chega até 08:12 em 9 de cada 10 dias".
+
+---
+
+## 8. Plataformas
+
+**Android**
+- Localização "durante o uso" por padrão. Na viagem ativa, use foreground service do tipo location iniciado com o app em primeiro plano. Não peça `ACCESS_BACKGROUND_LOCATION`.
+- FCM para alertas e "saia agora", com canal separado para viagem ativa.
+- Widget de tela inicial com o ponto favorito (fase 4, código nativo).
+- targetSdk exigido pela Play Store no momento do build; formulário de Segurança dos Dados preenchido a partir de `docs/PRIVACIDADE.md`; publicação começa na trilha de teste interno.
+
+**PWA**
+- Manifest completo (ícones maskable, atalhos Casa e Trabalho, screenshots), instalação guiada no Android e instruções para iOS.
+- Web Push (VAPID) para alertas; Wake Lock durante a navegação; fallback quando a API não existir.
+
+---
+
+## 9. Segurança e privacidade (LGPD)
+
+- Sem cadastro obrigatório. Favoritos, histórico e rotina aprendida ficam no aparelho.
+- Localização só com consentimento e finalidade explicada; dados colaborativos anonimizados, com retenção curta.
+- **Backend:** rate limit por IP e dispositivo; Cloudflare Turnstile na PWA e Play Integrity no Android para relatos; detecção de relato falso (velocidade impossível, flood, reputação); validação forte de entrada; CORS restrito; CSP estrita e headers de segurança; logs sem dados pessoais.
+- Pacotes de dados assinados; segredos só em variáveis de ambiente (`.env.example` sem valores); Dependabot, pip-audit e npm audit; SBOM no CI.
+- Analytics só agregado e sem cookies (ex.: Umami self-hosted), com opt-out nos ajustes.
+- `docs/PRIVACIDADE.md` (política em linguagem simples) e `docs/AMEACAS.md` (modelo de ameaças curto: relatos falsos, scraping do nosso backend, abuso de cota dos provedores, rastreamento de usuários).
+- Android: checklist OWASP MASVS/MASTG.
+
+---
+
+## 10. Testes e qualidade
+
+- **Unitários:** roteador (casos sintéticos com resposta conhecida), overlay (FIFO), ranking, fusão de tempo real, `ProviderBudget`.
+- **Cenários de ouro** da seção 4.7, com snapshot das opções e das explicações.
+- **E2E:** Playwright na PWA (incluindo `context.setOffline(true)`) e Maestro no Android.
+- **Carga:** SSE com milhares de conexões simuladas (Locust ou k6).
+- **Observabilidade:** OpenTelemetry e Sentry com filtro de dados pessoais.
+- **Lighthouse:** ≥ 90 em PWA, desempenho e acessibilidade.
+
+---
+
+## 11. Fases e critérios de aceite
+
+**Fase 0: Fundação**
+Monorepo, CI, design tokens, mapa PMTiles offline, GTFS sintético pequeno, McRAPTOR no worker, PWA instalável e APK de debug.
+*Aceite:* em modo avião, abrir o app, buscar um ponto e planejar uma rota no GTFS sintético.
+
+**Fase 1: Rede real offline**
+Pipeline gerando GTFS validado da Grande Vitória, telas de linha, ponto e quadro de horários, busca offline com sinônimos e aliases, pacotes assinados e Central Offline.
+*Aceite:* cenários 4 e 5 passando; GTFS sem erros no validador; relatório de mudanças funcionando.
+
+**Fase 2: Trânsito inteligente**
+Proxy TomTom com orçamento e cache, incidentes, clima, PRF, hops com faixa exclusiva, overlay dinâmico, ranking p50/p90, diversidade, explicações, camada e tela "Trânsito agora".
+*Aceite:* cenários 1 a 3 passando com trânsito simulado e real; explicações coerentes; consumo de cota dentro do orçamento.
+
+**Fase 3: Tempo real**
+Framework de provedores, simulador, posição pela tabela, GTFS-RT, modo colaborativo, SSE, previsão de chegada, viagem ativa, alerta de desembarque, "saia agora" e re-roteamento.
+*Aceite:* com o simulador, ônibus se movem suavemente, previsões se atualizam, origem e idade do dado sempre visíveis; consumo de bateria e de dados medido e documentado.
+
+**Fase 4: Comunidade, lotação e lançamento**
+Relatos com anti-abuso, lotação colaborativa e histórica, link das câmeras da Terceira Ponte, acessibilidade, widget, polimento visual, build de release e checklist da Play Store.
+*Aceite:* Lighthouse ≥ 90; checklist de acessibilidade ok; AAB assinado pronto para teste interno.
+
+**Fase 5: Integração oficial (depende de autorização)**
+Ligar `oficial` ou `gtfs_rt` com a fonte autorizada, lotação oficial (só nível) e recalibração dos perfis com dados reais de GPS.
+
+---
+
+## 12. O que não fazer
+
+- Inventar linhas, horários, tarifas ou regras de integração.
+- Engenharia reversa do Ônibus GV ou uso de endpoints privados.
+- Chave de API no cliente.
+- Google Maps Platform para rotas ou trânsito.
+- Armazenar ou processar imagens de passageiros.
+- Pedir localização em segundo plano.
+- Usar marca ou identidade visual oficial.
+
+---
+
+## 13. Primeira resposta que espero
+
+1. Resumo do seu entendimento em até 10 linhas.
+2. Até 5 perguntas realmente bloqueantes, se houver.
+3. `docs/PLANO.md` criado, com a Fase 0 quebrada em tarefas.
+4. Comece a Fase 0.
