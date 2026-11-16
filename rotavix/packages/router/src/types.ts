@@ -3,9 +3,15 @@ export type Fonte = 'oficial' | 'gtfs_rt' | 'colaborativo' | 'tabela' | 'simulad
 
 /** Enum OccupancyStatus do GTFS-Realtime. */
 export type OccupancyStatus =
-  | 'EMPTY' | 'MANY_SEATS_AVAILABLE' | 'FEW_SEATS_AVAILABLE' | 'STANDING_ROOM_ONLY'
-  | 'CRUSHED_STANDING_ROOM_ONLY' | 'FULL' | 'NOT_ACCEPTING_PASSENGERS'
-  | 'NO_DATA_AVAILABLE' | 'NOT_BOARDABLE';
+  | 'EMPTY'
+  | 'MANY_SEATS_AVAILABLE'
+  | 'FEW_SEATS_AVAILABLE'
+  | 'STANDING_ROOM_ONLY'
+  | 'CRUSHED_STANDING_ROOM_ONLY'
+  | 'FULL'
+  | 'NOT_ACCEPTING_PASSENGERS'
+  | 'NO_DATA_AVAILABLE'
+  | 'NOT_BOARDABLE';
 
 export type VehicleState = {
   vehicleId: string;

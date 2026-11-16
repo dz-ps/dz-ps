@@ -2,9 +2,7 @@
 import type { Rede } from '@rotavix/data-format';
 import MiniSearch from 'minisearch';
 
-export type ItemBusca =
-  | { tipo: 'ponto'; ponto: number; nome: string }
-  | { tipo: 'linha'; linha: number; nome: string; curta: string };
+export type ItemBusca = { tipo: 'ponto'; ponto: number; nome: string } | { tipo: 'linha'; linha: number; nome: string; curta: string };
 
 // Sinônimos aplicados na indexação e na consulta. TODO: carregar de config na Fase 1.
 const SINONIMOS: [RegExp, string][] = [
@@ -19,7 +17,10 @@ const SINONIMOS: [RegExp, string][] = [
 export function normalizar(s: string): string {
   let t = s.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
   for (const [re, sub] of SINONIMOS) t = t.replace(re, sub);
-  return t.replace(/[^\p{L}\p{N}\s]/gu, ' ').replace(/\s+/g, ' ').trim();
+  return t
+    .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 export function criarBusca(rede: Rede): (q: string, limite?: number) => ItemBusca[] {
@@ -37,6 +38,9 @@ export function criarBusca(rede: Rede): (q: string, limite?: number) => ItemBusc
   return (q, limite = 8) => {
     const qn = normalizar(q);
     if (!qn) return [];
-    return ms.search(qn).slice(0, limite).map((r) => itens[r.id as number]!);
+    return ms
+      .search(qn)
+      .slice(0, limite)
+      .map((r) => itens[r.id as number]!);
   };
 }

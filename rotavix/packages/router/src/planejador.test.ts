@@ -113,8 +113,10 @@ describe('planejador (respostas conhecidas)', () => {
 
   it('origem por coordenada gera trecho a pé estimado', () => {
     const ops = planejar(rede, {
-      origem: { tipo: 'coord', lat: -20.3300, lon: -40.2885, nome: 'Minha localização' },
-      destino: { tipo: 'ponto', ponto: P('ENS') }, data: TERCA, horaS: h(8),
+      origem: { tipo: 'coord', lat: -20.33, lon: -40.2885, nome: 'Minha localização' },
+      destino: { tipo: 'ponto', ponto: P('ENS') },
+      data: TERCA,
+      horaS: h(8),
     });
     const t0 = ops.find((o) => o.id !== 'a_pe')!.trechos[0]!;
     expect(t0.tipo).toBe('a_pe');

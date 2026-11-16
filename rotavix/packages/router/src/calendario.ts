@@ -22,8 +22,14 @@ export function servicosAtivos(rede: Rede, data: string): Uint8Array {
 /** Data local 'AAAAMMDD' e segundos desde a meia-noite no fuso da rede. */
 export function agoraNoFuso(fuso: string, agora: Date = new Date()): { data: string; segundos: number } {
   const partes = new Intl.DateTimeFormat('en-CA', {
-    timeZone: fuso, year: 'numeric', month: '2-digit', day: '2-digit',
-    hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23',
+    timeZone: fuso,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hourCycle: 'h23',
   }).formatToParts(agora);
   const v = (t: string) => partes.find((p) => p.type === t)?.value ?? '00';
   return { data: `${v('year')}${v('month')}${v('day')}`, segundos: +v('hour') * 3600 + +v('minute') * 60 + +v('second') };

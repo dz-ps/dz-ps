@@ -6,9 +6,7 @@ import type { LinhaMeta, Rede } from '@rotavix/data-format';
 import { distanciaM } from './geo';
 import { type Acesso, type Etiqueta, mcRaptor, type Resultado } from './raptor';
 
-export type Lugar =
-  | { tipo: 'ponto'; ponto: number }
-  | { tipo: 'coord'; lat: number; lon: number; nome?: string };
+export type Lugar = { tipo: 'ponto'; ponto: number } | { tipo: 'coord'; lat: number; lon: number; nome?: string };
 
 export type Pedido = {
   origem: Lugar;
@@ -129,7 +127,15 @@ function montar(rede: Rede, r: Resultado, pedido: Pedido): Opcao {
   for (const e of etapas) {
     if (e.modo === 'acesso') {
       if (e.caminhada > 0) {
-        trechos.push({ tipo: 'a_pe', de: nomeOrigem, para: rede.cab.pontos.nomes[e.ponto]!, inicio: t, fim: t + e.caminhada, estimativa: true, pontoPara: e.ponto });
+        trechos.push({
+          tipo: 'a_pe',
+          de: nomeOrigem,
+          para: rede.cab.pontos.nomes[e.ponto]!,
+          inicio: t,
+          fim: t + e.caminhada,
+          estimativa: true,
+          pontoPara: e.ponto,
+        });
         t += e.caminhada;
       }
       anterior = rede.cab.pontos.nomes[e.ponto]!;
@@ -147,9 +153,16 @@ function montar(rede: Rede, r: Resultado, pedido: Pedido): Opcao {
       const hEmb = horario(rede, rede.partida, p, e.viagem!, e.posEmbarque!);
       const hDes = horario(rede, rede.chegada, p, e.viagem!, e.posDesembarque!);
       trechos.push({
-        tipo: 'veiculo', linha: { ...linha, indice: li }, padrao: p, destino: rede.cab.padroes[p]!.destino,
-        embarque: { ...ponto(rede, pts[0]!), hora: hEmb }, desembarque: { ...ponto(rede, pts.at(-1)!), hora: hDes },
-        paradas: pts.length - 1, pontos: pts, modo: linha.tipo === 4 ? 'barca' : 'onibus', fonte: 'tabela',
+        tipo: 'veiculo',
+        linha: { ...linha, indice: li },
+        padrao: p,
+        destino: rede.cab.padroes[p]!.destino,
+        embarque: { ...ponto(rede, pts[0]!), hora: hEmb },
+        desembarque: { ...ponto(rede, pts.at(-1)!), hora: hDes },
+        paradas: pts.length - 1,
+        pontos: pts,
+        modo: linha.tipo === 4 ? 'barca' : 'onibus',
+        fonte: 'tabela',
       });
       t = hDes;
       anterior = rede.cab.pontos.nomes[pts.at(-1)!]!;
@@ -162,12 +175,23 @@ function montar(rede: Rede, r: Resultado, pedido: Pedido): Opcao {
   const scoring = rede.cab.scoring as Scoring;
   const b = r.viagens - 1;
   const espera = esperaEntreViagens(trechos);
-  const score = r.chegada + 60 * (scoring.penalidade_baldeacao_min ?? 3) * b + ((scoring.peso_caminhada ?? 1.5) - 1) * r.caminhada
-    + ((scoring.peso_espera ?? 1.2) - 1) * espera;
+  const score =
+    r.chegada +
+    60 * (scoring.penalidade_baldeacao_min ?? 3) * b +
+    ((scoring.peso_caminhada ?? 1.5) - 1) * r.caminhada +
+    ((scoring.peso_espera ?? 1.2) - 1) * espera;
   return {
     id: viagens.map((v) => `${v.viagem}:${v.posEmbarque}-${v.posDesembarque}`).join('|'),
-    partida, chegada: r.chegada, duracaoS: r.chegada - partida, baldeacoes: b, caminhadaS: r.caminhada,
-    trechos, rotulos: [], motivos: [], score, proximasPartidas: [],
+    partida,
+    chegada: r.chegada,
+    duracaoS: r.chegada - partida,
+    baldeacoes: b,
+    caminhadaS: r.caminhada,
+    trechos,
+    rotulos: [],
+    motivos: [],
+    score,
+    proximasPartidas: [],
     assinatura: viagens.map((v) => `${rede.padraoLinha[v.padrao!]}@${v.ponto}`).join('>'),
   };
 }
@@ -185,8 +209,13 @@ function esperaEntreViagens(trechos: Trecho[]): number {
 }
 
 function dominaOpcao(a: Opcao, b: Opcao): boolean {
-  return a.partida >= b.partida && a.chegada <= b.chegada && a.baldeacoes <= b.baldeacoes && a.caminhadaS <= b.caminhadaS
-    && (a.partida > b.partida || a.chegada < b.chegada || a.baldeacoes < b.baldeacoes || a.caminhadaS < b.caminhadaS);
+  return (
+    a.partida >= b.partida &&
+    a.chegada <= b.chegada &&
+    a.baldeacoes <= b.baldeacoes &&
+    a.caminhadaS <= b.caminhadaS &&
+    (a.partida > b.partida || a.chegada < b.chegada || a.baldeacoes < b.baldeacoes || a.caminhadaS < b.caminhadaS)
+  );
 }
 
 export function planejar(rede: Rede, pedido: Pedido): Opcao[] {
@@ -223,10 +252,27 @@ export function planejar(rede: Rede, pedido: Pedido): Opcao[] {
   if (dist * rede.cab.caminhada.fator <= 2000 && dist > 0) {
     const s = caminhadaS(rede, dist);
     lista.push({
-      id: 'a_pe', partida: pedido.horaS, chegada: pedido.horaS + s, duracaoS: s, baldeacoes: 0, caminhadaS: s,
-      trechos: [{ tipo: 'a_pe', de: nomeLugar(rede, pedido.origem, 'Origem'), para: nomeLugar(rede, pedido.destino, 'Destino'), inicio: pedido.horaS, fim: pedido.horaS + s, estimativa: true }],
-      rotulos: ['A pé'], motivos: [], score: pedido.horaS + s * (scoring.peso_caminhada ?? 1.5),
-      proximasPartidas: [], assinatura: 'a_pe',
+      id: 'a_pe',
+      partida: pedido.horaS,
+      chegada: pedido.horaS + s,
+      duracaoS: s,
+      baldeacoes: 0,
+      caminhadaS: s,
+      trechos: [
+        {
+          tipo: 'a_pe',
+          de: nomeLugar(rede, pedido.origem, 'Origem'),
+          para: nomeLugar(rede, pedido.destino, 'Destino'),
+          inicio: pedido.horaS,
+          fim: pedido.horaS + s,
+          estimativa: true,
+        },
+      ],
+      rotulos: ['A pé'],
+      motivos: [],
+      score: pedido.horaS + s * (scoring.peso_caminhada ?? 1.5),
+      proximasPartidas: [],
+      assinatura: 'a_pe',
     });
   }
 
@@ -239,7 +285,11 @@ export function planejar(rede: Rede, pedido: Pedido): Opcao[] {
     else grupos.set(o.assinatura, o);
   }
   lista = [...grupos.values()].slice(0, pedido.maxOpcoes ?? 6);
-  for (const o of lista) o.proximasPartidas = o.proximasPartidas.filter((p) => p > o.partida).sort((a, b) => a - b).slice(0, 4);
+  for (const o of lista)
+    o.proximasPartidas = o.proximasPartidas
+      .filter((p) => p > o.partida)
+      .sort((a, b) => a - b)
+      .slice(0, 4);
   rotular(rede, lista);
   return lista;
 }
@@ -251,7 +301,10 @@ function rotular(rede: Rede, lista: Opcao[]): void {
   const rapida = porChegada[0]!;
   const segunda = porChegada.find((o) => o.assinatura !== rapida.assinatura);
   rapida.rotulos.push('Mais rápida');
-  rapida.motivos.push({ tipo: 'mais_rapida', minutosAMenos: segunda && segunda.chegada > rapida.chegada ? Math.round((segunda.chegada - rapida.chegada) / 60) : null });
+  rapida.motivos.push({
+    tipo: 'mais_rapida',
+    minutosAMenos: segunda && segunda.chegada > rapida.chegada ? Math.round((segunda.chegada - rapida.chegada) / 60) : null,
+  });
 
   const minB = Math.min(...transporte.map((o) => o.baldeacoes));
   const menosB = transporte.find((o) => o.baldeacoes === minB)!;
@@ -276,7 +329,8 @@ function rotular(rede: Rede, lista: Opcao[]): void {
       const ant = veic[i - 1]!;
       const prox = veic[i]!;
       const idx = o.trechos.indexOf(prox);
-      const anteriorFim = (o.trechos[idx - 1] as Trecho).tipo === 'a_pe' ? (o.trechos[idx - 1] as { fim: number }).fim : ant.desembarque.hora;
+      const anteriorFim =
+        (o.trechos[idx - 1] as Trecho).tipo === 'a_pe' ? (o.trechos[idx - 1] as { fim: number }).fim : ant.desembarque.hora;
       o.motivos.push({ tipo: 'baldeacao', ponto: prox.embarque.nome, folgaMin: Math.round((prox.embarque.hora - anteriorFim) / 60) });
     }
     o.motivos.push({ tipo: 'pela_tabela' });

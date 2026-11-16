@@ -1,9 +1,9 @@
 # Renumeração de linhas (número antigo -> novo). Usado pela busca e pelo detector de mudanças.
 # Só entram pares confirmados. A SPEC cita 001 -> 678 (Vila Velha, virada out/nov 2026).
 aliases:
-  - antigo: "001"
-    novo: "678"
+  - antigo: '001'
+    novo: '678'
     desde: 2026-11
-    aviso: "agora é 678"
-    fonte: "SPEC §2; TODO(VERIFICAR) publicação oficial"
+    aviso: 'agora é 678'
+    fonte: 'SPEC §2; TODO(VERIFICAR) publicação oficial'
 # TODO(VERIFICAR): demais ~30 linhas de Vila Velha, a partir de fonte oficial.

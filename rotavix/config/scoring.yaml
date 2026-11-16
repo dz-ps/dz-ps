@@ -4,10 +4,10 @@ penalidade_baldeacao_min: 3
 peso_caminhada: 1.5
 peso_espera: 1.2
 transferencia_minima_min: 2
-faixa_exclusiva_repasse_atraso: 0.3   # fração do atraso dos carros que chega ao ônibus na faixa
+faixa_exclusiva_repasse_atraso: 0.3 # fração do atraso dos carros que chega ao ônibus na faixa
 chuva:
   moderada_fator: 1.10
   forte_fator: 1.25
 incidente_atraso_min: { leve: 3, moderado: 8, grave: 20 }
 via_bloqueada: inviavel
-lotacao_penalidade_min: { em_pe: 2, lotado: 6 }   # só quando "evitar lotação" estiver ligado
+lotacao_penalidade_min: { em_pe: 2, lotado: 6 } # só quando "evitar lotação" estiver ligado

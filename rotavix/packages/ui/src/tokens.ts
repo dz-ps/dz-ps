@@ -92,8 +92,13 @@ export function criarTemas(p: Paleta): { claro: Tema; escuro: Tema } {
 }
 
 const kebab = (s: string) => s.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
-const bloco = (t: Tema) => Object.entries(t).map(([k, v]) => `--rv-${kebab(k)}:${v};`).join('');
-const servicos = Object.entries(CORES_SERVICO).map(([k, v]) => `--rv-linha-${k}:${v};`).join('');
+const bloco = (t: Tema) =>
+  Object.entries(t)
+    .map(([k, v]) => `--rv-${kebab(k)}:${v};`)
+    .join('');
+const servicos = Object.entries(CORES_SERVICO)
+  .map(([k, v]) => `--rv-linha-${k}:${v};`)
+  .join('');
 
 /** CSS das variáveis: tema claro padrão, escuro automático e escolha manual via data-theme. */
 export function cssVariaveis(p: Paleta): string {

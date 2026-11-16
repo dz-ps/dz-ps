@@ -141,8 +141,16 @@ export function mcRaptor(
           const chegada = rede.chegada[tIni + r.viagem * n + pos]!;
           if (podado(chegada, r.caminhada)) continue;
           const e: Etiqueta = {
-            chegada, caminhada: r.caminhada, rodada: k, ponto: s, pai: r.pai, modo: 'viagem',
-            padrao: p, viagem: v0 + r.viagem, posEmbarque: r.posEmbarque, posDesembarque: pos,
+            chegada,
+            caminhada: r.caminhada,
+            rodada: k,
+            ponto: s,
+            pai: r.pai,
+            modo: 'viagem',
+            padrao: p,
+            viagem: v0 + r.viagem,
+            posEmbarque: r.posEmbarque,
+            posDesembarque: pos,
           };
           if (inserir(sacolas[s]!, e)) daRodada.push(e);
         }
@@ -185,12 +193,7 @@ export function mcRaptor(
 }
 
 /** Relaxa as transferências a pé a partir das etiquetas novas (uma caminhada por vez). */
-function caminhar(
-  rede: Rede,
-  sacolas: Etiqueta[][],
-  novas: Etiqueta[],
-  podado: (c: number, w: number) => boolean,
-): Etiqueta[] {
+function caminhar(rede: Rede, sacolas: Etiqueta[][], novas: Etiqueta[], podado: (c: number, w: number) => boolean): Etiqueta[] {
   const saida = [...novas];
   for (const e of novas) {
     if (e.modo === 'caminhada') continue;
@@ -198,8 +201,13 @@ function caminhar(
       const q = rede.transfPara[i]!;
       const t = rede.transfS[i]!;
       const c: Etiqueta = {
-        chegada: e.chegada + t, caminhada: e.caminhada + t, rodada: e.rodada, ponto: q, pai: e,
-        modo: 'caminhada', trechoS: t,
+        chegada: e.chegada + t,
+        caminhada: e.caminhada + t,
+        rodada: e.rodada,
+        ponto: q,
+        pai: e,
+        modo: 'caminhada',
+        trechoS: t,
       };
       if (podado(c.chegada, c.caminhada)) continue;
       if (inserir(sacolas[q]!, c)) saida.push(c);

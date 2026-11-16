@@ -1,14 +1,14 @@
 # Feature flags. Itens marcados [PERGUNTAR] só mudam com autorização explícita.
 realtime:
-  oficial: false        # [PERGUNTAR] exige documentação e autorização por escrito
-  gtfs_rt: false        # pronto, mas sem feed configurado
-  colaborativo: true    # opt-in do usuário
+  oficial: false # [PERGUNTAR] exige documentação e autorização por escrito
+  gtfs_rt: false # pronto, mas sem feed configurado
+  colaborativo: true # opt-in do usuário
   tabela: true
   simulador: dev_only
 lotacao:
-  imagens_internas: false   # [PERGUNTAR] LGPD; fora do escopo por padrão
+  imagens_internas: false # [PERGUNTAR] LGPD; fora do escopo por padrão
 trafego:
-  tomtom: false         # [PERGUNTAR] exige conta/chave
-  here: false           # [PERGUNTAR] exige conta/chave
+  tomtom: false # [PERGUNTAR] exige conta/chave
+  here: false # [PERGUNTAR] exige conta/chave
 clima:
-  open_meteo: true      # grátis só para uso não comercial; CC BY 4.0
+  open_meteo: true # grátis só para uso não comercial; CC BY 4.0
